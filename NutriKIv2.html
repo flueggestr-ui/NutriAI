@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>NutriKI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -16,108 +15,117 @@
   --or:#b85418;--ol:#fde4d0;
   --bl:#1a4d7a;--bll:#d3e8f8;
   --go:#a07808;--gol:#fef7dc;
-  --re:#b83418;
+  --pu:#6b2d8b;--pul:#f0e6f8;
   --r:13px;--sh:0 2px 14px #1a100510;--shl:0 6px 30px #1a100518;
 }
 body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
-
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+ 
 /* NAV */
 .nav{background:var(--sf);border-top:1px solid var(--br);position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;z-index:200;box-shadow:0 -2px 20px #1a100512}
-.nb{flex:1;padding:9px 2px 14px;background:none;border:none;color:var(--mu);cursor:pointer;font-family:'Syne',sans-serif;font-size:9px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;-webkit-tap-highlight-color:transparent}
-.nb .ni{font-size:22px;line-height:1;transition:transform .2s}
-.nb.on{color:var(--gr)}.nb.on .ni{transform:scale(1.1)}
-
+.nb{flex:1;padding:8px 2px 13px;background:none;border:none;color:var(--mu);cursor:pointer;font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;-webkit-tap-highlight-color:transparent}
+.nb .ni{font-size:20px;line-height:1;transition:transform .2s}
+.nb.on{color:var(--gr)}.nb.on .ni{transform:scale(1.12)}
+ 
 /* PAGE */
-.page{flex:1;padding:20px 16px 96px;animation:fu .25s ease}
+.page{flex:1;padding:18px 15px 96px;animation:fu .22s ease}
 @keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.ptitle{font-family:'Playfair Display',serif;font-size:27px;font-weight:900;line-height:1.1;margin-bottom:3px}
+.ptitle{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;line-height:1.1;margin-bottom:3px}
 .ptitle em{font-style:italic;color:var(--gr)}
-.psub{color:var(--mu);font-size:12px;margin-bottom:18px;font-weight:500}
-.slbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
-
+.psub{color:var(--mu);font-size:12px;margin-bottom:16px;font-weight:500}
+.slbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:7px}
+ 
 /* CARD */
-.card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:15px;margin-bottom:11px;box-shadow:var(--sh)}
-
+.card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
+ 
 /* BUTTON */
-.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:9px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.03em;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 15px;border-radius:9px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.03em;transition:all .15s;-webkit-tap-highlight-color:transparent}
 .bg{background:var(--gr);color:#fff}.bg:hover{background:var(--gd)}.bg:active{transform:scale(.97)}
 .bo{background:transparent;border:1.5px solid var(--br2);color:var(--ink)}.bo:hover{border-color:var(--gr);color:var(--gr)}
+.bpu{background:var(--pu);color:#fff}
 .bgh{background:transparent;color:var(--mu)}.bgh:hover{color:var(--ink)}
 .bd{background:transparent;border:1px solid #e8b4a0;color:var(--or)}.bd:hover{background:var(--ol)}
-.bsm{padding:5px 11px;font-size:11px}
-.bic{width:31px;height:31px;padding:0;justify-content:center;border-radius:8px;font-size:15px}
+.bsm{padding:5px 10px;font-size:11px}
+.bic{width:30px;height:30px;padding:0;justify-content:center;border-radius:8px;font-size:14px}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-
+ 
 /* FIELD */
-.field{margin-bottom:12px}
+.field{margin-bottom:11px}
 .field label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
-.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--ink);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:8px 11px;color:var(--ink);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gr);background:var(--sf)}
-.field textarea{resize:vertical;min-height:60px}
+.field textarea{resize:vertical;min-height:58px}
 .r2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.r4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:7px}
-
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.r5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px}
+ 
 /* CHIPS */
-.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
-.chip{padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:600}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.chip{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600}
 .ck{background:var(--gol);color:var(--go)}.cp{background:var(--bll);color:var(--bl)}
 .cf{background:var(--ol);color:var(--or)}.cc{background:var(--gl);color:var(--gr)}
-
-/* AI */
-.aichat{background:var(--bg);border:1.5px solid var(--br);border-radius:var(--r);padding:13px;margin-bottom:11px;max-height:220px;overflow-y:auto;scroll-behavior:smooth}
-.msg{margin-bottom:7px;display:flex}
+.cfi{background:var(--pul);color:var(--pu)}
+ 
+/* AI CHAT */
+.aichat{background:var(--bg);border:1.5px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:10px;max-height:200px;overflow-y:auto;scroll-behavior:smooth}
+.msg{margin-bottom:6px;display:flex}
 .msg.u{justify-content:flex-end}
-.bubble{padding:9px 13px;font-size:13px;line-height:1.5;max-width:86%;border-radius:12px}
+.bubble{padding:8px 12px;font-size:13px;line-height:1.5;max-width:86%;border-radius:12px}
 .msg.a .bubble{background:var(--gl);color:var(--ink);border-radius:3px 12px 12px 12px}
 .msg.u .bubble{background:var(--gr);color:#fff;border-radius:12px 3px 12px 12px}
-.airow{display:flex;gap:7px;margin-bottom:12px}
-.airow input{flex:1;background:var(--sf);border:1.5px solid var(--br);border-radius:8px;padding:9px 12px;font-family:'Syne',sans-serif;font-size:13px;outline:none}
+.airow{display:flex;gap:7px;margin-bottom:11px}
+.airow input{flex:1;background:var(--sf);border:1.5px solid var(--br);border-radius:8px;padding:8px 11px;font-family:'Syne',sans-serif;font-size:13px;outline:none}
 .airow input:focus{border-color:var(--gr)}
-.dots{display:flex;gap:4px;padding:6px 2px;align-items:center}
+.dots{display:flex;gap:4px;padding:5px 2px;align-items:center}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--gr);animation:pu 1.2s infinite}
 .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes pu{0%,80%,100%{transform:scale(.75);opacity:.4}40%{transform:scale(1);opacity:1}}
-.sug{background:var(--card);border:1.5px solid var(--br);border-radius:var(--r);padding:13px;margin-bottom:9px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
-.sug:hover,.sug:active{border-color:var(--gr);box-shadow:var(--sh)}
-.sug.sel{border-color:var(--gr);background:var(--gl)}
-.sugname{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:3px}
-.sugdesc{font-size:12px;color:var(--mu);margin-bottom:5px}
-
-/* SHOPPING - THE STAR */
-.shopwrap{padding-bottom:4px}
-.sitem{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:8px;box-shadow:var(--sh);transition:all .3s}
+.sug{background:var(--card);border:1.5px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.sug:hover,.sug:active{border-color:var(--gr)}.sug.sel{border-color:var(--gr);background:var(--gl)}
+.sugname{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:3px}
+ 
+/* CATEGORY TABS */
+.cat-tabs{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:14px}
+.cat-tab{flex:1;padding:7px 4px;border:none;border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu);text-align:center;letter-spacing:.03em}
+.cat-tab.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
+ 
+/* GERICHTE CARD */
+.dish-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
+.dish-header{padding:13px 14px 10px;cursor:pointer}
+.dish-body{padding:0 14px 13px;border-top:1px solid var(--bg)}
+.portion-stepper{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:9px;padding:7px 11px;margin-bottom:10px}
+.portion-btn{width:28px;height:28px;border-radius:7px;border:1.5px solid var(--br2);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gr)}
+.per100{background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:10px}
+.per100-title{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--mu);margin-bottom:5px}
+ 
+/* SHOPPING */
+.sitem{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:7px;box-shadow:var(--sh);transition:all .3s}
 .sitem.dk{background:var(--card);border-color:var(--br)}
 .sitem.dk .sname{text-decoration:line-through;color:var(--fa)}
 .sitem.dk .sqty{color:var(--fa)}
-.scb{width:26px;height:26px;border-radius:8px;border:2px solid var(--br2);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.scb{width:24px;height:24px;border-radius:7px;border:2px solid var(--br2);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s}
 .scb.done{background:var(--gr);border-color:var(--gr);color:#fff}
-.sname{flex:1;font-size:14px;font-weight:500;line-height:1.3}
-.sqty{font-size:12px;color:var(--mu);font-weight:500;white-space:nowrap}
+.sname{flex:1;font-size:13px;font-weight:500;line-height:1.3}
+.sqty{font-size:12px;color:var(--mu);font-weight:600;white-space:nowrap;margin-left:8px}
 .ssrc{font-size:10px;color:var(--fa);margin-top:1px}
 .live-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gl);color:var(--gr);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);animation:pu 1.5s infinite}
-.live-badge.off{background:#fee;color:var(--re)}
-.live-badge.off .live-dot{background:var(--re)}
-.cat-label{display:flex;align-items:center;justify-content:space-between;margin:14px 0 7px}
-
+.live-badge.off{background:#fee;color:var(--or)}.live-badge.off .live-dot{background:var(--or)}
+ 
 /* PLAN */
-.pslot{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:10px 13px;margin-bottom:5px;display:flex;align-items:center;gap:9px;transition:border-color .2s}
-.pslot:hover{border-color:var(--gr)}
-.plab{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);min-width:68px}
+.plan-day-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
+.plan-day-hdr{padding:10px 14px;background:var(--card);border-bottom:1px solid var(--br);display:flex;align-items:center}
+.plan-slot{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bg);cursor:pointer;transition:background .15s}
+.plan-slot:last-child{border-bottom:none}
+.plan-slot:hover{background:var(--bg)}
+.plan-slot:active{background:var(--gl)}
+.plab{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);min-width:58px}
 .pdname{flex:1;font-size:12.5px;font-weight:500}
 .pkcal{font-size:11px;color:var(--go);font-weight:700}
-.genbanner{background:linear-gradient(135deg,var(--gl),var(--bll));border:1.5px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:15px}
-
-/* WEIGHT */
-.wbig{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;line-height:1}
-.wchart{display:flex;align-items:flex-end;gap:3px;height:72px;margin-top:10px}
-.wb{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0}
-.wbar{border-radius:3px 3px 0 0;min-height:3px;width:100%}
-.wlbl{font-size:8px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-
+.plan-empty-slot{color:var(--fa);font-size:12px;font-style:italic;flex:1}
+.plan-add-icon{font-size:16px;color:var(--fa)}
+ 
 /* PROGRESS BARS */
-.pbar-wrap{margin-bottom:10px}
 .pbar-row{margin-bottom:8px}
 .pbar-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
 .pbar-label{font-weight:700;color:var(--mu)}
@@ -125,935 +133,975 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .pbar-track{height:8px;background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid var(--br)}
 .pbar-fill{height:100%;border-radius:10px;transition:width .5s ease}
 .pbar-fill.over{background:var(--or)!important}
-/* USER SWITCHER */
-.user-sw{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:16px}
+ 
+/* USER SW */
+.user-sw{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:14px}
 .user-sw-btn{flex:1;padding:7px;border:none;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu)}
 .user-sw-btn.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
+ 
+/* DIARY */
 .drow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--bg)}
-
+ 
+/* WEIGHT */
+.wbig{font-family:'Playfair Display',serif;font-size:50px;font-weight:900;line-height:1}
+.wchart{display:flex;align-items:flex-end;gap:3px;height:70px;margin-top:10px}
+.wb{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0}
+.wbar{border-radius:3px 3px 0 0;min-height:3px;width:100%}
+.wlbl{font-size:8px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+ 
 /* MODAL */
 .ov{position:fixed;inset:0;background:#1a100552;backdrop-filter:blur(4px);z-index:300;display:flex;align-items:flex-end}
-.modal{background:var(--sf);border-radius:22px 22px 0 0;border-top:2.5px solid var(--gr);padding:22px 18px 36px;width:100%;max-height:93vh;overflow-y:auto;animation:su .28s ease}
+.modal{background:var(--sf);border-radius:22px 22px 0 0;border-top:2.5px solid var(--gr);padding:20px 16px 36px;width:100%;max-height:94vh;overflow-y:auto;animation:su .26s ease}
 @keyframes su{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mtitle{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;margin-bottom:14px}
-.mact{display:flex;gap:9px;margin-top:16px}
+.mtitle{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;margin-bottom:12px}
+.mact{display:flex;gap:9px;margin-top:14px}
 .iedit{display:flex;gap:5px;margin-bottom:7px;align-items:center}
-.iedit input{flex:1}.iqty{width:95px;flex-shrink:0}
-
+.iedit input{flex:1}.iqty{width:90px;flex-shrink:0}
+ 
 /* SETUP */
-.setup{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 20px 30px;background:var(--bg)}
-.setup-logo{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;margin-bottom:6px;text-align:center}
+.setup{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:36px 18px 30px;background:var(--bg)}
+.setup-logo{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;margin-bottom:5px;text-align:center}
 .setup-logo em{font-style:italic;color:var(--gr)}
-.step-box{background:var(--sf);border:1px solid var(--br);border-radius:14px;padding:16px;margin-bottom:12px}
-.step-num{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--gr);color:#fff;font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
-.step-row{display:flex;align-items:flex-start;gap:0;margin-bottom:8px}
-.step-row:last-child{margin-bottom:0}
-code{background:var(--bg);border:1px solid var(--br);border-radius:5px;padding:2px 7px;font-size:12px;font-family:monospace;color:var(--gr)}
-
+.step-box{background:var(--card);border:1px solid var(--br);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.step-num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--gr);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+ 
+/* PHOTO UPLOAD */
+.photo-area{border:2px dashed var(--br2);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.photo-area:hover{border-color:var(--gr);background:var(--gl)}
+.photo-preview{width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-bottom:10px}
+.ai-analyzing{display:flex;align-items:center;gap:10px;padding:12px;background:var(--gol);border-radius:var(--r);font-size:13px;color:var(--go);font-weight:600}
+ 
 /* TOAST */
-.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--gr);color:#fff;padding:10px 22px;border-radius:30px;font-size:13px;font-weight:700;z-index:400;white-space:nowrap;box-shadow:0 4px 20px #27674944;animation:ti .3s ease}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--gr);color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:700;z-index:400;white-space:nowrap;box-shadow:0 4px 20px #27674944;animation:ti .3s ease}
 @keyframes ti{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-/* UTILS */
+ 
+/* MISC */
 .badge{display:inline-block;background:var(--or);color:#fff;border-radius:10px;font-size:9px;padding:1px 6px;margin-left:3px;vertical-align:middle}
-.div{height:1px;background:var(--br);margin:13px 0}
-.empty{text-align:center;color:var(--mu);padding:40px 20px;font-size:13px;line-height:1.7}
-.tag{display:inline-block;background:var(--bg);border:1px solid var(--br);border-radius:8px;padding:2px 8px;font-size:10px;color:var(--mu)}
-select option{background:#fff}
+.div{height:1px;background:var(--br);margin:12px 0}
+.empty{text-align:center;color:var(--mu);padding:36px 20px;font-size:13px;line-height:1.7}
+code{background:var(--bg);border:1px solid var(--br);border-radius:5px;padding:2px 7px;font-size:11px;font-family:monospace;color:var(--gr)}
 a{color:var(--gr)}
+select option{background:#fff}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
 'use strict';
-
-// ═══════════════════════════════════════════════════════════════════
+ 
+// ═══════════════════════════════════════════════
 // LOCAL STORAGE
-// ═══════════════════════════════════════════════════════════════════
-const LS = {
+// ═══════════════════════════════════════════════
+const LS={
   get:(k)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch{return null}},
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 };
-const K={dishes:"nk3_dishes",diary:"nk3_diary",weight:"nk3_weight",plan:"nk3_plan",cfg:"nk3_cfg",goals:"nk3_goals",user:"nk3_user"};
-
-// ═══════════════════════════════════════════════════════════════════
-// FIREBASE REALTIME DATABASE (REST + SSE)
-// ═══════════════════════════════════════════════════════════════════
-let firebaseUrl = "";
-let sseSource = null;
-
-function fbUrl(path){ return `${firebaseUrl}/${path}.json`; }
-
-async function fbGet(path){
-  const r = await fetch(fbUrl(path));
-  if(!r.ok) return null;
-  return r.json();
-}
-async function fbSet(path, data){
-  const r = await fetch(fbUrl(path),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-  return r.ok;
-}
-async function fbPatch(path, data){
-  const r = await fetch(fbUrl(path),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-  return r.ok;
-}
-async function fbDelete(path){
-  await fetch(fbUrl(path),{method:"DELETE"});
-}
-
-// SSE for real-time shopping updates
-function startLiveSync(){
-  if(sseSource){ sseSource.close(); sseSource=null; }
-  if(!firebaseUrl) return;
+const K={dishes:"nk4_dishes",diary:"nk4_diary",weight:"nk4_weight",plan:"nk4_plan",cfg:"nk4_cfg",goals:"nk4_goals",user:"nk4_user"};
+ 
+// ═══════════════════════════════════════════════
+// FIREBASE REST
+// ═══════════════════════════════════════════════
+let FB="";
+let sseSource=null;
+const fbUrl=p=>`${FB}/${p}.json`;
+async function fbGet(p){try{const r=await fetch(fbUrl(p));return r.ok?r.json():null}catch{return null}}
+async function fbSet(p,d){try{await fetch(fbUrl(p),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})}catch{}}
+async function fbPatch(p,d){try{await fetch(fbUrl(p),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})}catch{}}
+async function fbDel(p){try{await fetch(fbUrl(p),{method:"DELETE"})}catch{}}
+ 
+function startSSE(){
+  if(sseSource){sseSource.close();sseSource=null}
+  if(!FB)return;
   try{
-    sseSource = new EventSource(fbUrl("shopping") + "?accept=text/event-stream");
-    sseSource.addEventListener("put", e=>{
+    sseSource=new EventSource(fbUrl("shopping")+"?accept=text/event-stream");
+    sseSource.addEventListener("put",e=>{
       try{
         const d=JSON.parse(e.data);
-        // d.path is the changed path, d.data is new data
-        if(d.path==="/" && d.data){
-          // Full replace
-          state.shopping = Object.entries(d.data).map(([id,item])=>({...item,id}));
-        } else if(d.path!=="/" && d.data!==null){
-          // Single item update
-          const id=d.path.replace("/","");
-          const idx=state.shopping.findIndex(x=>x.id===id);
-          if(idx>=0) state.shopping[idx]={...d.data,id};
-          else state.shopping.push({...d.data,id});
-        } else if(d.path!=="/" && d.data===null){
-          // Deletion
-          const id=d.path.replace("/","");
-          state.shopping=state.shopping.filter(x=>x.id!==id);
-        } else if(d.path==="/" && d.data===null){
-          state.shopping=[];
-        }
-        state.liveConnected=true;
-        if(state.tab==="shopping"||state.setupDone) render();
+        if(d.path==="/"&&d.data) state.shopping=Object.entries(d.data).map(([id,it])=>({...it,id}));
+        else if(d.path!=="/"&&d.data!==null){const id=d.path.replace("/","");const idx=state.shopping.findIndex(x=>x.id===id);if(idx>=0)state.shopping[idx]={...d.data,id};else state.shopping.push({...d.data,id});}
+        else if(d.path!=="/"&&d.data===null){state.shopping=state.shopping.filter(x=>x.id!==d.path.replace("/",""));}
+        else if(d.path==="/"&&d.data===null)state.shopping=[];
+        state.live=true;if(state.tab==="shopping")render();
       }catch{}
     });
-    sseSource.addEventListener("keep-alive", ()=>{ state.liveConnected=true; });
-    sseSource.onerror = ()=>{ state.liveConnected=false; if(state.tab==="shopping") render(); };
-    sseSource.onopen = ()=>{ state.liveConnected=true; };
-  }catch(e){ state.liveConnected=false; }
+    sseSource.onerror=()=>{state.live=false;if(state.tab==="shopping")render()};
+    sseSource.onopen=()=>{state.live=true};
+  }catch{state.live=false}
 }
-
-async function shopAdd(item){
-  // item already has id
-  await fbSet("shopping/"+item.id, {name:item.name,qty:item.qty||"",done:item.done,source:item.source||""});
-}
-async function shopToggle(id, done){
-  await fbPatch("shopping/"+id, {done});
-}
-async function shopDelete(id){
-  await fbDelete("shopping/"+id);
-}
-async function shopClearDone(){
-  const toClear = state.shopping.filter(i=>i.done);
-  for(const i of toClear) await fbDelete("shopping/"+i.id);
-}
-async function loadShoppingFromFb(){
-  const data = await fbGet("shopping");
-  if(data && typeof data==="object"){
-    state.shopping = Object.entries(data).map(([id,item])=>({...item,id}));
-  } else {
-    state.shopping = [];
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════
+async function shopLoad(){const d=await fbGet("shopping");state.shopping=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>({...it,id})):[];}
+async function shopAdd(item){await fbSet("shopping/"+item.id,{name:item.name,qty:item.qty||"",done:item.done,source:item.source||""})}
+async function shopToggleFb(id,done){await fbPatch("shopping/"+id,{done})}
+async function shopDelFb(id){await fbDel("shopping/"+id)}
+ 
+// ═══════════════════════════════════════════════
 // CLAUDE API
-// ═══════════════════════════════════════════════════════════════════
-async function askClaude(system, user){
-  const cfg = LS.get(K.cfg)||{};
-  const key = cfg.apiKey||"";
-  if(!key) throw new Error("Kein API-Key konfiguriert");
-  const r = await fetch("https://api.anthropic.com/v1/messages",{
+// ═══════════════════════════════════════════════
+async function claude(system,user,imageB64=null){
+  const cfg=LS.get(K.cfg)||{};
+  if(!cfg.apiKey)throw new Error("Kein API-Key");
+  const content=[];
+  if(imageB64)content.push({type:"image",source:{type:"base64",media_type:"image/jpeg",data:imageB64}});
+  content.push({type:"text",text:user});
+  const r=await fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
-    headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-    body:JSON.stringify({model:"claude-opus-4-5",max_tokens:2500,system,messages:[{role:"user",content:user}]})
+    headers:{"Content-Type":"application/json","x-api-key":cfg.apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+    body:JSON.stringify({model:"claude-opus-4-5",max_tokens:3000,system,messages:[{role:"user",content}]})
   });
-  if(!r.ok){ const e=await r.json(); throw new Error(e.error?.message||"API Fehler "+r.status); }
+  if(!r.ok){const e=await r.json();throw new Error(e.error?.message||"API Fehler "+r.status)}
   const d=await r.json();
   const txt=d.content?.map(b=>b.text||"").join("")||"";
-  try{ const clean=txt.split("```json").join("").split("```").join("").trim(); return JSON.parse(clean); }
-  catch{ return null; }
+  try{return JSON.parse(txt.split("```json").join("").split("```").join("").trim())}catch{return null}
 }
-
-// ═══════════════════════════════════════════════════════════════════
-// APP STATE
-// ═══════════════════════════════════════════════════════════════════
+ 
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
 const uid=()=>Math.random().toString(36).slice(2,9);
 const today=()=>new Date().toISOString().slice(0,10);
 const fmtD=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("de-DE",{weekday:"short",day:"2-digit",month:"short"})}catch{return d}};
 const fmtShort=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"})}catch{return d}};
 const DAYS=["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"];
 const MEALS=["Frühstück","Mittagessen","Abendessen","Snack"];
-
-const cfg = LS.get(K.cfg)||{};
-const DEFAULT_GOALS = {
-  du:   {name:"Du",   ziel:"Muskelaufbau", kcal:3175, protein:178, carbs:365, fat:90},
-  frau: {name:"Frau", ziel:"Abnehmen",     kcal:1525, protein:123, carbs:160, fat:55},
+const CATS=["Frühstück","Mittag & Abend","Snacks"];
+const CAT_MAP={"Frühstück":"Frühstück","Mittagessen":"Mittag & Abend","Abendessen":"Mittag & Abend","Snack":"Snacks"};
+function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend";}
+ 
+// Consolidate shopping items by name
+function consolidateShop(items){
+  const map={};
+  items.forEach(item=>{
+    const key=item.name.toLowerCase().trim();
+    if(!map[key]){map[key]={...item,_qty:parseQty(item.qty),_unit:parseUnit(item.qty),_count:1};}
+    else{
+      map[key]._qty+=parseQty(item.qty);
+      map[key]._count++;
+      // merge sources
+      if(item.source&&!map[key].source.includes(item.source))map[key].source+=" · "+item.source;
+    }
+  });
+  return Object.values(map).map(it=>{
+    const qty=it._unit?`${Math.round(it._qty*10)/10} ${it._unit}`:it.qty;
+    return{...it,qty};
+  });
+}
+function parseQty(str){const m=String(str||"").match(/[\d.,]+/);return m?parseFloat(m[0].replace(",",".")):0}
+function parseUnit(str){return String(str||"").replace(/[\d.,\s]+/,"").trim()}
+function scaleQty(qtyStr,factor){
+  const num=parseQty(qtyStr);
+  const unit=parseUnit(qtyStr);
+  if(!num)return qtyStr;
+  return`${Math.round(num*factor*10)/10}${unit?" "+unit:""}`;
+}
+ 
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const _cfg=LS.get(K.cfg)||{};
+if(_cfg.firebaseUrl)FB=_cfg.firebaseUrl;
+ 
+const DEF_GOALS={
+  du:{name:"Du",ziel:"Muskelaufbau",kcal:3175,protein:178,carbs:365,fat:90,fiber:35},
+  frau:{name:"Frau",ziel:"Abnehmen",kcal:1525,protein:123,carbs:160,fat:55,fiber:25}
 };
-let state = {
-  setupDone: !!(cfg.apiKey && cfg.firebaseUrl),
+ 
+let S={
+  setupDone:!!((_cfg.apiKey)&&(_cfg.firebaseUrl)),
   tab:"ai",
-  activeUser: LS.get(K.user)||"du",
-  goals: LS.get(K.goals)||DEFAULT_GOALS,
-  dishes: LS.get(K.dishes)||[],
-  shopping: [],
-  diary: LS.get(K.diary)||{},
-  weight: LS.get(K.weight)||[],
-  plan: LS.get(K.plan)||{},
-  liveConnected: false,
-  toast:null, _tt:null,
-  // AI
-  msgs:[{r:"a",t:"Hallo! 👋 Beschreib mir, was du essen möchtest – z.B. <em>proteinreiches Abendessen, schnell zubereitet</em> – und ich schlage dir 3 Gerichte mit genauen Nährwerten vor!"}],
-  aiStep:"chat", sugs:[], selSug:null, editDish:null,
-  aiLoading:false, refInput:"", refLoading:false,
-  // modals
-  modal:null, mdata:null,
-  planLoading:false,
-  dishPortions:{}, // {dishId: portions}
+  activeUser:LS.get(K.user)||"du",
+  goals:LS.get(K.goals)||DEF_GOALS,
+  dishes:LS.get(K.dishes)||[],
+  shopping:[],
+  diary:LS.get(K.diary)||{},
+  weight:LS.get(K.weight)||[],
+  plan:LS.get(K.plan)||{},
+  live:false,
+  toast:null,_tt:null,
+  // AI page
+  msgs:[{r:"a",t:"Hallo! Beschreib mir, was du essen möchtest – z.B. <em>proteinreiches Abendessen</em> – und ich schlage dir 3 Gerichte mit Nährwerten vor!"}],
+  aiStep:"chat",sugs:[],selSug:null,editDish:null,aiLoading:false,refLoading:false,
+  // Gerichte tab
+  dishCat:"Frühstück",dishPortions:{},openDish:null,
+  // Plan slot modal
+  planSlot:null, planSlotMode:"select", planSlotLoading:false,
+  planSlotMsgs:[],planSlotInput:"",
+  // Diary modal
+  modal:null,mdata:null,
+  // Log entry KI
+  logMode:"dish",logSearch:"",logSel:null,logPortions:"1",logGram:"",logDate:today(),
+  logCustom:{name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""},
+  logFoodSearch:"",logFoodResult:null,logFoodLoading:false,
+  logPhotoB64:null,logPhotoLoading:false,logPhotoResult:null,
 };
-
-if(cfg.firebaseUrl){ firebaseUrl=cfg.firebaseUrl; }
-
+ 
 function saveLocal(){
-  LS.set(K.dishes,state.dishes);
-  LS.set(K.diary,state.diary);
-  LS.set(K.weight,state.weight);
-  LS.set(K.plan,state.plan);
-  LS.set(K.goals,state.goals);
-  LS.set(K.user,state.activeUser);
+  LS.set(K.dishes,S.dishes);LS.set(K.diary,S.diary);LS.set(K.weight,S.weight);
+  LS.set(K.plan,S.plan);LS.set(K.goals,S.goals);LS.set(K.user,S.activeUser);
 }
-
-function toast(msg){ if(state._tt)clearTimeout(state._tt); state.toast=msg; state._tt=setTimeout(()=>{state.toast=null;render();},2600); render(); }
-function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-function setTab(t){ state.tab=t; render(); }
-function closeModal(){ state.modal=null; state.mdata=null; render(); }
-
-// ═══════════════════════════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════════════════════════
+function toast(msg){if(S._tt)clearTimeout(S._tt);S.toast=msg;S._tt=setTimeout(()=>{S.toast=null;render()},2600);render()}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function setTab(t){S.tab=t;render()}
+function closeModal(){S.modal=null;S.mdata=null;render()}
+ 
+// ═══════════════════════════════════════════════
+// RENDER SHELL
+// ═══════════════════════════════════════════════
 function render(){
-  const root=document.getElementById("root");
-  root.innerHTML = state.setupDone ? renderApp() : renderSetup();
+  document.getElementById("root").innerHTML=S.setupDone?renderApp():renderSetup();
   bindAll();
-  if(state.tab==="ai") scrollChat();
+  if(S.tab==="ai")scrollChat("aichat");
 }
-
-// ─── SETUP ────────────────────────────────────────────────────────
-function renderSetup(){
-  const saved=LS.get(K.cfg)||{};
-  return `<div class="setup">
-  <div class="setup-logo">Nutri<em>KI</em></div>
-  <p style="color:var(--mu);font-size:12px;margin-bottom:24px;text-align:center">Dein KI-Ernährungsassistent</p>
-
-  <div style="width:100%;max-width:420px">
-    <div class="card" style="margin-bottom:16px">
-      <div style="font-size:14px;font-weight:700;margin-bottom:12px">🔑 Anthropic API-Key</div>
-      <div class="field">
-        <input id="s_api" type="password" placeholder="sk-ant-api03-..." value="${esc(saved.apiKey||"")}"/>
-      </div>
-      <div style="font-size:12px;color:var(--mu);line-height:1.6">
-        Kostenlos erstellen auf <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>
-        → <em>API Keys</em> → <em>Create Key</em><br>
-        <span style="font-size:11px">Wird nur lokal auf deinem Gerät gespeichert.</span>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:16px">
-      <div style="font-size:14px;font-weight:700;margin-bottom:4px">🔴 Live-Einkaufsliste (Firebase)</div>
-      <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:14px">
-        Einmalig kostenlos einrichten – dann sehen du und deine Frau die Liste live:
-      </div>
-
-      <div class="step-box">
-        <div class="step-row"><span class="step-num">1</span>
-          <div style="font-size:12px;line-height:1.6">Gehe zu <a href="https://console.firebase.google.com" target="_blank"><strong>console.firebase.google.com</strong></a> und melde dich mit Google an</div>
-        </div>
-      </div>
-      <div class="step-box">
-        <div class="step-row"><span class="step-num">2</span>
-          <div style="font-size:12px;line-height:1.6">Klicke <strong>„Projekt hinzufügen"</strong> → Namen eingeben → Projekt erstellen</div>
-        </div>
-      </div>
-      <div class="step-box">
-        <div class="step-row"><span class="step-num">3</span>
-          <div style="font-size:12px;line-height:1.6">Links im Menü: <strong>Erstellen → Realtime Database</strong> → <em>„Datenbank erstellen"</em> → Testmodus → Fertig</div>
-        </div>
-      </div>
-      <div class="step-box">
-        <div class="step-row"><span class="step-num">4</span>
-          <div style="font-size:12px;line-height:1.6">Die <strong>Datenbank-URL</strong> steht oben (sieht so aus):<br>
-          <code>https://mein-projekt-default-rtdb.firebaseio.com</code><br>
-          Diese URL hier einfügen:</div>
-        </div>
-      </div>
-
-      <div class="field" style="margin-top:10px">
-        <label>Firebase Datenbank-URL</label>
-        <input id="s_fb" placeholder="https://mein-projekt-default-rtdb.firebaseio.com" value="${esc(saved.firebaseUrl||"")}"/>
-      </div>
-    </div>
-
-    <button class="btn bg" style="width:100%;justify-content:center;padding:13px;font-size:14px" onclick="doSetup()">App starten →</button>
-    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:12px">Deine Frau braucht dieselbe HTML-Datei + dieselbe Firebase-URL</p>
-  </div>
-</div>`;
-}
-
-async function doSetup(){
-  const api=document.getElementById("s_api")?.value.trim();
-  const fb=document.getElementById("s_fb")?.value.trim().replace(/\/+$/,"");
-  if(!api){ alert("Bitte API-Key eingeben"); return; }
-  if(!fb){ alert("Bitte Firebase-URL eingeben"); return; }
-  LS.set(K.cfg,{apiKey:api,firebaseUrl:fb});
-  firebaseUrl=fb;
-  state.setupDone=true;
-  // test connection
-  try{
-    await fbSet("_init",{ok:true});
-    await loadShoppingFromFb();
-    startLiveSync();
-    render();
-  }catch(e){
-    alert("Firebase-Verbindung fehlgeschlagen!\n\nPrüfe:\n• URL korrekt?\n• Testmodus aktiv?\n\nFehler: "+e.message);
-  }
-}
-
-// ─── APP SHELL ─────────────────────────────────────────────────────
+ 
 function renderApp(){
-  const undone=state.shopping.filter(i=>!i.done).length;
+  const undone=S.shopping.filter(i=>!i.done).length;
   const tabs=[
-    {id:"ai",   icon:"✨", label:"KI"},
+    {id:"ai",icon:"✨",label:"KI"},
     {id:"gerichte",icon:"🍽️",label:"Gerichte"},
-    {id:"plan", icon:"📅", label:"Plan"},
+    {id:"plan",icon:"📅",label:"Plan"},
     {id:"shopping",icon:"🛒",label:"Einkauf",badge:undone},
     {id:"diary",icon:"📓",label:"Log"},
     {id:"weight",icon:"⚖️",label:"Gewicht"},
   ];
   let page="";
-  if(state.tab==="ai")page=renderAI();
-  else if(state.tab==="gerichte")page=renderGerichte();
-  else if(state.tab==="plan")page=renderPlan();
-  else if(state.tab==="shopping")page=renderShopping();
-  else if(state.tab==="diary")page=renderDiary();
-  else if(state.tab==="weight")page=renderWeight();
-
-  return `<div class="app">
+  if(S.tab==="ai")page=renderAI();
+  else if(S.tab==="gerichte")page=renderGerichte();
+  else if(S.tab==="plan")page=renderPlan();
+  else if(S.tab==="shopping")page=renderShopping();
+  else if(S.tab==="diary")page=renderDiary();
+  else if(S.tab==="weight")page=renderWeight();
+  return`<div class="app">
     <div class="page">${page}</div>
-    <nav class="nav">
-      ${tabs.map(t=>`<button class="nb${state.tab===t.id?" on":""}" onclick="setTab('${t.id}')">
-        <span class="ni">${t.icon}</span><span>${t.label}${t.badge?`<span class="badge">${t.badge}</span>`:""}</span>
-      </button>`).join("")}
-    </nav>
+    <nav class="nav">${tabs.map(t=>`<button class="nb${S.tab===t.id?" on":""}" onclick="setTab('${t.id}')">
+      <span class="ni">${t.icon}</span><span>${t.label}${t.badge?`<span class="badge">${t.badge}</span>`:""}</span>
+    </button>`).join("")}</nav>
   </div>
-  ${state.toast?`<div class="toast">${state.toast}</div>`:""}
-  ${state.modal?renderModal():""}`;
+  ${S.toast?`<div class="toast">${S.toast}</div>`:""}
+  ${S.modal?renderModal():""}`;
 }
-
-// ═══════════════════════════════════════════════════════════════════
+ 
+// ═══════════════════════════════════════════════
+// SETUP
+// ═══════════════════════════════════════════════
+function renderSetup(){
+  const saved=LS.get(K.cfg)||{};
+  return`<div class="setup">
+  <div class="setup-logo">Nutri<em>KI</em></div>
+  <p style="color:var(--mu);font-size:12px;margin-bottom:22px;text-align:center">Dein KI-Ernährungsassistent</p>
+  <div style="width:100%;max-width:420px">
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">🔑 Anthropic API-Key</div>
+      <div class="field"><input id="s_api" type="password" placeholder="sk-ant-..." value="${esc(saved.apiKey||"")}"/></div>
+      <div style="font-size:11px;color:var(--mu)">Erstellen auf <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys</div>
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px">🔴 Live-Einkaufsliste (Firebase)</div>
+      <div class="step-box"><span class="step-num">1</span><span style="font-size:12px">Gehe zu <a href="https://console.firebase.google.com" target="_blank"><strong>console.firebase.google.com</strong></a> → Projekt erstellen</span></div>
+      <div class="step-box"><span class="step-num">2</span><span style="font-size:12px"><strong>Erstellen → Realtime Database → Testmodus</strong></span></div>
+      <div class="step-box"><span class="step-num">3</span><span style="font-size:12px">Datenbank-URL kopieren und hier einfügen:</span></div>
+      <div class="field" style="margin-top:10px"><input id="s_fb" placeholder="https://xxx-default-rtdb.firebaseio.com" value="${esc(saved.firebaseUrl||"")}"/></div>
+    </div>
+    <button class="btn bg" style="width:100%;justify-content:center;padding:13px;font-size:14px" onclick="doSetup()">App starten →</button>
+    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">Deine Frau öffnet dieselbe Datei + gibt dieselbe Firebase-URL ein</p>
+  </div></div>`;
+}
+async function doSetup(){
+  const api=document.getElementById("s_api")?.value.trim();
+  const fb=document.getElementById("s_fb")?.value.trim().replace(/\/+$/,"");
+  if(!api)return alert("Bitte API-Key eingeben");
+  if(!fb)return alert("Bitte Firebase-URL eingeben");
+  LS.set(K.cfg,{apiKey:api,firebaseUrl:fb});
+  FB=fb;S.setupDone=true;
+  try{await fbSet("_init",{ok:true});await shopLoad();startSSE();render();}
+  catch(e){alert("Firebase-Fehler: "+e.message);}
+}
+ 
+// ═══════════════════════════════════════════════
 // AI PAGE
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function renderAI(){
-  const msgs=state.msgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
-  const loading=state.aiLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
-
+  const msgs=S.msgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
+  const loading=S.aiLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
   let body="";
-  if(state.aiStep==="chat"){
+  if(S.aiStep==="chat"){
     body=`<div class="airow">
       <input id="aiIn" placeholder="z.B. leichtes Frühstück, viel Protein…" onkeydown="if(event.key==='Enter')sendAI()"/>
-      <button class="btn bg" onclick="sendAI()" ${state.aiLoading?"disabled":""}>→</button>
+      <button class="btn bg" onclick="sendAI()" ${S.aiLoading?"disabled":""}>→</button>
     </div>`;
   } else {
-    const sugs=state.sugs.map((s,i)=>`
-      <div class="sug${state.selSug===i?" sel":""}" onclick="pickSug(${i})">
-        <div class="sugname">${esc(s.name)}</div>
-        <div class="sugdesc">${esc(s.description)}</div>
-        <div style="font-size:11px;color:var(--mu);margin-bottom:5px">⏱ ${esc(s.prepTime||"—")} · <span class="tag">${esc(s.category||"")}</span></div>
-        <div class="chips">
-          <span class="chip ck">🔥 ${s.kcal||0} kcal</span>
-          <span class="chip cp">💪 ${s.protein||0}g P</span>
-          <span class="chip cf">🧈 ${s.fat||0}g F</span>
-          <span class="chip cc">🌾 ${s.carbs||0}g KH</span>
-        </div>
-      </div>`).join("");
-
+    const sugs=S.sugs.map((s,i)=>`<div class="sug${S.selSug===i?" sel":""}" onclick="pickSug(${i})">
+      <div class="sugname">${esc(s.name)}</div>
+      <div style="font-size:11px;color:var(--mu);margin-bottom:5px">⏱ ${esc(s.prepTime||"—")} · ${esc(s.category||"")}</div>
+      <div class="chips">${macroChips(s)}</div>
+    </div>`).join("");
     let refine="",editor="",acts="";
-    if(state.selSug!==null){
-      refine=`<div class="slbl" style="margin-top:13px">Per KI anpassen</div>
-        <div class="airow" style="margin-bottom:13px">
+    if(S.selSug!==null){
+      refine=`<div class="slbl" style="margin-top:12px">Per KI anpassen</div>
+        <div class="airow" style="margin-bottom:12px">
           <input id="refIn" placeholder='z.B. "vegetarisch" oder "weniger Kalorien"' onkeydown="if(event.key==='Enter')refineAI()"/>
-          <button class="btn bo" onclick="refineAI()" ${state.refLoading?"disabled":""}>${state.refLoading?"…":"✨"}</button>
+          <button class="btn bo" onclick="refineAI()" ${S.refLoading?"disabled":""}>${S.refLoading?"…":"✨"}</button>
         </div>`;
-      if(state.editDish) editor=renderEditor();
-      acts=`<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px">
-        <button class="btn bg bsm" onclick="saveFromAI()">💾 Gericht speichern</button>
+      if(S.editDish)editor=renderEditor();
+      acts=`<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn bg bsm" onclick="saveFromAI()">💾 Speichern</button>
         <button class="btn bo bsm" onclick="aiToShop()">🛒 Zum Einkauf</button>
         <button class="btn bgh bsm" onclick="resetAI()">← Neue Suche</button>
       </div>`;
     }
-    body=`<div class="slbl">Vorschläge</div>${sugs}${refine}${state.selSug!==null?`<div class="slbl">Bearbeiten</div>${editor}${acts}`:""}
-      ${state.selSug===null?`<button class="btn bgh bsm" style="margin-top:6px" onclick="resetAI()">← Neue Suche</button>`:""}`;
+    body=`<div class="slbl">Vorschläge</div>${sugs}${refine}${S.selSug!==null?`<div class="slbl">Bearbeiten</div>${editor}${acts}`:``}
+      ${S.selSug===null?`<button class="btn bgh bsm" style="margin-top:6px" onclick="resetAI()">← Neue Suche</button>`:""}`;
   }
-
-  // Saved dishes quick list
-  const dishList=state.dishes.length?`
-    <div class="div"></div>
-    <details style="cursor:pointer">
-      <summary style="font-size:12px;font-weight:700;color:var(--mu);letter-spacing:.04em;list-style:none;display:flex;align-items:center;gap:6px">
-        📋 Gespeicherte Gerichte <span style="margin-left:auto">(${state.dishes.length})</span>
-      </summary>
-      <div style="margin-top:10px">
-        ${state.dishes.map(d=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bg)">
-          <div style="flex:1">
-            <div style="font-size:13px;font-weight:500">${esc(d.name)}</div>
-            <div class="chips">${renderChips(d)}</div>
-          </div>
-          <button class="btn bo bsm" onclick="logDishQuick('${d.id}')">📓</button>
-          <button class="btn bo bsm" onclick="dishToShopQuick('${d.id}')">🛒</button>
-          <button class="btn bic bd" onclick="deleteDish('${d.id}')">✕</button>
-        </div>`).join("")}
-      </div>
-    </details>`:""
-
-  return `<div class="ptitle">KI-<em>Assistent</em></div>
+  const dishCount=S.dishes.length;
+  return`<div class="ptitle">KI-<em>Assistent</em></div>
     <div class="psub">Gerichte entdecken, anpassen & speichern</div>
     <div class="aichat" id="aichat">${msgs}${loading}</div>
-    ${body}${dishList}`;
+    ${body}
+    ${dishCount?`<div class="div"></div><div style="font-size:12px;color:var(--mu);font-weight:600">📋 ${dishCount} Gericht${dishCount!==1?"e":""} gespeichert – sieh sie im <strong>Gerichte</strong>-Reiter</div>`:""}`;
 }
-
-function renderChips(d){
-  return `<span class="chip ck" style="font-size:10px">🔥 ${d.kcal||0}</span>
-    <span class="chip cp" style="font-size:10px">💪 ${d.protein||0}g</span>`;
+ 
+function macroChips(d){
+  return`<span class="chip ck">🔥 ${d.kcal||0} kcal</span>
+    <span class="chip cp">💪 ${d.protein||0}g P</span>
+    <span class="chip cf">🧈 ${d.fat||0}g F</span>
+    <span class="chip cc">🌾 ${d.carbs||0}g KH</span>
+    ${d.fiber?`<span class="chip cfi">🌿 ${d.fiber}g Bst.</span>`:""}`;
 }
-
+ 
 function renderEditor(){
-  const d=state.editDish;
-  const ings=(d.ingredients||[]).map((ig,i)=>`
-    <div class="iedit">
-      <input value="${esc(ig.name)}" oninput="state.editDish.ingredients[${i}].name=this.value" placeholder="Zutat"/>
-      <input class="iqty" value="${esc(ig.qty||"")}" oninput="state.editDish.ingredients[${i}].qty=this.value" placeholder="z.B. 200 g"/>
-      <button class="btn bic bd" onclick="rmIng(${i})">✕</button>
-    </div>`).join("");
-  return `<div class="card">
-    <div class="field"><label>Name</label><input value="${esc(d.name||"")}" oninput="state.editDish.name=this.value"/></div>
-    <div class="r4">
-      ${["kcal","protein","fat","carbs"].map((k,i)=>`<div class="field"><label>${["kcal","Prot.","Fett","Carbs"][i]}</label>
-        <input type="number" value="${d[k]||""}" oninput="state.editDish['${k}']=parseFloat(this.value)||0"/></div>`).join("")}
+  const d=S.editDish;
+  const ings=(d.ingredients||[]).map((ig,i)=>`<div class="iedit">
+    <input value="${esc(ig.name)}" oninput="S.editDish.ingredients[${i}].name=this.value" placeholder="Zutat"/>
+    <input class="iqty" value="${esc(ig.qty||"")}" oninput="S.editDish.ingredients[${i}].qty=this.value" placeholder="200 g"/>
+    <button class="btn bic bd" onclick="rmIng(${i})">✕</button>
+  </div>`).join("");
+  return`<div class="card">
+    <div class="r2">
+      <div class="field"><label>Name</label><input value="${esc(d.name||"")}" oninput="S.editDish.name=this.value"/></div>
+      <div class="field"><label>Kategorie</label><select onchange="S.editDish.category=this.value">
+        ${MEALS.map(m=>`<option value="${m}" ${d.category===m?"selected":""}>${m}</option>`).join("")}
+      </select></div>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="r5">
+      ${["kcal","protein","fat","carbs","fiber"].map((k,i)=>`<div class="field"><label>${["kcal","P g","F g","KH g","Bst g"][i]}</label>
+        <input type="number" value="${d[k]||""}" oninput="S.editDish['${k}']=parseFloat(this.value)||0"/></div>`).join("")}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
       <span class="slbl" style="margin-bottom:0">Zutaten (1 Portion)</span>
       <button class="btn bo bsm" onclick="addIng()">+ Zutat</button>
     </div>
     ${ings}
-    <div class="field" style="margin-top:8px"><label>Notizen / Zubereitung</label>
-      <textarea oninput="state.editDish.notes=this.value">${esc(d.notes||"")}</textarea>
+    <div class="field" style="margin-top:7px"><label>Notizen</label>
+      <textarea oninput="S.editDish.notes=this.value">${esc(d.notes||"")}</textarea>
     </div>
   </div>`;
 }
-
-function addIng(){ if(!state.editDish.ingredients)state.editDish.ingredients=[]; state.editDish.ingredients.push({name:"",qty:""}); render(); }
-function rmIng(i){ state.editDish.ingredients.splice(i,1); render(); }
-function setED(k,v){ if(state.editDish) state.editDish[k]=v; }
-
+ 
+function addIng(){if(!S.editDish.ingredients)S.editDish.ingredients=[];S.editDish.ingredients.push({name:"",qty:""});render()}
+function rmIng(i){S.editDish.ingredients.splice(i,1);render()}
+ 
 async function sendAI(){
-  const el=document.getElementById("aiIn");
-  if(!el)return;
-  const txt=el.value.trim();
-  if(!txt||state.aiLoading)return;
-  state.msgs.push({r:"u",t:esc(txt)});
-  state.aiLoading=true; render(); scrollChat();
+  const el=document.getElementById("aiIn");if(!el)return;
+  const txt=el.value.trim();if(!txt||S.aiLoading)return;
+  S.msgs.push({r:"u",t:esc(txt)});S.aiLoading=true;render();scrollChat("aichat");
   try{
-    const sys=`Du bist Ernährungsexperte und Koch-Assistent. Antworte IMMER als gültiges JSON-Array mit exakt 3 Gerichten.
-Format: [{"name":"...","category":"Frühstück|Mittagessen|Abendessen|Snack","description":"2 Sätze Beschreibung","prepTime":"20 min","kcal":520,"protein":38,"fat":14,"carbs":52,"ingredients":[{"name":"Hähnchenbrust","qty":"200 g"},{"name":"Reis","qty":"80 g (roh)"}],"notes":"Kurzer Zubereitungstipp"}]
-Nährwerte sind pro Portion, realistisch und präzise (Gramm-Angaben). NUR JSON, kein Text davor/danach.`;
-    const data=await askClaude(sys,txt);
-    if(data&&Array.isArray(data)&&data.length>0){
-      state.sugs=data; state.selSug=null; state.editDish=null; state.aiStep="suggestions";
-      state.msgs.push({r:"a",t:`Ich habe <strong>${data.length} Vorschläge</strong> für dich! Tippe auf einen, um ihn auszuwählen und anzupassen.`});
-    } else {
-      state.msgs.push({r:"a",t:"Leider konnte ich keine Vorschläge generieren. Bitte beschreibe dein Wunschgericht anders."});
-    }
-  }catch(e){ state.msgs.push({r:"a",t:"⚠️ Fehler: "+esc(e.message)}); }
-  state.aiLoading=false; render(); scrollChat();
+    const sys=`Du bist Ernährungsexperte. Antworte NUR als JSON-Array mit 3 Gerichten.
+Format: [{"name":"...","category":"Frühstück|Mittagessen|Abendessen|Snack","description":"2 Sätze","prepTime":"20 min","kcal":520,"protein":38,"fat":14,"carbs":52,"fiber":8,"ingredients":[{"name":"Hähnchenbrust","qty":"200 g"}],"notes":"Tipp"}]
+Nährwerte pro Portion, realistisch. Ballaststoffe (fiber) immer angeben. NUR JSON.`;
+    const data=await claude(sys,txt);
+    if(data&&Array.isArray(data)&&data.length){
+      S.sugs=data;S.selSug=null;S.editDish=null;S.aiStep="suggestions";
+      S.msgs.push({r:"a",t:`Ich habe <strong>${data.length} Vorschläge</strong>! Tippe auf einen zum Auswählen.`});
+    }else S.msgs.push({r:"a",t:"Keine Vorschläge gefunden. Versuche eine andere Beschreibung."});
+  }catch(e){S.msgs.push({r:"a",t:"⚠️ "+esc(e.message)})}
+  S.aiLoading=false;render();scrollChat("aichat");
 }
-
-function scrollChat(){ setTimeout(()=>{ const c=document.getElementById("aichat"); if(c)c.scrollTop=c.scrollHeight; },60); }
-
-function pickSug(i){ state.selSug=i; state.editDish={...state.sugs[i], ingredients:(state.sugs[i].ingredients||[]).map(x=>({...x}))}; render(); }
-
+ 
+function scrollChat(id){setTimeout(()=>{const c=document.getElementById(id);if(c)c.scrollTop=c.scrollHeight},60)}
+ 
+function pickSug(i){S.selSug=i;S.editDish={...S.sugs[i],ingredients:(S.sugs[i].ingredients||[]).map(x=>({...x}))};render()}
+ 
 async function refineAI(){
-  const el=document.getElementById("refIn");
-  if(!el||state.refLoading||state.selSug===null)return;
-  const ins=el.value.trim(); if(!ins)return;
-  state.refLoading=true; render();
+  const el=document.getElementById("refIn");if(!el||S.refLoading||S.selSug===null)return;
+  const ins=el.value.trim();if(!ins)return;S.refLoading=true;render();
   try{
-    const sys=`Du bist Ernährungsexperte. Modifiziere das Gericht gemäß der Anweisung. Antworte NUR als JSON-Objekt mit denselben Feldern. Passe Zutaten und Nährwerte realistisch an. Kein Text davor/danach.`;
-    const data=await askClaude(sys,`Gericht: ${JSON.stringify(state.sugs[state.selSug])}\n\nAnweisung: ${ins}`);
-    if(data&&data.name){ state.sugs[state.selSug]=data; state.editDish={...data,ingredients:(data.ingredients||[]).map(x=>({...x}))}; }
-  }catch(e){}
-  state.refLoading=false; render();
+    const sys=`Modifiziere das Gericht. Antworte NUR als JSON-Objekt mit denselben Feldern inkl. fiber. Passe Zutaten+Nährwerte realistisch an.`;
+    const data=await claude(sys,`Gericht: ${JSON.stringify(S.sugs[S.selSug])}\n\nAnweisung: ${ins}`);
+    if(data&&data.name){S.sugs[S.selSug]=data;S.editDish={...data,ingredients:(data.ingredients||[]).map(x=>({...x}))}}
+  }catch{}
+  S.refLoading=false;render();
 }
-
+ 
 function saveFromAI(){
-  if(!state.editDish)return;
-  const d={...state.editDish,id:uid()};
-  ["kcal","protein","fat","carbs"].forEach(k=>d[k]=parseFloat(d[k])||0);
-  state.dishes.push(d); saveLocal(); toast(`✓ „${d.name}" gespeichert`); resetAI();
+  if(!S.editDish)return;
+  const d={...S.editDish,id:uid()};
+  ["kcal","protein","fat","carbs","fiber"].forEach(k=>d[k]=parseFloat(d[k])||0);
+  S.dishes.push(d);saveLocal();toast(`✓ "${d.name}" gespeichert`);resetAI();
 }
-
 async function aiToShop(){
-  if(!state.editDish)return;
-  for(const ig of (state.editDish.ingredients||[])){
-    if(ig.name){ const item={id:uid(),name:ig.name,qty:ig.qty||"",done:false,source:state.editDish.name}; state.shopping.push(item); await shopAdd(item); }
+  if(!S.editDish)return;
+  for(const ig of(S.editDish.ingredients||[])){
+    if(ig.name){const item={id:uid(),name:ig.name,qty:ig.qty||"",done:false,source:S.editDish.name};S.shopping.push(item);await shopAdd(item);}
   }
-  toast("✓ Zutaten zur Einkaufsliste hinzugefügt");
+  toast("✓ Zutaten zur Einkaufsliste");
 }
-
-function resetAI(){ state.aiStep="chat"; state.sugs=[]; state.selSug=null; state.editDish=null; render(); }
-function deleteDish(id){ state.dishes=state.dishes.filter(d=>d.id!==id); saveLocal(); toast("Gelöscht"); render(); }
-function logDishQuick(id){ const d=state.dishes.find(x=>x.id===id); if(d){state.modal="diary";state.mdata={mode:"dish",selected:d,portions:"1",gram:"",date:today(),search:""};render();} }
-async function dishToShopQuick(id){
-  const d=state.dishes.find(x=>x.id===id); if(!d)return;
-  for(const ig of (d.ingredients||[])){
-    if(ig.name){ const item={id:uid(),name:ig.name,qty:ig.qty||"",done:false,source:d.name}; state.shopping.push(item); await shopAdd(item); }
-  }
-  toast(`✓ Zutaten von „${d.name}" hinzugefügt`);
-}
-
-// ═══════════════════════════════════════════════════════════════════
+function resetAI(){S.aiStep="chat";S.sugs=[];S.selSug=null;S.editDish=null;render()}
+function deleteDish(id){if(!confirm("Gericht löschen?"))return;S.dishes=S.dishes.filter(d=>d.id!==id);saveLocal();toast("Gelöscht");render()}
+ 
+// ═══════════════════════════════════════════════
 // GERICHTE PAGE
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function renderGerichte(){
-  if(state.dishes.length===0) return`
-    <div class="ptitle">Meine <em>Gerichte</em></div>
-    <div class="psub">Gespeicherte Rezepte</div>
-    <div class="empty">Noch keine Gerichte gespeichert.<br>Gehe zum ✨ KI-Assistenten und lass dir Gerichte vorschlagen!</div>`;
-
-  const cards=state.dishes.map(d=>{
-    const portions=state.dishPortions[d.id]||1;
-    const f=portions;
-    const kcal=Math.round((d.kcal||0)*f);
-    const prot=Math.round((d.protein||0)*f*10)/10;
-    const fat=Math.round((d.fat||0)*f*10)/10;
-    const carbs=Math.round((d.carbs||0)*f*10)/10;
-    const ings=(d.ingredients||[]).map(ig=>{
-      const qtyNum=parseFloat(ig.qty);
-      const qtyUnit=ig.qty?ig.qty.replace(/[\d.,]+/,"").trim():"";
-      const scaledQty=qtyNum&&!isNaN(qtyNum)?(Math.round(qtyNum*f*10)/10)+" "+qtyUnit:ig.qty||"";
-      return`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
-        <span>${esc(ig.name)}</span>
-        <span style="color:var(--mu);font-weight:600">${esc(scaledQty)}</span>
-      </div>`;
-    }).join("");
-
-    return`<div class="card" style="margin-bottom:13px">
-      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
-        <div style="flex:1">
-          <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700">${esc(d.name)}</div>
-          ${d.category?`<span style="font-size:10px;background:var(--gl);color:var(--gr);border-radius:6px;padding:2px 8px;font-weight:700">${esc(d.category)}</span>`:""}
-        </div>
-        <button class="btn bic bd" onclick="deleteDish('${d.id}')">✕</button>
-      </div>
-
-      <!-- PORTION STEPPER -->
-      <div style="display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:10px;padding:8px 12px;margin-bottom:11px">
-        <span style="font-size:11px;font-weight:700;color:var(--mu);letter-spacing:.05em">PORTIONEN</span>
-        <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
-          <button class="btn bic bo" style="width:28px;height:28px;font-size:18px;line-height:1" onclick="changePortion('${d.id}',-0.5)">−</button>
-          <span style="font-size:16px;font-weight:700;min-width:28px;text-align:center">${portions}</span>
-          <button class="btn bic bo" style="width:28px;height:28px;font-size:18px;line-height:1" onclick="changePortion('${d.id}',0.5)">+</button>
+  const filtered=S.dishes.filter(d=>dishCat(d)===S.dishCat);
+  const cards=filtered.map(d=>{
+    const p=S.dishPortions[d.id]||1;
+    const scale=k=>Math.round((d[k]||0)*p*10)/10;
+    const isOpen=S.openDish===d.id;
+    // per 100g calculation – assume 1 portion = portionWeight g (or 300g default)
+    const pw=d.portionWeight||300;
+    const p100=k=>pw>0?Math.round((d[k]||0)/pw*100*10)/10:0;
+    const ings=(d.ingredients||[]).map(ig=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
+      <span>${esc(ig.name)}</span><span style="color:var(--mu);font-weight:600">${esc(scaleQty(ig.qty,p))}</span>
+    </div>`).join("");
+    return`<div class="dish-card">
+      <div class="dish-header" onclick="S.openDish=S.openDish==='${d.id}'?null:'${d.id}';render()">
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <div style="flex:1">
+            <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700">${esc(d.name)}</div>
+            <div class="chips" style="margin-top:5px">${macroChips({kcal:Math.round(scale("kcal")),protein:scale("protein"),fat:scale("fat"),carbs:scale("carbs"),fiber:scale("fiber")})}</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-shrink:0">
+            <button class="btn bic bd" onclick="event.stopPropagation();deleteDish('${d.id}')">✕</button>
+            <span style="font-size:18px;color:var(--mu);padding:6px">${isOpen?"▲":"▼"}</span>
+          </div>
         </div>
       </div>
-
-      <!-- MACROS -->
-      <div class="chips" style="margin-bottom:11px">
-        <span class="chip ck">🔥 ${kcal} kcal</span>
-        <span class="chip cp">💪 ${prot}g P</span>
-        <span class="chip cf">🧈 ${fat}g F</span>
-        <span class="chip cc">🌾 ${carbs}g KH</span>
-      </div>
-
-      <!-- INGREDIENTS -->
-      ${ings?`<div style="margin-bottom:11px">
-        <div class="slbl" style="margin-bottom:5px">Zutaten für ${portions} Portion${portions!==1?"en":""}</div>
-        ${ings}
+      ${isOpen?`<div class="dish-body">
+        <!-- PORTION STEPPER -->
+        <div class="portion-stepper">
+          <span style="font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.05em">PORTIONEN</span>
+          <button class="portion-btn" onclick="chgPortion('${d.id}',-0.5)">−</button>
+          <span style="font-size:16px;font-weight:700;min-width:24px;text-align:center">${p}</span>
+          <button class="portion-btn" onclick="chgPortion('${d.id}',0.5)">+</button>
+          ${d.portionWeight?`<span style="font-size:11px;color:var(--mu);margin-left:4px">= ${Math.round(d.portionWeight*p)} g</span>`:""}
+        </div>
+        <!-- PER 100g -->
+        <div class="per100">
+          <div class="per100-title">NÄHRWERTE JE 100 G ${d.portionWeight?"":<span style="font-weight:400">(Portionsgewicht eintragen für genaue Werte)</span>}</div>
+          <div class="chips">
+            <span class="chip ck">🔥 ${p100("kcal")} kcal</span>
+            <span class="chip cp">💪 ${p100("protein")}g P</span>
+            <span class="chip cf">🧈 ${p100("fat")}g F</span>
+            <span class="chip cc">🌾 ${p100("carbs")}g KH</span>
+            ${d.fiber?`<span class="chip cfi">🌿 ${p100("fiber")}g Bst.</span>`:""}
+          </div>
+          ${d.portionWeight?"":
+            `<input type="number" placeholder="Portionsgewicht in g eintragen…" style="margin-top:8px;width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:7px 10px;font-family:Syne,sans-serif;font-size:12px;outline:none" 
+              onchange="setPortionWeight('${d.id}',this.value)"/>`}
+        </div>
+        <!-- ZUTATEN -->
+        ${ings?`<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px">Zutaten für ${p} Portion${p!==1?"en":""}</div>${ings}</div>`:""}
+        ${d.notes?`<div style="font-size:12px;color:var(--mu);margin-bottom:10px">${esc(d.notes)}</div>`:""}
+        <!-- ACTIONS -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn bg bsm" onclick="dishToShop('${d.id}')">🛒 Einkaufsliste</button>
+          <button class="btn bo bsm" onclick="openAddToPlan('${d.id}')">📅 Wochenplan</button>
+          <button class="btn bo bsm" onclick="quickLog('${d.id}')">📓 Loggen</button>
+        </div>
       </div>`:""}
-
-      <!-- ACTIONS -->
-      <div style="display:flex;gap:7px;flex-wrap:wrap">
-        <button class="btn bg bsm" onclick="dishToShopFromGerichte('${d.id}')">🛒 Zur Einkaufsliste</button>
-        <button class="btn bo bsm" onclick="openAddToPlanModal('${d.id}')">📅 Zum Wochenplan</button>
-        <button class="btn bo bsm" onclick="logDishQuick('${d.id}')">📓 Loggen</button>
-      </div>
     </div>`;
   }).join("");
-
+ 
   return`<div class="ptitle">Meine <em>Gerichte</em></div>
-    <div class="psub">${state.dishes.length} Rezepte gespeichert</div>
-    ${cards}`;
-}
-
-function changePortion(id, delta){
-  const cur=state.dishPortions[id]||1;
-  const next=Math.max(0.5, Math.round((cur+delta)*2)/2);
-  state.dishPortions[id]=next;
-  render();
-}
-
-async function dishToShopFromGerichte(id){
-  const d=state.dishes.find(x=>x.id===id); if(!d)return;
-  const portions=state.dishPortions[id]||1;
-  let count=0;
-  for(const ig of (d.ingredients||[])){
-    if(!ig.name)continue;
-    const qtyNum=parseFloat(ig.qty);
-    const qtyUnit=ig.qty?ig.qty.replace(/[\d.,]+/,"").trim():"";
-    const scaledQty=qtyNum&&!isNaN(qtyNum)?(Math.round(qtyNum*portions*10)/10)+" "+qtyUnit:ig.qty||"";
-    const item={id:uid(),name:ig.name,qty:scaledQty,done:false,source:d.name+(portions!==1?" ("+portions+"×)":"")};
-    state.shopping.push(item);
-    await shopAdd(item);
-    count++;
-  }
-  toast(`✓ ${count} Zutaten (${portions}×) zur Einkaufsliste`);
-}
-
-function openAddToPlanModal(dishId){
-  state.modal="addtoplan";
-  state.mdata={dishId};
-  render();
-}
-
-function renderAddToPlanModal(){
-  const md=state.mdata||{};
-  const d=state.dishes.find(x=>x.id===md.dishId);
-  if(!d)return"";
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-      <div class="mtitle">Zum Wochenplan</div>
-      <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:16px">${esc(d.name)}</div>
-      <div class="field"><label>Tag</label>
-        <select id="atp_day">
-          ${DAYS.map(day=>`<option value="${day}">${day}</option>`).join("")}
-        </select>
-      </div>
-      <div class="field"><label>Mahlzeit</label>
-        <select id="atp_meal">
-          ${MEALS.map(m=>`<option value="${m}">${m}</option>`).join("")}
-        </select>
-      </div>
-      <div class="mact">
-        <button class="btn bg" style="flex:1" onclick="addDishToPlan('${d.id}')">📅 Hinzufügen</button>
-        <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-      </div>
+    <div class="psub">${S.dishes.length} Rezepte gespeichert</div>
+    <div class="cat-tabs">
+      ${CATS.map(c=>`<button class="cat-tab${S.dishCat===c?" on":""}" onclick="S.dishCat='${c}';render()">${c}</button>`).join("")}
     </div>
-  </div>`;
+    ${filtered.length===0?`<div class="empty">Keine Gerichte in dieser Kategorie.<br>Gehe zum ✨ KI-Assistenten und speichere Gerichte!</div>`:cards}`;
 }
-
-function addDishToPlan(dishId){
-  const d=state.dishes.find(x=>x.id===dishId); if(!d)return;
-  const day=document.getElementById("atp_day")?.value;
-  const meal=document.getElementById("atp_meal")?.value;
-  if(!day||!meal)return;
-  if(!state.plan[day])state.plan[day]={};
-  state.plan[day][meal]={
-    name:d.name,
-    kcal:d.kcal||0,
-    protein:d.protein||0,
-    fat:d.fat||0,
-    carbs:d.carbs||0,
-    ingredients:d.ingredients||[]
-  };
-  saveLocal();
-  closeModal();
-  toast(`✓ "${d.name}" am ${day} als ${meal} eingetragen`);
+ 
+function chgPortion(id,d){const cur=S.dishPortions[id]||1;S.dishPortions[id]=Math.max(0.5,Math.round((cur+d)*2)/2);render()}
+function setPortionWeight(id,v){const d=S.dishes.find(x=>x.id===id);if(d){d.portionWeight=parseFloat(v)||0;saveLocal();render()}}
+ 
+async function dishToShop(id){
+  const d=S.dishes.find(x=>x.id===id);if(!d)return;
+  const p=S.dishPortions[id]||1;
+  for(const ig of(d.ingredients||[])){
+    if(!ig.name)continue;
+    const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,p),done:false,source:d.name+(p!==1?` (${p}×)`:"")};
+    S.shopping.push(item);await shopAdd(item);
+  }
+  toast(`✓ Zutaten (${p}×) zur Einkaufsliste`);
 }
-
-// ═══════════════════════════════════════════════════════════════════
+function openAddToPlan(id){S.modal="addtoplan";S.mdata={dishId:id};render()}
+function quickLog(id){
+  const d=S.dishes.find(x=>x.id===id);if(!d)return;
+  S.modal="diary";S.logMode="dish";S.logSel=d;S.logPortions="1";S.logGram="";S.logDate=today();render();
+}
+ 
+// ═══════════════════════════════════════════════
 // PLAN PAGE
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function renderPlan(){
-  const hasPlan=Object.keys(state.plan).length>0;
-  if(state.planLoading) return `<div class="ptitle">Wochen-<em>plan</em></div>
-    <div class="psub">Wird erstellt…</div>
-    <div style="text-align:center;padding:60px 20px">
-      <div class="dots" style="justify-content:center"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div style="font-size:14px;color:var(--mu);margin-top:16px;font-weight:500">KI erstellt deinen Wochenplan…<br><span style="font-size:12px">Das kann 20–30 Sekunden dauern</span></div>
-    </div>`;
-
-  const dayKcal=day=>Object.values(state.plan[day]||{}).reduce((s,m)=>s+(m.kcal||0),0);
+  const hasPlan=Object.keys(S.plan).length>0;
+  if(S.planLoading) return`<div class="ptitle">Wochen-<em>plan</em></div><div style="text-align:center;padding:60px 20px">
+    <div class="dots" style="justify-content:center"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div style="font-size:14px;color:var(--mu);margin-top:16px;font-weight:500">KI erstellt deinen Wochenplan…<br><span style="font-size:12px">~20–30 Sekunden</span></div>
+  </div>`;
+ 
+  const dayKcal=day=>Object.values(S.plan[day]||{}).reduce((s,m)=>s+(m.kcal||0),0);
   const slots=hasPlan?DAYS.map(day=>{
-    if(!state.plan[day])return"";
+    if(!S.plan[day])return"";
     const ms=MEALS.map(meal=>{
-      const m=state.plan[day]?.[meal];
-      return`<div class="pslot">
+      const m=S.plan[day]?.[meal];
+      return`<div class="plan-slot" onclick="openPlanSlot('${day}','${meal}')">
         <span class="plab">${meal==="Frühstück"?"Früh":meal==="Mittagessen"?"Mittag":meal==="Abendessen"?"Abend":"Snack"}</span>
-        ${m?`<span class="pdname">${esc(m.name)}</span><span class="pkcal">${m.kcal||0} kcal</span>`:`<span style="color:var(--fa);font-size:12px;font-style:italic">—</span>`}
+        ${m?`<span class="pdname">${esc(m.name)}</span><span class="pkcal">${m.kcal||0} kcal</span>`
+          :`<span class="plan-empty-slot">Tippe zum Hinzufügen…</span>`}
+        <span class="plan-add-icon">${m?"✏️":"＋"}</span>
       </div>`;
     }).join("");
-    return`<div style="margin-bottom:15px">
-      <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:7px;display:flex;align-items:center">
-        ${day}<span style="font-size:11px;color:var(--go);font-weight:700;margin-left:auto">${dayKcal(day)} kcal</span>
-      </div>${ms}</div>`;
-  }).join("") : "";
-
+    return`<div class="plan-day-card">
+      <div class="plan-day-hdr">
+        <span style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;flex:1">${day}</span>
+        <span style="font-size:11px;color:var(--go);font-weight:700">${dayKcal(day)} kcal</span>
+      </div>${ms}
+    </div>`;
+  }).join(""):"";
+ 
   return`<div class="ptitle">Wochen-<em>plan</em></div>
-    <div class="psub">KI-Ernährungsplan für 7 Tage</div>
-    ${!hasPlan?`<div class="genbanner">
+    <div class="psub">Tippe auf eine Mahlzeit zum Bearbeiten</div>
+    ${!hasPlan?`<div style="background:linear-gradient(135deg,var(--gl),var(--bll));border:1.5px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:14px">
       <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:4px">Plan generieren</div>
-      <p style="font-size:12px;color:var(--mu);margin-bottom:12px">Beschreibe deine Ziele – die KI erstellt einen vollständigen Wochenplan.</p>
-      <button class="btn bg" onclick="openPlanModal()">✨ Wochenplan erstellen</button>
-    </div>`:`
-    <div style="display:flex;gap:7px;margin-bottom:15px;flex-wrap:wrap">
+      <p style="font-size:12px;color:var(--mu);margin-bottom:12px">Die KI erstellt einen vollständigen 7-Tage-Plan.</p>
+      <button class="btn bg" onclick="S.modal='genplan';render()">✨ Wochenplan erstellen</button>
+    </div>`:`<div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
       <button class="btn bg bsm" onclick="planToShop()">🛒 Alle Zutaten → Einkauf</button>
-      <button class="btn bo bsm" onclick="openPlanModal()">✨ Neu generieren</button>
-      <button class="btn bd bsm" onclick="state.plan={};saveLocal();render()">🗑 Löschen</button>
+      <button class="btn bo bsm" onclick="S.modal='genplan';render()">✨ Neu generieren</button>
+      <button class="btn bd bsm" onclick="S.plan={};saveLocal();render()">🗑 Löschen</button>
     </div>`}
     ${slots}`;
 }
-
-function openPlanModal(){ state.modal="plan"; render(); }
-
-async function generatePlan(prefs){
-  state.modal=null; state.planLoading=true; render();
+ 
+// Open plan slot modal (click on a meal)
+function openPlanSlot(day,meal){
+  S.planSlot={day,meal};S.planSlotMode="select";S.planSlotLoading=false;
+  S.planSlotMsgs=[{r:"a",t:`Was soll am <strong>${day}</strong> zum <strong>${meal}</strong> geben? Beschreib es oder wähle ein gespeichertes Gericht.`}];
+  S.planSlotInput="";S.modal="planslot";render();
+}
+ 
+function renderPlanSlotModal(){
+  const {day,meal}=S.planSlot||{};
+  const existing=S.plan[day]?.[meal];
+  const filtered=S.dishes.filter(d=>{
+    if(meal==="Frühstück")return d.category==="Frühstück";
+    if(meal==="Snack")return d.category==="Snack";
+    return d.category==="Mittagessen"||d.category==="Abendessen";
+  });
+  const allDishes=S.dishes;// show all if no matching
+ 
+  const msgs=S.planSlotMsgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
+  const loading=S.planSlotLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
+ 
+  const dishList=(filtered.length?filtered:allDishes).map(d=>`<div style="padding:8px 10px;border-radius:8px;cursor:pointer;background:var(--bg);margin-bottom:5px;display:flex;align-items:center;gap:8px"
+    onclick="addDishToPlanSlot('${d.id}')">
+    <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
+    <div style="font-size:11px;color:var(--go)">${d.kcal||0} kcal</div>
+  </div>`).join("");
+ 
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">${day} · ${meal}</div>
+    ${existing?`<div style="background:var(--gl);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:13px;display:flex;align-items:center;gap:8px">
+      <span style="flex:1"><strong>${esc(existing.name)}</strong> · ${existing.kcal} kcal</span>
+      <button class="btn bd bsm" onclick="removePlanSlot('${day}','${meal}')">Entfernen</button>
+    </div>`:""}
+    <div style="display:flex;gap:7px;margin-bottom:12px">
+      <button class="btn bsm${S.planSlotMode==="select"?" bg":" bo"}" onclick="S.planSlotMode='select';render()">📋 Gespeicherte Gerichte</button>
+      <button class="btn bsm${S.planSlotMode==="ai"?" bg":" bo"}" onclick="S.planSlotMode='ai';render()">✨ KI-Vorschlag</button>
+    </div>
+    ${S.planSlotMode==="select"?`
+      <div style="max-height:260px;overflow-y:auto">${dishList}
+        ${S.dishes.length===0?`<div class="empty" style="padding:20px">Noch keine Gerichte gespeichert.<br>Nutze zuerst den KI-Assistenten!</div>`:""}
+      </div>`:`
+      <div class="aichat" id="slotchat">${msgs}${loading}</div>
+      <div class="airow">
+        <input id="slotIn" placeholder="z.B. leichtes Mittagessen mit Fisch…" onkeydown="if(event.key==='Enter')sendSlotAI()"/>
+        <button class="btn bg" onclick="sendSlotAI()" ${S.planSlotLoading?"disabled":""}>→</button>
+      </div>`}
+    <button class="btn bo" style="width:100%;justify-content:center;margin-top:6px" onclick="closeModal()">Schließen</button>
+  </div></div>`;
+}
+ 
+async function sendSlotAI(){
+  const el=document.getElementById("slotIn");if(!el||S.planSlotLoading)return;
+  const txt=el.value.trim();if(!txt)return;
+  const {day,meal}=S.planSlot;
+  S.planSlotMsgs.push({r:"u",t:esc(txt)});S.planSlotLoading=true;render();scrollChat("slotchat");
   try{
-    const sys=`Du bist Ernährungsexperte. Erstelle einen vollständigen 7-Tage-Ernährungsplan.
-Antworte NUR als JSON-Objekt – kein Text davor oder danach, keine Erklärungen.
-Exaktes Format:
-{"Montag":{"Frühstück":{"name":"...","kcal":400,"protein":20,"fat":10,"carbs":55,"ingredients":[{"name":"Haferflocken","qty":"80 g"},{"name":"Milch","qty":"200 ml"}]},"Mittagessen":{...},"Abendessen":{...},"Snack":{...}},"Dienstag":{...},"Mittwoch":{...},"Donnerstag":{...},"Freitag":{...},"Samstag":{...},"Sonntag":{...}}
-Alle 7 Tage müssen enthalten sein. Nährwerte realistisch. Zutaten immer mit Mengenangabe.`;
-    const saved=state.dishes.length>0?`Baue bevorzugt diese Lieblingsgerichte des Nutzers ein: ${state.dishes.map(d=>d.name).join(", ")}.`:"";
-    const data=await askClaude(sys,`Erstelle Plan für: ${prefs}. ${saved}`);
-    if(data&&data["Montag"]){ state.plan=data; saveLocal(); toast("✓ Wochenplan erstellt!"); }
-    else { toast("⚠️ KI-Antwort fehlerhaft, bitte erneut versuchen."); }
-  }catch(e){ toast("⚠️ "+e.message); }
-  state.planLoading=false; render();
+    const sys=`Du bist Ernährungsexperte. Erstelle EIN passendes Gericht für ${meal}.
+Antworte NUR als JSON-Objekt: {"name":"...","kcal":500,"protein":35,"fat":15,"carbs":55,"fiber":8,"ingredients":[{"name":"...","qty":"..."}],"notes":"..."}
+Nährwerte realistisch, fiber immer angeben.`;
+    const data=await claude(sys,txt);
+    if(data&&data.name){
+      if(!S.plan[day])S.plan[day]={};
+      S.plan[day][meal]={...data};
+      saveLocal();
+      S.planSlotMsgs.push({r:"a",t:`✓ <strong>${esc(data.name)}</strong> (${data.kcal} kcal) für ${day} als ${meal} eingetragen!`});
+      toast(`✓ ${data.name} eingetragen`);
+    }else S.planSlotMsgs.push({r:"a",t:"Konnte kein Gericht erstellen. Versuche eine andere Beschreibung."});
+  }catch(e){S.planSlotMsgs.push({r:"a",t:"⚠️ "+esc(e.message)})}
+  S.planSlotLoading=false;render();scrollChat("slotchat");
 }
-
+ 
+function addDishToPlanSlot(dishId){
+  const d=S.dishes.find(x=>x.id===dishId);if(!d||!S.planSlot)return;
+  const{day,meal}=S.planSlot;
+  if(!S.plan[day])S.plan[day]={};
+  S.plan[day][meal]={name:d.name,kcal:d.kcal||0,protein:d.protein||0,fat:d.fat||0,carbs:d.carbs||0,fiber:d.fiber||0,ingredients:d.ingredients||[]};
+  saveLocal();closeModal();toast(`✓ "${d.name}" am ${day} als ${meal}`);
+}
+ 
+function removePlanSlot(day,meal){
+  if(S.plan[day])delete S.plan[day][meal];
+  saveLocal();render();
+}
+ 
+async function generatePlan(prefs){
+  S.modal=null;S.planLoading=true;render();
+  try{
+    const sys=`Du bist Ernährungsexperte. Erstelle einen vollständigen 7-Tage-Ernährungsplan. NUR JSON, kein Text.
+Format: {"Montag":{"Frühstück":{"name":"...","kcal":400,"protein":20,"fat":10,"carbs":55,"fiber":8,"ingredients":[{"name":"...","qty":"..."}]},"Mittagessen":{...},"Abendessen":{...},"Snack":{...}},...alle 7 Tage}`;
+    const saved=S.dishes.length?`Baue bevorzugt diese Gerichte ein: ${S.dishes.map(d=>d.name).join(", ")}.`:"";
+    const data=await claude(sys,`Plan für: ${prefs}. ${saved}`);
+    if(data&&data["Montag"]){S.plan=data;saveLocal();toast("✓ Wochenplan erstellt!")}
+    else toast("⚠️ Fehler – bitte erneut versuchen");
+  }catch(e){toast("⚠️ "+e.message)}
+  S.planLoading=false;render();
+}
+ 
 async function planToShop(){
-  let count=0;
-  for(const dayMeals of Object.values(state.plan)){
-    for(const meal of Object.values(dayMeals)){
-      for(const ing of (meal.ingredients||[])){
-        if(ing.name){
-          const item={id:uid(),name:ing.name,qty:ing.qty||"",done:false,source:"Wochenplan"};
-          state.shopping.push(item);
-          await shopAdd(item);
-          count++;
-        }
-      }
-    }
+  let n=0;
+  for(const dayMeals of Object.values(S.plan))for(const meal of Object.values(dayMeals))for(const ig of(meal.ingredients||[])){
+    if(ig.name){const item={id:uid(),name:ig.name,qty:ig.qty||"",done:false,source:"Wochenplan"};S.shopping.push(item);await shopAdd(item);n++;}
   }
-  toast(`✓ ${count} Artikel zur Einkaufsliste`);
-  setTab("shopping");
+  toast(`✓ ${n} Artikel hinzugefügt`);setTab("shopping");
 }
-
-// ═══════════════════════════════════════════════════════════════════
-// SHOPPING PAGE  ← THE MAIN EVENT
-// ═══════════════════════════════════════════════════════════════════
+ 
+// ═══════════════════════════════════════════════
+// SHOPPING PAGE
+// ═══════════════════════════════════════════════
 function renderShopping(){
-  const undone=state.shopping.filter(i=>!i.done);
-  const done=state.shopping.filter(i=>i.done);
-  const liveHtml=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-    <div class="live-badge${state.liveConnected?"":" off"}">
-      <div class="live-dot"></div>
-      ${state.liveConnected?"Live synchronisiert":"Verbindung wird hergestellt…"}
-    </div>
-  </div>`;
-
-  // Group undone by source
-  const grp={};
-  undone.forEach(i=>{ const s=i.source||"Manuell"; if(!grp[s])grp[s]=[]; grp[s].push(i); });
-
-  const undoneSections=Object.entries(grp).map(([src,items])=>`
-    <div class="slbl" style="margin-top:12px">${esc(src)}</div>
-    ${items.map(item=>renderShopItem(item)).join("")}`).join("");
-
-  const doneSection=done.length?`
-    <div class="cat-label" style="margin-top:16px">
-      <span class="slbl" style="margin-bottom:0">✓ Erledigt (${done.length})</span>
-      <button class="btn bd bsm" onclick="doClearDone()">Alle löschen</button>
-    </div>
-    ${done.map(item=>renderShopItem(item)).join("")}`:"";
-
+  // Consolidate undone items
+  const undone=consolidateShop(S.shopping.filter(i=>!i.done));
+  const done=S.shopping.filter(i=>i.done);
+  const grp={};undone.forEach(i=>{const s=i.source||"Manuell";if(!grp[s])grp[s]=[];grp[s].push(i);});
+ 
   return`<div class="ptitle">Einkaufs-<em>liste</em></div>
-    <div class="psub">${undone.length} offen · ${done.length} erledigt</div>
-    ${liveHtml}
-    <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap">
-      <button class="btn bg bsm" onclick="state.modal='addshop';render()">+ Artikel hinzufügen</button>
+    <div class="psub">${undone.length} Artikel offen · ${done.length} erledigt</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px">
+      <div class="live-badge${S.live?"":" off"}"><div class="live-dot"></div>${S.live?"Live synchronisiert":"Verbindung…"}</div>
     </div>
-    <div class="shopwrap">
-      ${state.shopping.length===0?`<div class="empty">Einkaufsliste ist leer.<br>Füge Artikel hinzu oder generiere einen Wochenplan.</div>`:""}
-      ${undoneSections}
-      ${doneSection}
-    </div>`;
+    <div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
+      <button class="btn bg bsm" onclick="S.modal='addshop';render()">+ Artikel hinzufügen</button>
+      ${done.length?`<button class="btn bd bsm" onclick="doClearDone()">🗑 Erledigte löschen</button>`:""}
+    </div>
+    ${S.shopping.length===0?`<div class="empty">Einkaufsliste ist leer.</div>`:""}
+    ${Object.entries(grp).map(([src,items])=>`
+      <div class="slbl" style="margin-top:11px">${esc(src)}</div>
+      ${items.map(renderShopItem).join("")}`).join("")}
+    ${done.length?`<div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:7px">
+      <span class="slbl" style="margin-bottom:0">✓ Erledigt (${done.length})</span>
+    </div>${done.map(renderShopItem).join("")}`:""}`;
 }
-
+ 
 function renderShopItem(item){
-  return`<div class="sitem${item.done?" dk":""}" id="si_${item.id}">
+  return`<div class="sitem${item.done?" dk":""}">
     <button class="scb${item.done?" done":""}" onclick="doToggle('${item.id}')">
-      ${item.done?`<svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M1.5 5.5L5 9L11.5 2" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`:""}
+      ${item.done?`<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`:""}
     </button>
     <div style="flex:1;min-width:0">
       <div class="sname">${esc(item.name)}</div>
-      ${item.qty?`<div class="sqty">${esc(item.qty)}</div>`:""}
       ${item.source?`<div class="ssrc">${esc(item.source)}</div>`:""}
     </div>
-    <button class="btn bic bd" onclick="doDelete('${item.id}')">✕</button>
+    ${item.qty?`<div class="sqty">${esc(item.qty)}</div>`:""}
+    <button class="btn bic bd" onclick="doDelShop('${item.id}')">✕</button>
   </div>`;
 }
-
+ 
 async function doToggle(id){
-  const item=state.shopping.find(x=>x.id===id);
-  if(!item)return;
-  item.done=!item.done;
-  render();
-  await shopToggle(id, item.done);
+  const item=S.shopping.find(x=>x.id===id);if(!item)return;
+  item.done=!item.done;render();await shopToggleFb(id,item.done);
 }
-async function doDelete(id){
-  state.shopping=state.shopping.filter(x=>x.id!==id);
-  render();
-  await shopDelete(id);
-}
+async function doDelShop(id){S.shopping=S.shopping.filter(x=>x.id!==id);render();await shopDelFb(id);}
 async function doClearDone(){
-  const done=state.shopping.filter(i=>i.done).map(i=>i.id);
-  state.shopping=state.shopping.filter(i=>!i.done);
-  render();
-  for(const id of done) await shopDelete(id);
+  const ids=S.shopping.filter(i=>i.done).map(i=>i.id);
+  S.shopping=S.shopping.filter(i=>!i.done);render();
+  for(const id of ids)await shopDelFb(id);
 }
 async function doAddShop(name,qty,source){
   if(!name.trim())return;
-  const item={id:uid(),name:name.trim(),qty:qty.trim(),done:false,source:source||"Manuell"};
-  state.shopping.push(item);
-  render();
-  await shopAdd(item);
+  const item={id:uid(),name:name.trim(),qty:(qty||"").trim(),done:false,source:source||"Manuell"};
+  S.shopping.push(item);render();await shopAdd(item);
 }
-
-// ═══════════════════════════════════════════════════════════════════
+ 
+// ═══════════════════════════════════════════════
 // DIARY PAGE
-// ═══════════════════════════════════════════════════════════════════
-function renderProgressBar(label, current, goal, color){
-  const pct = Math.min(100, Math.round((current/goal)*100));
-  const over = current > goal;
-  return `<div class="pbar-row">
+// ═══════════════════════════════════════════════
+function pbar(label,cur,goal,color){
+  const pct=Math.min(100,goal>0?Math.round(cur/goal*100):0);
+  const over=cur>goal;
+  return`<div class="pbar-row">
     <div class="pbar-top">
       <span class="pbar-label">${label}</span>
-      <span class="pbar-val" style="color:${over?"var(--or)":color}">${current} / ${goal}${label==="Kalorien"?" kcal":" g"} <span style="font-weight:400;color:var(--mu)">(${pct}%)</span></span>
+      <span class="pbar-val" style="color:${over?"var(--or)":color}">${cur} / ${goal}${label==="Kalorien"?" kcal":" g"} <span style="font-weight:400;color:var(--mu)">(${pct}%)</span></span>
     </div>
-    <div class="pbar-track">
-      <div class="pbar-fill${over?" over":""}" style="width:${pct}%;background:${color}"></div>
-    </div>
+    <div class="pbar-track"><div class="pbar-fill${over?" over":""}" style="width:${pct}%;background:${color}"></div></div>
   </div>`;
 }
-
+ 
 function renderDiary(){
-  const u = state.activeUser;
-  const g = state.goals[u];
-  const todayEntries = state.diary[today()]||[];
-  const tm = todayEntries.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0)}),{kcal:0,p:0,f:0,c:0});
-  const total=es=>es.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0)}),{kcal:0,p:0,f:0,c:0});
-
-  const userSw=`<div class="user-sw">
-    <button class="user-sw-btn${u==="du"?" on":""}" onclick="state.activeUser='du';saveLocal();render()">👤 ${state.goals.du.name}</button>
-    <button class="user-sw-btn${u==="frau"?" on":""}" onclick="state.activeUser='frau';saveLocal();render()">👤 ${state.goals.frau.name}</button>
-  </div>`;
-
-  const krest = Math.max(0, g.kcal - tm.kcal);
-  const todayCard=`<div class="card" style="margin-bottom:14px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+  const u=S.activeUser,g=S.goals[u];
+  const te=S.diary[today()]||[];
+  const tm=te.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0),fi:a.fi+(e.fiber||0)}),{kcal:0,p:0,f:0,c:0,fi:0});
+  const tot=es=>es.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0),fi:a.fi+(e.fiber||0)}),{kcal:0,p:0,f:0,c:0,fi:0});
+  const krest=Math.max(0,g.kcal-tm.kcal);
+ 
+  const todayCard=`<div class="card" style="margin-bottom:13px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
       <div>
         <div style="font-size:10px;color:var(--mu);letter-spacing:.08em">HEUTE · ${g.name.toUpperCase()} · ${g.ziel.toUpperCase()}</div>
-        <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--gr);line-height:1">${tm.kcal}<span style="font-size:16px;font-weight:400"> kcal</span></div>
+        <div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--gr);line-height:1">${tm.kcal}<span style="font-size:15px;font-weight:400"> kcal</span></div>
       </div>
       <div style="text-align:right">
         <div style="font-size:10px;color:var(--mu)">NOCH OFFEN</div>
-        <div style="font-size:22px;font-weight:700;color:${krest===0?"var(--or)":"var(--ink)"}">${krest} kcal</div>
+        <div style="font-size:20px;font-weight:700;color:${krest===0?"var(--or)":"var(--ink)"}">${krest} kcal</div>
         <div style="font-size:10px;color:var(--mu)">Ziel: ${g.kcal} kcal</div>
       </div>
     </div>
-    <div class="pbar-wrap">
-      ${renderProgressBar("Kalorien", tm.kcal, g.kcal, "var(--go)")}
-      ${renderProgressBar("Protein", tm.p, g.protein, "var(--bl)")}
-      ${renderProgressBar("Kohlenhydrate", tm.c, g.carbs, "var(--gr)")}
-      ${renderProgressBar("Fett", tm.f, g.fat, "var(--or)")}
-    </div>
-    <div style="display:flex;gap:6px;justify-content:flex-end">
-      <button class="btn bgh bsm" onclick="state.modal='goals';render()">⚙️ Ziele anpassen</button>
+    ${pbar("Kalorien",tm.kcal,g.kcal,"var(--go)")}
+    ${pbar("Protein",tm.p,g.protein,"var(--bl)")}
+    ${pbar("Kohlenhydrate",tm.c,g.carbs,"var(--gr)")}
+    ${pbar("Fett",tm.f,g.fat,"var(--or)")}
+    ${pbar("Ballaststoffe",tm.fi,g.fiber||30,"var(--pu)")}
+    <div style="display:flex;justify-content:flex-end;margin-top:8px">
+      <button class="btn bgh bsm" onclick="S.modal='goals';render()">⚙️ Ziele</button>
     </div>
   </div>`;
-
-  const entries=Object.entries(state.diary).sort((a,b)=>b[0].localeCompare(a[0])).map(([date,es])=>{
-    const m=total(es);
+ 
+  const entries=Object.entries(S.diary).sort((a,b)=>b[0].localeCompare(a[0])).map(([date,es])=>{
+    const m=tot(es);
     return`<div class="card">
-      <div style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--gr);margin-bottom:9px">${fmtD(date)}</div>
+      <div style="font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gr);margin-bottom:8px">${fmtD(date)}</div>
       ${es.map(e=>`<div class="drow">
         <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:500">${esc(e.name)}</div>
           ${e.portionNote?`<div style="font-size:11px;color:var(--mu)">${esc(e.portionNote)}</div>`:""}
         </div>
-        <div style="text-align:right;flex-shrink:0">
-          <div style="color:var(--go);font-size:13px;font-weight:700">${e.kcal||0} kcal</div>
-          <div style="font-size:10px;color:var(--mu)">${e.protein||0}g P · ${e.carbs||0}g KH</div>
+        <div style="text-align:right;flex-shrink:0;margin-right:4px">
+          <div style="color:var(--go);font-size:12px;font-weight:700">${e.kcal||0} kcal</div>
+          <div style="font-size:10px;color:var(--mu)">${e.protein||0}g P · ${e.fiber||0}g Bst.</div>
         </div>
         <button class="btn bic bd" onclick="delLog('${date}','${e.id}')">✕</button>
       </div>`).join("")}
-      <div class="chips" style="margin-top:9px">
+      <div class="chips" style="margin-top:8px">
         <span class="chip ck">🔥 ${m.kcal} kcal</span>
         <span class="chip cp">💪 ${m.p}g P</span>
         <span class="chip cf">🧈 ${m.f}g F</span>
         <span class="chip cc">🌾 ${m.c}g KH</span>
+        <span class="chip cfi">🌿 ${m.fi}g Bst.</span>
       </div>
     </div>`;
   }).join("");
-
+ 
   return`<div class="ptitle">Ernährungs-<em>log</em></div>
     <div class="psub">Heute: ${fmtD(today())}</div>
-    ${userSw}
+    <div class="user-sw">
+      <button class="user-sw-btn${u==="du"?" on":""}" onclick="S.activeUser='du';saveLocal();render()">👤 ${S.goals.du.name}</button>
+      <button class="user-sw-btn${u==="frau"?" on":""}" onclick="S.activeUser='frau';saveLocal();render()">👤 ${S.goals.frau.name}</button>
+    </div>
     ${todayCard}
-    <button class="btn bg" style="margin-bottom:16px" onclick="state.modal='diary';state.mdata={mode:'${state.dishes.length?"dish":"custom"}',sel:null,portions:'1',gram:'',date:'${today()}',search:'',custom:{name:'',kcal:'',protein:'',fat:'',carbs:''}};render()">+ Eintrag hinzufügen</button>
-    ${Object.keys(state.diary).length===0?`<div class="empty">Noch keine Einträge.</div>`:""}${entries}`;
+    <button class="btn bg" style="margin-bottom:14px" onclick="openDiaryModal()">+ Eintrag hinzufügen</button>
+    ${Object.keys(S.diary).length===0?`<div class="empty">Noch keine Einträge.</div>`:""}${entries}`;
 }
-
-function delLog(date,id){ if(state.diary[date])state.diary[date]=state.diary[date].filter(e=>e.id!==id); saveLocal(); render(); }
-
-// ═══════════════════════════════════════════════════════════════════
+ 
+function openDiaryModal(){
+  S.logMode=S.dishes.length?"dish":"food";
+  S.logSel=null;S.logPortions="1";S.logGram="";S.logDate=today();S.logSearch="";
+  S.logFoodSearch="";S.logFoodResult=null;S.logFoodLoading=false;
+  S.logPhotoB64=null;S.logPhotoLoading=false;S.logPhotoResult=null;
+  S.logCustom={name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""};
+  S.modal="diary";render();
+}
+ 
+function delLog(date,id){if(S.diary[date])S.diary[date]=S.diary[date].filter(e=>e.id!==id);saveLocal();render()}
+ 
+function renderDiaryModal(){
+  const modes=[
+    {id:"dish",label:"📋 Mein Gericht"},
+    {id:"food",label:"🔍 Lebensmittel"},
+    {id:"photo",label:"📸 Foto / Text"},
+    {id:"manual",label:"✏️ Manuell"},
+  ];
+  if(!S.dishes.length)modes.shift();// remove dish mode if no dishes
+  const f=S.logGram?parseFloat(S.logGram)/100:parseFloat(S.logPortions)||1;
+  const preview=S.logSel?`<div class="chips" style="margin-bottom:10px">
+    <span class="chip ck">🔥 ${Math.round((S.logSel.kcal||0)*f)} kcal</span>
+    <span class="chip cp">💪 ${Math.round((S.logSel.protein||0)*f*10)/10}g P</span>
+    <span class="chip cfi">🌿 ${Math.round((S.logSel.fiber||0)*f*10)/10}g Bst.</span>
+  </div>`:"";
+ 
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Eintrag loggen</div>
+    <div class="field"><label>Datum</label><input type="date" value="${S.logDate}" onchange="S.logDate=this.value"/></div>
+    <div style="display:flex;gap:6px;margin-bottom:13px;flex-wrap:wrap">
+      ${modes.map(m=>`<button class="btn bsm${S.logMode===m.id?" bg":" bo"}" onclick="S.logMode='${m.id}';render()">${m.label}</button>`).join("")}
+    </div>
+ 
+    ${S.logMode==="dish"?`
+      <div class="field"><input value="${esc(S.logSearch)}" oninput="S.logSearch=this.value;render()" placeholder="🔍 Gericht suchen…"/></div>
+      <div style="max-height:170px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:4px">
+        ${S.dishes.filter(d=>d.name.toLowerCase().includes(S.logSearch.toLowerCase())).map(d=>`
+          <div style="padding:8px 10px;border-radius:7px;cursor:pointer;background:${S.logSel?.id===d.id?"var(--gl)":"transparent"};display:flex;align-items:center;gap:8px"
+            onclick="S.logSel=${JSON.stringify(d).replace(/"/g,"&quot;")};render()">
+            <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
+            <div style="font-size:11px;color:var(--go)">${d.kcal||0} kcal</div>
+            ${S.logSel?.id===d.id?`<span style="color:var(--gr);font-weight:700">✓</span>`:""}
+          </div>`).join("")}
+      </div>
+      ${S.logSel?`<div class="r2">
+        <div class="field"><label>Portionen</label><input type="number" value="${S.logPortions}" step=".5" oninput="S.logPortions=this.value;render()"/></div>
+        <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" oninput="S.logGram=this.value;render()"/></div>
+      </div>${preview}`:""}`:""}
+ 
+    ${S.logMode==="food"?`
+      <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Die KI sucht Nährwerte für jedes Lebensmittel mit Mengenangabe.</div>
+      <div class="airow">
+        <input id="foodIn" placeholder="z.B. 200g Magerquark oder 1 Banane" onkeydown="if(event.key==='Enter')searchFood()" value="${esc(S.logFoodSearch)}"/>
+        <button class="btn bg" onclick="searchFood()" ${S.logFoodLoading?"disabled":""}>${S.logFoodLoading?"…":"🔍"}</button>
+      </div>
+      ${S.logFoodLoading?`<div class="ai-analyzing" style="background:var(--gol);border-radius:var(--r);padding:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--go);font-weight:600;margin-bottom:10px">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>KI sucht Nährwerte…
+      </div>`:""}
+      ${S.logFoodResult?`<div class="card" style="margin-bottom:10px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px">${esc(S.logFoodResult.name)}</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:6px">${esc(S.logFoodResult.portionNote||"")}</div>
+        <div class="chips">${macroChips(S.logFoodResult)}</div>
+      </div>`:""}
+    `:""}
+ 
+    ${S.logMode==="photo"?`
+      <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Lade ein Foto hoch oder beschreibe deine Mahlzeit – die KI berechnet die Nährwerte.</div>
+      ${S.logPhotoB64?`<img src="data:image/jpeg;base64,${S.logPhotoB64}" class="photo-preview"/>`:""}
+      <div class="photo-area" onclick="document.getElementById('photoIn').click()" style="margin-bottom:10px">
+        <div style="font-size:24px;margin-bottom:6px">📸</div>
+        <div style="font-size:13px;font-weight:600;color:var(--mu)">${S.logPhotoB64?"Anderes Foto wählen":"Foto tippen zum Hochladen"}</div>
+      </div>
+      <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
+      <div class="airow">
+        <input id="photoText" placeholder="Oder beschreiben: 3 Kugeln Eis, 1 Cappuccino…" onkeydown="if(event.key==='Enter')analyzeFood()"/>
+        <button class="btn bpu" onclick="analyzeFood()" ${S.logPhotoLoading?"disabled":""}>${S.logPhotoLoading?"…":"✨"}</button>
+      </div>
+      ${S.logPhotoLoading?`<div style="background:var(--gol);border-radius:var(--r);padding:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--go);font-weight:600;margin-bottom:10px">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>KI analysiert…
+      </div>`:""}
+      ${S.logPhotoResult?`<div class="card" style="margin-bottom:10px">
+        <div style="font-size:13px;font-weight:700;margin-bottom:5px">${esc(S.logPhotoResult.name)}</div>
+        <div class="chips">${macroChips(S.logPhotoResult)}</div>
+      </div>`:""}
+    `:""}
+ 
+    ${S.logMode==="manual"?`
+      <div class="field"><label>Name</label><input value="${esc(S.logCustom.name||"")}" oninput="S.logCustom.name=this.value" autofocus/></div>
+      <div class="r3">
+        ${["kcal","protein","fat"].map((k,i)=>`<div class="field"><label>${["kcal","Prot. g","Fett g"][i]}</label>
+          <input type="number" value="${S.logCustom[k]||""}" oninput="S.logCustom['${k}']=this.value"/></div>`).join("")}
+      </div>
+      <div class="r2">
+        ${["carbs","fiber"].map((k,i)=>`<div class="field"><label>${["KH g","Bst. g"][i]}</label>
+          <input type="number" value="${S.logCustom[k]||""}" oninput="S.logCustom['${k}']=this.value"/></div>`).join("")}
+      </div>
+    `:""}
+ 
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="submitLog()">Eintragen</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+ 
+async function searchFood(){
+  const el=document.getElementById("foodIn");if(!el)return;
+  const q=el.value.trim();if(!q)return;
+  S.logFoodSearch=q;S.logFoodLoading=true;S.logFoodResult=null;render();
+  try{
+    const sys=`Du bist Ernährungsexperte. Der Nutzer nennt ein Lebensmittel mit Menge. Gib NUR ein JSON-Objekt zurück:
+{"name":"Magerquark (200g)","portionNote":"200 g","kcal":140,"protein":28,"fat":1,"carbs":6,"fiber":0}
+Nährwerte realistisch für die genannte Menge. fiber immer angeben.`;
+    const data=await claude(sys,q);
+    if(data&&data.name){S.logFoodResult=data;S.logSel=data;}
+  }catch(e){}
+  S.logFoodLoading=false;render();
+}
+ 
+function handlePhoto(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{S.logPhotoB64=e.target.result.split(",")[1];render();};
+  reader.readAsDataURL(file);
+}
+ 
+async function analyzeFood(){
+  const textEl=document.getElementById("photoText");
+  const textDesc=textEl?textEl.value.trim():"";
+  if(!S.logPhotoB64&&!textDesc)return;
+  S.logPhotoLoading=true;S.logPhotoResult=null;render();
+  try{
+    const sys=`Du bist Ernährungsexperte. Analysiere das Foto ODER die Beschreibung und schätze die Nährwerte.
+Antworte NUR als JSON: {"name":"...","kcal":400,"protein":8,"fat":15,"carbs":55,"fiber":3}
+Sei realistisch bei den Schätzungen. fiber immer angeben. Kein Text davor/danach.`;
+    const prompt=textDesc?`Beschreibung: ${textDesc}`:"Was ist auf diesem Bild? Schätze die Nährwerte.";
+    const data=await claude(sys,prompt,S.logPhotoB64||null);
+    if(data&&data.name){S.logPhotoResult=data;S.logSel=data;}
+  }catch(e){}
+  S.logPhotoLoading=false;render();
+}
+ 
+function submitLog(){
+  let e=null;
+  if((S.logMode==="dish"||S.logMode==="food"||S.logMode==="photo")&&S.logSel){
+    const f=S.logGram?parseFloat(S.logGram)/100:parseFloat(S.logPortions)||1;
+    const note=S.logGram?`${S.logGram}g`:(parseFloat(S.logPortions)!==1?`${S.logPortions}×`:"");
+    e={id:uid(),name:S.logSel.name,kcal:Math.round((S.logSel.kcal||0)*f),protein:Math.round((S.logSel.protein||0)*f*10)/10,fat:Math.round((S.logSel.fat||0)*f*10)/10,carbs:Math.round((S.logSel.carbs||0)*f*10)/10,fiber:Math.round((S.logSel.fiber||0)*f*10)/10,portionNote:note,date:S.logDate};
+  }else if(S.logMode==="manual"&&S.logCustom.name){
+    e={id:uid(),name:S.logCustom.name,kcal:parseFloat(S.logCustom.kcal)||0,protein:parseFloat(S.logCustom.protein)||0,fat:parseFloat(S.logCustom.fat)||0,carbs:parseFloat(S.logCustom.carbs)||0,fiber:parseFloat(S.logCustom.fiber)||0,portionNote:"",date:S.logDate};
+  }
+  if(!e)return;
+  if(!S.diary[e.date])S.diary[e.date]=[];
+  S.diary[e.date].push(e);
+  saveLocal();closeModal();toast("✓ Geloggt");
+}
+ 
+// ═══════════════════════════════════════════════
 // WEIGHT PAGE
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function renderWeight(){
-  const logs=state.weight;
-  const latest=logs.length?logs[logs.length-1]:null;
-  const l14=logs.slice(-14);
-  const vals=l14.map(w=>w.kg);
-  const mn=vals.length?Math.min(...vals)-1.5:60;
-  const mx=vals.length?Math.max(...vals)+1.5:100;
-  const rng=mx-mn||1;
+  const logs=S.weight,latest=logs.length?logs[logs.length-1]:null;
+  const l14=logs.slice(-14),vals=l14.map(w=>w.kg);
+  const mn=vals.length?Math.min(...vals)-1.5:60,mx=vals.length?Math.max(...vals)+1.5:100,rng=mx-mn||1;
   const diff=logs.length>=2?((latest.kg-logs[logs.length-2].kg).toFixed(1)):null;
-
-  const chart=l14.length>=2?`<div class="card" style="margin-bottom:13px">
+  const chart=l14.length>=2?`<div class="card" style="margin-bottom:12px">
     <div class="slbl">Verlauf (letzte ${l14.length})</div>
-    <div class="wchart">
-      ${l14.map((w,i)=>{
-        const h=Math.max(4,((w.kg-mn)/rng)*64);
-        const isLast=i===l14.length-1;
-        return`<div class="wb">
-          <div style="font-size:8.5px;color:var(--gr);margin-bottom:2px;font-weight:700">${w.kg}</div>
-          <div class="wbar" style="height:${h}px;background:${isLast?"var(--gr)":"var(--gl)"};border:1px solid var(--gr)"></div>
-          <div class="wlbl">${fmtShort(w.date)}</div>
-        </div>`;
-      }).join("")}
+    <div class="wchart">${l14.map((w,i)=>{const h=Math.max(4,((w.kg-mn)/rng)*64),last=i===l14.length-1;
+      return`<div class="wb"><div style="font-size:8px;color:var(--gr);margin-bottom:2px;font-weight:700">${w.kg}</div>
+      <div class="wbar" style="height:${h}px;background:${last?"var(--gr)":"var(--gl)"};border:1px solid var(--gr)"></div>
+      <div class="wlbl">${fmtShort(w.date)}</div></div>`;}).join("")}
     </div>
   </div>`:"";
-
-  return`<div class="ptitle">Körper-<em>gewicht</em></div>
-    <div class="psub">Fortschritt verfolgen</div>
-    ${latest?`<div class="card" style="text-align:center;margin-bottom:13px">
-      <div style="font-size:10px;color:var(--mu);letter-spacing:.08em;margin-bottom:7px">AKTUELL</div>
-      <div class="wbig">${latest.kg}<span style="font-size:24px;font-weight:400"> kg</span></div>
+  return`<div class="ptitle">Körper-<em>gewicht</em></div><div class="psub">Fortschritt verfolgen</div>
+    ${latest?`<div class="card" style="text-align:center;margin-bottom:12px">
+      <div style="font-size:10px;color:var(--mu);letter-spacing:.08em;margin-bottom:6px">AKTUELL</div>
+      <div class="wbig">${latest.kg}<span style="font-size:22px;font-weight:400"> kg</span></div>
       <div style="font-size:12px;color:var(--mu);margin-top:4px">${fmtD(latest.date)}</div>
-      ${diff!==null?`<div style="font-size:15px;font-weight:700;margin-top:8px;color:${parseFloat(diff)<0?"var(--gr)":"var(--or)"}">${parseFloat(diff)>0?"+":""}${diff} kg</div>`:""}
+      ${diff!==null?`<div style="font-size:14px;font-weight:700;margin-top:8px;color:${parseFloat(diff)<0?"var(--gr)":"var(--or)"}">${parseFloat(diff)>0?"+":""}${diff} kg</div>`:""}
     </div>`:""}
     ${chart}
     <div class="card">
@@ -1065,179 +1113,132 @@ function renderWeight(){
       <button class="btn bg" onclick="doLogWeight()">Speichern</button>
     </div>
     <div class="div"></div>
-    ${logs.length>0?[...logs].reverse().map(w=>`
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--br)">
-        <span style="color:var(--mu);font-size:13px">${fmtD(w.date)}</span>
-        <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700">${w.kg} kg</span>
-      </div>`).join(""):`<div class="empty">Noch kein Gewicht eingetragen.</div>`}`;
+    ${logs.length?[...logs].reverse().map(w=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--br)">
+      <span style="color:var(--mu);font-size:13px">${fmtD(w.date)}</span>
+      <span style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700">${w.kg} kg</span>
+    </div>`).join(""):`<div class="empty">Noch kein Gewicht eingetragen.</div>`}`;
 }
-
 function doLogWeight(){
   const kg=parseFloat(document.getElementById("wkg")?.value);
   const date=document.getElementById("wdate")?.value||today();
-  if(!kg){alert("Bitte Gewicht eingeben");return;}
-  state.weight=state.weight.filter(w=>w.date!==date);
-  state.weight.push({kg,date});
-  state.weight.sort((a,b)=>a.date.localeCompare(b.date));
-  saveLocal(); toast("✓ "+kg+" kg gespeichert"); render();
+  if(!kg)return;
+  S.weight=S.weight.filter(w=>w.date!==date);S.weight.push({kg,date});S.weight.sort((a,b)=>a.date.localeCompare(b.date));
+  saveLocal();toast("✓ "+kg+" kg gespeichert");render();
 }
-
-// ═══════════════════════════════════════════════════════════════════
+ 
+// ═══════════════════════════════════════════════
 // MODALS
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function renderModal(){
-  if(state.modal==="plan") return renderPlanModal();
-  if(state.modal==="diary") return renderDiaryModal();
-  if(state.modal==="addshop") return renderAddShopModal();
-  if(state.modal==="goals") return renderGoalsModal();
-  if(state.modal==="addtoplan") return renderAddToPlanModal();
+  if(S.modal==="genplan") return renderGenPlanModal();
+  if(S.modal==="planslot") return renderPlanSlotModal();
+  if(S.modal==="diary") return renderDiaryModal();
+  if(S.modal==="addshop") return renderAddShopModal();
+  if(S.modal==="addtoplan") return renderAddToPlanModal();
+  if(S.modal==="goals") return renderGoalsModal();
   return"";
 }
-
-function renderPlanModal(){
+ 
+function renderGenPlanModal(){
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-      <div class="mtitle">Wochenplan erstellen</div>
-      <div class="field"><label>Deine Ziele & Vorlieben</label>
-        <textarea id="planPrefs" placeholder="z.B. Muskelaufbau, ~2400 kcal/Tag, kein Schweinefleisch, schnelle Gerichte unter 30 min, deutsch-mediterran" style="min-height:90px"></textarea>
-      </div>
-      <div style="font-size:12px;color:var(--mu);margin-bottom:14px;line-height:1.6">
-        💡 Die KI erstellt einen vollständigen Plan für alle 7 Tage mit 4 Mahlzeiten. Das dauert ~20 Sek.
-      </div>
-      <div class="mact">
-        <button class="btn bg" style="flex:1" onclick="generatePlan(document.getElementById('planPrefs').value)">✨ Generieren</button>
-        <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-      </div>
+  <div class="modal">
+    <div class="mtitle">Wochenplan erstellen</div>
+    <div class="field"><label>Ziele & Vorlieben</label>
+      <textarea id="planPrefs" placeholder="z.B. Muskelaufbau, ~2400 kcal/Tag, kein Schweinefleisch, schnell zubereitet" style="min-height:80px"></textarea>
     </div>
-  </div>`;
-}
-
-function renderDiaryModal(){
-  const md=state.mdata||{mode:"custom",sel:null,portions:"1",gram:"",date:today(),search:"",custom:{name:"",kcal:"",protein:"",fat:"",carbs:""}};
-  if(!state.mdata)state.mdata=md;
-  const filtered=state.dishes.filter(d=>d.name.toLowerCase().includes((md.search||"").toLowerCase()));
-  const f=md.gram?parseFloat(md.gram)/100:parseFloat(md.portions)||1;
-  const preview=md.sel&&md.mode==="dish"?`<div class="chips" style="margin-bottom:10px">
-    <span class="chip ck">🔥 ${Math.round((md.sel.kcal||0)*f)} kcal</span>
-    <span class="chip cp">💪 ${Math.round((md.sel.protein||0)*f*10)/10}g P</span>
-    <span class="chip cc">🌾 ${Math.round((md.sel.carbs||0)*f*10)/10}g KH</span>
-  </div>`:"";
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-      <div class="mtitle">Eintrag loggen</div>
-      <div class="field"><label>Datum</label><input type="date" value="${md.date}" onchange="state.mdata.date=this.value"/></div>
-      <div style="display:flex;gap:7px;margin-bottom:13px">
-        ${state.dishes.length?`<button class="btn bsm ${md.mode==="dish"?"bg":"bo"}" onclick="state.mdata.mode='dish';render()">Mein Gericht</button>`:""}
-        <button class="btn bsm ${md.mode==="custom"?"bg":"bo"}" onclick="state.mdata.mode='custom';render()">Manuell</button>
-      </div>
-      ${md.mode==="dish"?`
-        <div class="field"><input value="${esc(md.search||"")}" oninput="state.mdata.search=this.value;render()" placeholder="🔍 Gericht suchen…"/></div>
-        <div style="max-height:180px;overflow-y:auto;margin-bottom:11px;border:1px solid var(--br);border-radius:8px;padding:4px">
-          ${filtered.map(d=>`<div style="padding:8px 10px;border-radius:7px;cursor:pointer;background:${md.sel?.id===d.id?"var(--gl)":"transparent"};display:flex;align-items:center;gap:8px" onclick="state.mdata.sel=${JSON.stringify(d).replace(/"/g,"&quot;")};render()">
-            <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
-            <div style="font-size:11px;color:var(--go)">${d.kcal} kcal</div>
-            ${md.sel?.id===d.id?`<span style="color:var(--gr);font-weight:700">✓</span>`:""}
-          </div>`).join("")}
-          ${filtered.length===0?`<div style="text-align:center;color:var(--mu);font-size:12px;padding:16px">Kein Gericht gefunden</div>`:""}
-        </div>
-        ${md.sel?`<div class="r2">
-          <div class="field"><label>Portionen</label><input type="number" value="${md.portions}" step=".5" oninput="state.mdata.portions=this.value;render()"/></div>
-          <div class="field"><label>Oder Gramm</label><input type="number" value="${md.gram}" placeholder="z.B. 250" oninput="state.mdata.gram=this.value;render()"/></div>
-        </div>${preview}`:""}
-      `:`
-        <div class="field"><label>Name</label><input value="${esc(md.custom?.name||"")}" oninput="state.mdata.custom.name=this.value" autofocus/></div>
-        <div class="r4">
-          ${["kcal","protein","fat","carbs"].map((k,i)=>`<div class="field"><label>${["kcal","Prot. g","Fett g","Carbs g"][i]}</label>
-            <input type="number" value="${md.custom?.[k]||""}" oninput="state.mdata.custom['${k}']=this.value"/></div>`).join("")}
-        </div>
-      `}
-      <div class="mact">
-        <button class="btn bg" style="flex:1" onclick="submitLog()">Eintragen</button>
-        <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-      </div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:12px">💡 Die KI erstellt alle 7 Tage mit 4 Mahlzeiten. Dauert ~20 Sek.</div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="generatePlan(document.getElementById('planPrefs').value)">✨ Generieren</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
     </div>
-  </div>`;
+  </div></div>`;
 }
-
-function submitLog(){
-  const md=state.mdata; if(!md)return;
-  let e=null;
-  if(md.mode==="dish"&&md.sel){
-    const f=md.gram?parseFloat(md.gram)/100:parseFloat(md.portions)||1;
-    e={id:uid(),name:md.sel.name,kcal:Math.round((md.sel.kcal||0)*f),protein:Math.round((md.sel.protein||0)*f*10)/10,fat:Math.round((md.sel.fat||0)*f*10)/10,carbs:Math.round((md.sel.carbs||0)*f*10)/10,portionNote:md.gram?`${md.gram}g`:`${md.portions}×`,date:md.date};
-  } else if(md.mode==="custom"&&md.custom?.name){
-    e={id:uid(),name:md.custom.name,kcal:parseFloat(md.custom.kcal)||0,protein:parseFloat(md.custom.protein)||0,fat:parseFloat(md.custom.fat)||0,carbs:parseFloat(md.custom.carbs)||0,portionNote:"",date:md.date};
-  }
-  if(!e)return;
-  if(!state.diary[e.date])state.diary[e.date]=[];
-  state.diary[e.date].push(e);
-  saveLocal(); closeModal(); toast("✓ Geloggt");
-}
-
+ 
 function renderAddShopModal(){
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-      <div class="mtitle">Artikel hinzufügen</div>
-      <div class="r2">
-        <div class="field"><label>Artikel</label><input id="sa_name" placeholder="z.B. Tomaten" autofocus/></div>
-        <div class="field"><label>Menge</label><input id="sa_qty" placeholder="z.B. 500 g"/></div>
-      </div>
-      <div class="mact">
-        <button class="btn bg" style="flex:1" onclick="doAddShop(document.getElementById('sa_name').value,document.getElementById('sa_qty').value,'Manuell');closeModal()">Hinzufügen</button>
-        <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-      </div>
+  <div class="modal">
+    <div class="mtitle">Artikel hinzufügen</div>
+    <div class="r2">
+      <div class="field"><label>Artikel</label><input id="sa_n" placeholder="z.B. Tomaten" autofocus/></div>
+      <div class="field"><label>Menge</label><input id="sa_q" placeholder="z.B. 500 g"/></div>
     </div>
-  </div>`;
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="doAddShop(document.getElementById('sa_n').value,document.getElementById('sa_q').value,'Manuell');closeModal()">Hinzufügen</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
 }
-
+ 
+function renderAddToPlanModal(){
+  const d=S.dishes.find(x=>x.id===S.mdata?.dishId);if(!d)return"";
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Zum Wochenplan</div>
+    <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:14px">${esc(d.name)}</div>
+    <div class="r2">
+      <div class="field"><label>Tag</label><select id="atp_d">${DAYS.map(day=>`<option value="${day}">${day}</option>`).join("")}</select></div>
+      <div class="field"><label>Mahlzeit</label><select id="atp_m">${MEALS.map(m=>`<option value="${m}">${m}</option>`).join("")}</select></div>
+    </div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="confirmAddToPlan('${d.id}')">📅 Hinzufügen</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+function confirmAddToPlan(id){
+  const d=S.dishes.find(x=>x.id===id);if(!d)return;
+  const day=document.getElementById("atp_d")?.value,meal=document.getElementById("atp_m")?.value;
+  if(!day||!meal)return;
+  if(!S.plan[day])S.plan[day]={};
+  S.plan[day][meal]={name:d.name,kcal:d.kcal||0,protein:d.protein||0,fat:d.fat||0,carbs:d.carbs||0,fiber:d.fiber||0,ingredients:d.ingredients||[]};
+  saveLocal();closeModal();toast(`✓ "${d.name}" am ${day} als ${meal}`);
+}
+ 
 function renderGoalsModal(){
-  const g=state.goals;
-  const row=(who,label)=>`
-    <div style="font-size:13px;font-weight:700;color:var(--gr);margin:14px 0 8px">👤 ${label}</div>
-    <div class="r4">
+  const g=S.goals;
+  const row=(who)=>`
+    <div style="font-size:13px;font-weight:700;color:var(--gr);margin:12px 0 8px">👤 ${g[who].name}</div>
+    <div class="r3">
       <div class="field"><label>kcal</label><input type="number" id="g_${who}_kcal" value="${g[who].kcal}"/></div>
       <div class="field"><label>Protein g</label><input type="number" id="g_${who}_protein" value="${g[who].protein}"/></div>
       <div class="field"><label>Carbs g</label><input type="number" id="g_${who}_carbs" value="${g[who].carbs}"/></div>
+    </div>
+    <div class="r2">
       <div class="field"><label>Fett g</label><input type="number" id="g_${who}_fat" value="${g[who].fat}"/></div>
+      <div class="field"><label>Ballaststoffe g</label><input type="number" id="g_${who}_fiber" value="${g[who].fiber||30}"/></div>
     </div>`;
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-      <div class="mtitle">Tagesziele</div>
-      ${row("du", state.goals.du.name)}
-      <div style="height:1px;background:var(--br);margin:4px 0"></div>
-      ${row("frau", state.goals.frau.name)}
-      <div class="mact">
-        <button class="btn bg" style="flex:1" onclick="saveGoals()">Speichern</button>
-        <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-      </div>
+  <div class="modal">
+    <div class="mtitle">Tagesziele</div>
+    ${row("du")}
+    <div class="div"></div>
+    ${row("frau")}
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="saveGoals()">Speichern</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
     </div>
-  </div>`;
+  </div></div>`;
 }
-
 function saveGoals(){
-  ["du","frau"].forEach(who=>{
-    ["kcal","protein","carbs","fat"].forEach(k=>{
-      const el=document.getElementById(`g_${who}_${k}`);
-      if(el) state.goals[who][k]=parseInt(el.value)||0;
-    });
-  });
-  saveLocal(); closeModal(); toast("✓ Ziele gespeichert");
+  ["du","frau"].forEach(who=>["kcal","protein","carbs","fat","fiber"].forEach(k=>{
+    const el=document.getElementById(`g_${who}_${k}`);if(el)S.goals[who][k]=parseInt(el.value)||0;
+  }));
+  saveLocal();closeModal();toast("✓ Ziele gespeichert");
 }
-
-
+ 
+// ═══════════════════════════════════════════════
+// BIND + INIT
+// ═══════════════════════════════════════════════
 function bindAll(){
-  // allow enter on diary dish search to not submit form
   document.querySelectorAll("input[type=text],input:not([type])").forEach(el=>{
-    el.addEventListener("keydown",e=>{ if(e.key==="Enter")e.preventDefault(); });
+    el.addEventListener("keydown",e=>{if(e.key==="Enter")e.preventDefault()});
   });
 }
-
-// Init
-if(state.setupDone){
-  loadShoppingFromFb().then(()=>{ startLiveSync(); render(); });
-} else {
-  render();
-}
+ 
+if(S.setupDone){
+  shopLoad().then(()=>{startSSE();render();});
+}else render();
 </script>
 </body>
 </html>
+ 
