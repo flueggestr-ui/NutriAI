@@ -20,13 +20,13 @@
 }
 body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
- 
+
 /* NAV */
 .nav{background:var(--sf);border-top:1px solid var(--br);position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;z-index:200;box-shadow:0 -2px 20px #1a100512}
 .nb{flex:1;padding:8px 2px 13px;background:none;border:none;color:var(--mu);cursor:pointer;font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;-webkit-tap-highlight-color:transparent}
 .nb .ni{font-size:20px;line-height:1;transition:transform .2s}
 .nb.on{color:var(--gr)}.nb.on .ni{transform:scale(1.12)}
- 
+
 /* PAGE */
 .page{flex:1;padding:18px 15px 96px;animation:fu .22s ease}
 @keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
@@ -34,10 +34,10 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .ptitle em{font-style:italic;color:var(--gr)}
 .psub{color:var(--mu);font-size:12px;margin-bottom:16px;font-weight:500}
 .slbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:7px}
- 
+
 /* CARD */
 .card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
- 
+
 /* BUTTON */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 15px;border-radius:9px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.03em;transition:all .15s;-webkit-tap-highlight-color:transparent}
 .bg{background:var(--gr);color:#fff}.bg:hover{background:var(--gd)}.bg:active{transform:scale(.97)}
@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .bsm{padding:5px 10px;font-size:11px}
 .bic{width:30px;height:30px;padding:0;justify-content:center;border-radius:8px;font-size:14px}
 .btn:disabled{opacity:.4;cursor:not-allowed}
- 
+
 /* FIELD */
 .field{margin-bottom:11px}
 .field label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
@@ -58,14 +58,14 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .r2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .r5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px}
- 
+
 /* CHIPS */
 .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .chip{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600}
 .ck{background:var(--gol);color:var(--go)}.cp{background:var(--bll);color:var(--bl)}
 .cf{background:var(--ol);color:var(--or)}.cc{background:var(--gl);color:var(--gr)}
 .cfi{background:var(--pul);color:var(--pu)}
- 
+
 /* AI CHAT */
 .aichat{background:var(--bg);border:1.5px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:10px;max-height:200px;overflow-y:auto;scroll-behavior:smooth}
 .msg{margin-bottom:6px;display:flex}
@@ -83,12 +83,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .sug{background:var(--card);border:1.5px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
 .sug:hover,.sug:active{border-color:var(--gr)}.sug.sel{border-color:var(--gr);background:var(--gl)}
 .sugname{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:3px}
- 
+
 /* CATEGORY TABS */
 .cat-tabs{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:14px}
 .cat-tab{flex:1;padding:7px 4px;border:none;border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu);text-align:center;letter-spacing:.03em}
 .cat-tab.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
- 
+
 /* GERICHTE CARD */
 .dish-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
 .dish-header{padding:13px 14px 10px;cursor:pointer}
@@ -97,7 +97,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .portion-btn{width:28px;height:28px;border-radius:7px;border:1.5px solid var(--br2);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gr)}
 .per100{background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:10px}
 .per100-title{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--mu);margin-bottom:5px}
- 
+
 /* SHOPPING */
 .sitem{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:7px;box-shadow:var(--sh);transition:all .3s}
 .sitem.dk{background:var(--card);border-color:var(--br)}
@@ -111,7 +111,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .live-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gl);color:var(--gr);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);animation:pu 1.5s infinite}
 .live-badge.off{background:#fee;color:var(--or)}.live-badge.off .live-dot{background:var(--or)}
- 
+
 /* PLAN */
 .plan-day-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
 .plan-day-hdr{padding:10px 14px;background:var(--card);border-bottom:1px solid var(--br);display:flex;align-items:center}
@@ -124,7 +124,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .pkcal{font-size:11px;color:var(--go);font-weight:700}
 .plan-empty-slot{color:var(--fa);font-size:12px;font-style:italic;flex:1}
 .plan-add-icon{font-size:16px;color:var(--fa)}
- 
+
 /* PROGRESS BARS */
 .pbar-row{margin-bottom:8px}
 .pbar-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
@@ -133,22 +133,22 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .pbar-track{height:8px;background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid var(--br)}
 .pbar-fill{height:100%;border-radius:10px;transition:width .5s ease}
 .pbar-fill.over{background:var(--or)!important}
- 
+
 /* USER SW */
 .user-sw{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:14px}
 .user-sw-btn{flex:1;padding:7px;border:none;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu)}
 .user-sw-btn.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
- 
+
 /* DIARY */
 .drow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--bg)}
- 
+
 /* WEIGHT */
 .wbig{font-family:'Playfair Display',serif;font-size:50px;font-weight:900;line-height:1}
 .wchart{display:flex;align-items:flex-end;gap:3px;height:70px;margin-top:10px}
 .wb{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0}
 .wbar{border-radius:3px 3px 0 0;min-height:3px;width:100%}
 .wlbl{font-size:8px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
- 
+
 /* MODAL */
 .ov{position:fixed;inset:0;background:#1a100552;backdrop-filter:blur(4px);z-index:300;display:flex;align-items:flex-end}
 .modal{background:var(--sf);border-radius:22px 22px 0 0;border-top:2.5px solid var(--gr);padding:20px 16px 36px;width:100%;max-height:94vh;overflow-y:auto;animation:su .26s ease}
@@ -157,24 +157,24 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .mact{display:flex;gap:9px;margin-top:14px}
 .iedit{display:flex;gap:5px;margin-bottom:7px;align-items:center}
 .iedit input{flex:1}.iqty{width:90px;flex-shrink:0}
- 
+
 /* SETUP */
 .setup{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:36px 18px 30px;background:var(--bg)}
 .setup-logo{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;margin-bottom:5px;text-align:center}
 .setup-logo em{font-style:italic;color:var(--gr)}
 .step-box{background:var(--card);border:1px solid var(--br);border-radius:10px;padding:12px 14px;margin-bottom:8px}
 .step-num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--gr);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
- 
+
 /* PHOTO UPLOAD */
 .photo-area{border:2px dashed var(--br2);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
 .photo-area:hover{border-color:var(--gr);background:var(--gl)}
 .photo-preview{width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-bottom:10px}
 .ai-analyzing{display:flex;align-items:center;gap:10px;padding:12px;background:var(--gol);border-radius:var(--r);font-size:13px;color:var(--go);font-weight:600}
- 
+
 /* TOAST */
 .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--gr);color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:700;z-index:400;white-space:nowrap;box-shadow:0 4px 20px #27674944;animation:ti .3s ease}
 @keyframes ti{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
- 
+
 /* MISC */
 .badge{display:inline-block;background:var(--or);color:#fff;border-radius:10px;font-size:9px;padding:1px 6px;margin-left:3px;vertical-align:middle}
 .div{height:1px;background:var(--br);margin:12px 0}
@@ -188,7 +188,7 @@ select option{background:#fff}
 <div id="root"></div>
 <script>
 'use strict';
- 
+
 // ═══════════════════════════════════════════════
 // LOCAL STORAGE
 // ═══════════════════════════════════════════════
@@ -197,7 +197,7 @@ const LS={
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 };
 const K={dishes:"nk4_dishes",diary:"nk4_diary",weight:"nk4_weight",plan:"nk4_plan",cfg:"nk4_cfg",goals:"nk4_goals",user:"nk4_user"};
- 
+
 // ═══════════════════════════════════════════════
 // FIREBASE REST
 // ═══════════════════════════════════════════════
@@ -208,7 +208,7 @@ async function fbGet(p){try{const r=await fetch(fbUrl(p));return r.ok?r.json():n
 async function fbSet(p,d){try{await fetch(fbUrl(p),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})}catch{}}
 async function fbPatch(p,d){try{await fetch(fbUrl(p),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})}catch{}}
 async function fbDel(p){try{await fetch(fbUrl(p),{method:"DELETE"})}catch{}}
- 
+
 function startSSE(){
   if(sseSource){sseSource.close();sseSource=null}
   if(!FB)return;
@@ -232,7 +232,7 @@ async function shopLoad(){const d=await fbGet("shopping");state.shopping=d&&type
 async function shopAdd(item){await fbSet("shopping/"+item.id,{name:item.name,qty:item.qty||"",done:item.done,source:item.source||""})}
 async function shopToggleFb(id,done){await fbPatch("shopping/"+id,{done})}
 async function shopDelFb(id){await fbDel("shopping/"+id)}
- 
+
 // ═══════════════════════════════════════════════
 // CLAUDE API
 // ═══════════════════════════════════════════════
@@ -252,7 +252,7 @@ async function claude(system,user,imageB64=null){
   const txt=d.content?.map(b=>b.text||"").join("")||"";
   try{return JSON.parse(txt.split("```json").join("").split("```").join("").trim())}catch{return null}
 }
- 
+
 // ═══════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════
@@ -265,7 +265,7 @@ const MEALS=["Frühstück","Mittagessen","Abendessen","Snack"];
 const CATS=["Frühstück","Mittag & Abend","Snacks"];
 const CAT_MAP={"Frühstück":"Frühstück","Mittagessen":"Mittag & Abend","Abendessen":"Mittag & Abend","Snack":"Snacks"};
 function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend";}
- 
+
 // Consolidate shopping items by name
 function consolidateShop(items){
   const map={};
@@ -292,18 +292,18 @@ function scaleQty(qtyStr,factor){
   if(!num)return qtyStr;
   return`${Math.round(num*factor*10)/10}${unit?" "+unit:""}`;
 }
- 
+
 // ═══════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════
 const _cfg=LS.get(K.cfg)||{};
 if(_cfg.firebaseUrl)FB=_cfg.firebaseUrl;
- 
+
 const DEF_GOALS={
   du:{name:"Du",ziel:"Muskelaufbau",kcal:3175,protein:178,carbs:365,fat:90,fiber:35},
   frau:{name:"Frau",ziel:"Abnehmen",kcal:1525,protein:123,carbs:160,fat:55,fiber:25}
 };
- 
+
 let S={
   setupDone:!!((_cfg.apiKey)&&(_cfg.firebaseUrl)),
   tab:"ai",
@@ -332,7 +332,7 @@ let S={
   logFoodSearch:"",logFoodResult:null,logFoodLoading:false,
   logPhotoB64:null,logPhotoLoading:false,logPhotoResult:null,
 };
- 
+
 function saveLocal(){
   LS.set(K.dishes,S.dishes);LS.set(K.diary,S.diary);LS.set(K.weight,S.weight);
   LS.set(K.plan,S.plan);LS.set(K.goals,S.goals);LS.set(K.user,S.activeUser);
@@ -341,7 +341,7 @@ function toast(msg){if(S._tt)clearTimeout(S._tt);S.toast=msg;S._tt=setTimeout(()
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function setTab(t){S.tab=t;render()}
 function closeModal(){S.modal=null;S.mdata=null;render()}
- 
+
 // ═══════════════════════════════════════════════
 // RENDER SHELL
 // ═══════════════════════════════════════════════
@@ -350,7 +350,7 @@ function render(){
   bindAll();
   if(S.tab==="ai")scrollChat("aichat");
 }
- 
+
 function renderApp(){
   const undone=S.shopping.filter(i=>!i.done).length;
   const tabs=[
@@ -377,7 +377,7 @@ function renderApp(){
   ${S.toast?`<div class="toast">${S.toast}</div>`:""}
   ${S.modal?renderModal():""}`;
 }
- 
+
 // ═══════════════════════════════════════════════
 // SETUP
 // ═══════════════════════════════════════════════
@@ -413,7 +413,7 @@ async function doSetup(){
   try{await fbSet("_init",{ok:true});await shopLoad();startSSE();render();}
   catch(e){alert("Firebase-Fehler: "+e.message);}
 }
- 
+
 // ═══════════════════════════════════════════════
 // AI PAGE
 // ═══════════════════════════════════════════════
@@ -456,7 +456,7 @@ function renderAI(){
     ${body}
     ${dishCount?`<div class="div"></div><div style="font-size:12px;color:var(--mu);font-weight:600">📋 ${dishCount} Gericht${dishCount!==1?"e":""} gespeichert – sieh sie im <strong>Gerichte</strong>-Reiter</div>`:""}`;
 }
- 
+
 function macroChips(d){
   return`<span class="chip ck">🔥 ${d.kcal||0} kcal</span>
     <span class="chip cp">💪 ${d.protein||0}g P</span>
@@ -464,7 +464,7 @@ function macroChips(d){
     <span class="chip cc">🌾 ${d.carbs||0}g KH</span>
     ${d.fiber?`<span class="chip cfi">🌿 ${d.fiber}g Bst.</span>`:""}`;
 }
- 
+
 function renderEditor(){
   const d=S.editDish;
   const ings=(d.ingredients||[]).map((ig,i)=>`<div class="iedit">
@@ -493,10 +493,10 @@ function renderEditor(){
     </div>
   </div>`;
 }
- 
+
 function addIng(){if(!S.editDish.ingredients)S.editDish.ingredients=[];S.editDish.ingredients.push({name:"",qty:""});render()}
 function rmIng(i){S.editDish.ingredients.splice(i,1);render()}
- 
+
 async function sendAI(){
   const el=document.getElementById("aiIn");if(!el)return;
   const txt=el.value.trim();if(!txt||S.aiLoading)return;
@@ -513,11 +513,11 @@ Nährwerte pro Portion, realistisch. Ballaststoffe (fiber) immer angeben. NUR JS
   }catch(e){S.msgs.push({r:"a",t:"⚠️ "+esc(e.message)})}
   S.aiLoading=false;render();scrollChat("aichat");
 }
- 
+
 function scrollChat(id){setTimeout(()=>{const c=document.getElementById(id);if(c)c.scrollTop=c.scrollHeight},60)}
- 
+
 function pickSug(i){S.selSug=i;S.editDish={...S.sugs[i],ingredients:(S.sugs[i].ingredients||[]).map(x=>({...x}))};render()}
- 
+
 async function refineAI(){
   const el=document.getElementById("refIn");if(!el||S.refLoading||S.selSug===null)return;
   const ins=el.value.trim();if(!ins)return;S.refLoading=true;render();
@@ -528,7 +528,7 @@ async function refineAI(){
   }catch{}
   S.refLoading=false;render();
 }
- 
+
 function saveFromAI(){
   if(!S.editDish)return;
   const d={...S.editDish,id:uid()};
@@ -544,7 +544,7 @@ async function aiToShop(){
 }
 function resetAI(){S.aiStep="chat";S.sugs=[];S.selSug=null;S.editDish=null;render()}
 function deleteDish(id){if(!confirm("Gericht löschen?"))return;S.dishes=S.dishes.filter(d=>d.id!==id);saveLocal();toast("Gelöscht");render()}
- 
+
 // ═══════════════════════════════════════════════
 // GERICHTE PAGE
 // ═══════════════════════════════════════════════
@@ -584,7 +584,7 @@ function renderGerichte(){
         </div>
         <!-- PER 100g -->
         <div class="per100">
-          <div class="per100-title">NÄHRWERTE JE 100 G ${d.portionWeight?"":<span style="font-weight:400">(Portionsgewicht eintragen für genaue Werte)</span>}</div>
+          <div class="per100-title">NÄHRWERTE JE 100 G ${d.portionWeight?"":'<span style="font-weight:400">(Portionsgewicht eintragen)</span>'}</div>
           <div class="chips">
             <span class="chip ck">🔥 ${p100("kcal")} kcal</span>
             <span class="chip cp">💪 ${p100("protein")}g P</span>
@@ -608,7 +608,7 @@ function renderGerichte(){
       </div>`:""}
     </div>`;
   }).join("");
- 
+
   return`<div class="ptitle">Meine <em>Gerichte</em></div>
     <div class="psub">${S.dishes.length} Rezepte gespeichert</div>
     <div class="cat-tabs">
@@ -616,10 +616,10 @@ function renderGerichte(){
     </div>
     ${filtered.length===0?`<div class="empty">Keine Gerichte in dieser Kategorie.<br>Gehe zum ✨ KI-Assistenten und speichere Gerichte!</div>`:cards}`;
 }
- 
+
 function chgPortion(id,d){const cur=S.dishPortions[id]||1;S.dishPortions[id]=Math.max(0.5,Math.round((cur+d)*2)/2);render()}
 function setPortionWeight(id,v){const d=S.dishes.find(x=>x.id===id);if(d){d.portionWeight=parseFloat(v)||0;saveLocal();render()}}
- 
+
 async function dishToShop(id){
   const d=S.dishes.find(x=>x.id===id);if(!d)return;
   const p=S.dishPortions[id]||1;
@@ -635,7 +635,7 @@ function quickLog(id){
   const d=S.dishes.find(x=>x.id===id);if(!d)return;
   S.modal="diary";S.logMode="dish";S.logSel=d;S.logPortions="1";S.logGram="";S.logDate=today();render();
 }
- 
+
 // ═══════════════════════════════════════════════
 // PLAN PAGE
 // ═══════════════════════════════════════════════
@@ -645,7 +645,7 @@ function renderPlan(){
     <div class="dots" style="justify-content:center"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     <div style="font-size:14px;color:var(--mu);margin-top:16px;font-weight:500">KI erstellt deinen Wochenplan…<br><span style="font-size:12px">~20–30 Sekunden</span></div>
   </div>`;
- 
+
   const dayKcal=day=>Object.values(S.plan[day]||{}).reduce((s,m)=>s+(m.kcal||0),0);
   const slots=hasPlan?DAYS.map(day=>{
     if(!S.plan[day])return"";
@@ -665,7 +665,7 @@ function renderPlan(){
       </div>${ms}
     </div>`;
   }).join(""):"";
- 
+
   return`<div class="ptitle">Wochen-<em>plan</em></div>
     <div class="psub">Tippe auf eine Mahlzeit zum Bearbeiten</div>
     ${!hasPlan?`<div style="background:linear-gradient(135deg,var(--gl),var(--bll));border:1.5px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:14px">
@@ -679,14 +679,14 @@ function renderPlan(){
     </div>`}
     ${slots}`;
 }
- 
+
 // Open plan slot modal (click on a meal)
 function openPlanSlot(day,meal){
   S.planSlot={day,meal};S.planSlotMode="select";S.planSlotLoading=false;
   S.planSlotMsgs=[{r:"a",t:`Was soll am <strong>${day}</strong> zum <strong>${meal}</strong> geben? Beschreib es oder wähle ein gespeichertes Gericht.`}];
   S.planSlotInput="";S.modal="planslot";render();
 }
- 
+
 function renderPlanSlotModal(){
   const {day,meal}=S.planSlot||{};
   const existing=S.plan[day]?.[meal];
@@ -696,16 +696,16 @@ function renderPlanSlotModal(){
     return d.category==="Mittagessen"||d.category==="Abendessen";
   });
   const allDishes=S.dishes;// show all if no matching
- 
+
   const msgs=S.planSlotMsgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
   const loading=S.planSlotLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
- 
+
   const dishList=(filtered.length?filtered:allDishes).map(d=>`<div style="padding:8px 10px;border-radius:8px;cursor:pointer;background:var(--bg);margin-bottom:5px;display:flex;align-items:center;gap:8px"
     onclick="addDishToPlanSlot('${d.id}')">
     <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
     <div style="font-size:11px;color:var(--go)">${d.kcal||0} kcal</div>
   </div>`).join("");
- 
+
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="mtitle">${day} · ${meal}</div>
@@ -729,7 +729,7 @@ function renderPlanSlotModal(){
     <button class="btn bo" style="width:100%;justify-content:center;margin-top:6px" onclick="closeModal()">Schließen</button>
   </div></div>`;
 }
- 
+
 async function sendSlotAI(){
   const el=document.getElementById("slotIn");if(!el||S.planSlotLoading)return;
   const txt=el.value.trim();if(!txt)return;
@@ -750,7 +750,7 @@ Nährwerte realistisch, fiber immer angeben.`;
   }catch(e){S.planSlotMsgs.push({r:"a",t:"⚠️ "+esc(e.message)})}
   S.planSlotLoading=false;render();scrollChat("slotchat");
 }
- 
+
 function addDishToPlanSlot(dishId){
   const d=S.dishes.find(x=>x.id===dishId);if(!d||!S.planSlot)return;
   const{day,meal}=S.planSlot;
@@ -758,12 +758,12 @@ function addDishToPlanSlot(dishId){
   S.plan[day][meal]={name:d.name,kcal:d.kcal||0,protein:d.protein||0,fat:d.fat||0,carbs:d.carbs||0,fiber:d.fiber||0,ingredients:d.ingredients||[]};
   saveLocal();closeModal();toast(`✓ "${d.name}" am ${day} als ${meal}`);
 }
- 
+
 function removePlanSlot(day,meal){
   if(S.plan[day])delete S.plan[day][meal];
   saveLocal();render();
 }
- 
+
 async function generatePlan(prefs){
   S.modal=null;S.planLoading=true;render();
   try{
@@ -776,7 +776,7 @@ Format: {"Montag":{"Frühstück":{"name":"...","kcal":400,"protein":20,"fat":10,
   }catch(e){toast("⚠️ "+e.message)}
   S.planLoading=false;render();
 }
- 
+
 async function planToShop(){
   let n=0;
   for(const dayMeals of Object.values(S.plan))for(const meal of Object.values(dayMeals))for(const ig of(meal.ingredients||[])){
@@ -784,7 +784,7 @@ async function planToShop(){
   }
   toast(`✓ ${n} Artikel hinzugefügt`);setTab("shopping");
 }
- 
+
 // ═══════════════════════════════════════════════
 // SHOPPING PAGE
 // ═══════════════════════════════════════════════
@@ -793,7 +793,7 @@ function renderShopping(){
   const undone=consolidateShop(S.shopping.filter(i=>!i.done));
   const done=S.shopping.filter(i=>i.done);
   const grp={};undone.forEach(i=>{const s=i.source||"Manuell";if(!grp[s])grp[s]=[];grp[s].push(i);});
- 
+
   return`<div class="ptitle">Einkaufs-<em>liste</em></div>
     <div class="psub">${undone.length} Artikel offen · ${done.length} erledigt</div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px">
@@ -811,7 +811,7 @@ function renderShopping(){
       <span class="slbl" style="margin-bottom:0">✓ Erledigt (${done.length})</span>
     </div>${done.map(renderShopItem).join("")}`:""}`;
 }
- 
+
 function renderShopItem(item){
   return`<div class="sitem${item.done?" dk":""}">
     <button class="scb${item.done?" done":""}" onclick="doToggle('${item.id}')">
@@ -825,7 +825,7 @@ function renderShopItem(item){
     <button class="btn bic bd" onclick="doDelShop('${item.id}')">✕</button>
   </div>`;
 }
- 
+
 async function doToggle(id){
   const item=S.shopping.find(x=>x.id===id);if(!item)return;
   item.done=!item.done;render();await shopToggleFb(id,item.done);
@@ -841,7 +841,7 @@ async function doAddShop(name,qty,source){
   const item={id:uid(),name:name.trim(),qty:(qty||"").trim(),done:false,source:source||"Manuell"};
   S.shopping.push(item);render();await shopAdd(item);
 }
- 
+
 // ═══════════════════════════════════════════════
 // DIARY PAGE
 // ═══════════════════════════════════════════════
@@ -856,14 +856,14 @@ function pbar(label,cur,goal,color){
     <div class="pbar-track"><div class="pbar-fill${over?" over":""}" style="width:${pct}%;background:${color}"></div></div>
   </div>`;
 }
- 
+
 function renderDiary(){
   const u=S.activeUser,g=S.goals[u];
   const te=S.diary[today()]||[];
   const tm=te.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0),fi:a.fi+(e.fiber||0)}),{kcal:0,p:0,f:0,c:0,fi:0});
   const tot=es=>es.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0),fi:a.fi+(e.fiber||0)}),{kcal:0,p:0,f:0,c:0,fi:0});
   const krest=Math.max(0,g.kcal-tm.kcal);
- 
+
   const todayCard=`<div class="card" style="margin-bottom:13px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
       <div>
@@ -885,7 +885,7 @@ function renderDiary(){
       <button class="btn bgh bsm" onclick="S.modal='goals';render()">⚙️ Ziele</button>
     </div>
   </div>`;
- 
+
   const entries=Object.entries(S.diary).sort((a,b)=>b[0].localeCompare(a[0])).map(([date,es])=>{
     const m=tot(es);
     return`<div class="card">
@@ -910,7 +910,7 @@ function renderDiary(){
       </div>
     </div>`;
   }).join("");
- 
+
   return`<div class="ptitle">Ernährungs-<em>log</em></div>
     <div class="psub">Heute: ${fmtD(today())}</div>
     <div class="user-sw">
@@ -921,7 +921,7 @@ function renderDiary(){
     <button class="btn bg" style="margin-bottom:14px" onclick="openDiaryModal()">+ Eintrag hinzufügen</button>
     ${Object.keys(S.diary).length===0?`<div class="empty">Noch keine Einträge.</div>`:""}${entries}`;
 }
- 
+
 function openDiaryModal(){
   S.logMode=S.dishes.length?"dish":"food";
   S.logSel=null;S.logPortions="1";S.logGram="";S.logDate=today();S.logSearch="";
@@ -930,9 +930,9 @@ function openDiaryModal(){
   S.logCustom={name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""};
   S.modal="diary";render();
 }
- 
+
 function delLog(date,id){if(S.diary[date])S.diary[date]=S.diary[date].filter(e=>e.id!==id);saveLocal();render()}
- 
+
 function renderDiaryModal(){
   const modes=[
     {id:"dish",label:"📋 Mein Gericht"},
@@ -947,7 +947,7 @@ function renderDiaryModal(){
     <span class="chip cp">💪 ${Math.round((S.logSel.protein||0)*f*10)/10}g P</span>
     <span class="chip cfi">🌿 ${Math.round((S.logSel.fiber||0)*f*10)/10}g Bst.</span>
   </div>`:"";
- 
+
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="mtitle">Eintrag loggen</div>
@@ -955,7 +955,7 @@ function renderDiaryModal(){
     <div style="display:flex;gap:6px;margin-bottom:13px;flex-wrap:wrap">
       ${modes.map(m=>`<button class="btn bsm${S.logMode===m.id?" bg":" bo"}" onclick="S.logMode='${m.id}';render()">${m.label}</button>`).join("")}
     </div>
- 
+
     ${S.logMode==="dish"?`
       <div class="field"><input value="${esc(S.logSearch)}" oninput="S.logSearch=this.value;render()" placeholder="🔍 Gericht suchen…"/></div>
       <div style="max-height:170px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:4px">
@@ -971,7 +971,7 @@ function renderDiaryModal(){
         <div class="field"><label>Portionen</label><input type="number" value="${S.logPortions}" step=".5" oninput="S.logPortions=this.value;render()"/></div>
         <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" oninput="S.logGram=this.value;render()"/></div>
       </div>${preview}`:""}`:""}
- 
+
     ${S.logMode==="food"?`
       <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Die KI sucht Nährwerte für jedes Lebensmittel mit Mengenangabe.</div>
       <div class="airow">
@@ -987,7 +987,7 @@ function renderDiaryModal(){
         <div class="chips">${macroChips(S.logFoodResult)}</div>
       </div>`:""}
     `:""}
- 
+
     ${S.logMode==="photo"?`
       <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Lade ein Foto hoch oder beschreibe deine Mahlzeit – die KI berechnet die Nährwerte.</div>
       ${S.logPhotoB64?`<img src="data:image/jpeg;base64,${S.logPhotoB64}" class="photo-preview"/>`:""}
@@ -1008,7 +1008,7 @@ function renderDiaryModal(){
         <div class="chips">${macroChips(S.logPhotoResult)}</div>
       </div>`:""}
     `:""}
- 
+
     ${S.logMode==="manual"?`
       <div class="field"><label>Name</label><input value="${esc(S.logCustom.name||"")}" oninput="S.logCustom.name=this.value" autofocus/></div>
       <div class="r3">
@@ -1020,14 +1020,14 @@ function renderDiaryModal(){
           <input type="number" value="${S.logCustom[k]||""}" oninput="S.logCustom['${k}']=this.value"/></div>`).join("")}
       </div>
     `:""}
- 
+
     <div class="mact">
       <button class="btn bg" style="flex:1" onclick="submitLog()">Eintragen</button>
       <button class="btn bo" onclick="closeModal()">Abbrechen</button>
     </div>
   </div></div>`;
 }
- 
+
 async function searchFood(){
   const el=document.getElementById("foodIn");if(!el)return;
   const q=el.value.trim();if(!q)return;
@@ -1041,14 +1041,14 @@ Nährwerte realistisch für die genannte Menge. fiber immer angeben.`;
   }catch(e){}
   S.logFoodLoading=false;render();
 }
- 
+
 function handlePhoto(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=e=>{S.logPhotoB64=e.target.result.split(",")[1];render();};
   reader.readAsDataURL(file);
 }
- 
+
 async function analyzeFood(){
   const textEl=document.getElementById("photoText");
   const textDesc=textEl?textEl.value.trim():"";
@@ -1064,7 +1064,7 @@ Sei realistisch bei den Schätzungen. fiber immer angeben. Kein Text davor/danac
   }catch(e){}
   S.logPhotoLoading=false;render();
 }
- 
+
 function submitLog(){
   let e=null;
   if((S.logMode==="dish"||S.logMode==="food"||S.logMode==="photo")&&S.logSel){
@@ -1079,7 +1079,7 @@ function submitLog(){
   S.diary[e.date].push(e);
   saveLocal();closeModal();toast("✓ Geloggt");
 }
- 
+
 // ═══════════════════════════════════════════════
 // WEIGHT PAGE
 // ═══════════════════════════════════════════════
@@ -1125,7 +1125,7 @@ function doLogWeight(){
   S.weight=S.weight.filter(w=>w.date!==date);S.weight.push({kg,date});S.weight.sort((a,b)=>a.date.localeCompare(b.date));
   saveLocal();toast("✓ "+kg+" kg gespeichert");render();
 }
- 
+
 // ═══════════════════════════════════════════════
 // MODALS
 // ═══════════════════════════════════════════════
@@ -1138,7 +1138,7 @@ function renderModal(){
   if(S.modal==="goals") return renderGoalsModal();
   return"";
 }
- 
+
 function renderGenPlanModal(){
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
@@ -1153,7 +1153,7 @@ function renderGenPlanModal(){
     </div>
   </div></div>`;
 }
- 
+
 function renderAddShopModal(){
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
@@ -1168,7 +1168,7 @@ function renderAddShopModal(){
     </div>
   </div></div>`;
 }
- 
+
 function renderAddToPlanModal(){
   const d=S.dishes.find(x=>x.id===S.mdata?.dishId);if(!d)return"";
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
@@ -1193,7 +1193,7 @@ function confirmAddToPlan(id){
   S.plan[day][meal]={name:d.name,kcal:d.kcal||0,protein:d.protein||0,fat:d.fat||0,carbs:d.carbs||0,fiber:d.fiber||0,ingredients:d.ingredients||[]};
   saveLocal();closeModal();toast(`✓ "${d.name}" am ${day} als ${meal}`);
 }
- 
+
 function renderGoalsModal(){
   const g=S.goals;
   const row=(who)=>`
@@ -1225,7 +1225,7 @@ function saveGoals(){
   }));
   saveLocal();closeModal();toast("✓ Ziele gespeichert");
 }
- 
+
 // ═══════════════════════════════════════════════
 // BIND + INIT
 // ═══════════════════════════════════════════════
@@ -1234,11 +1234,10 @@ function bindAll(){
     el.addEventListener("keydown",e=>{if(e.key==="Enter")e.preventDefault()});
   });
 }
- 
+
 if(S.setupDone){
   shopLoad().then(()=>{startSSE();render();});
 }else render();
 </script>
 </body>
 </html>
- 
