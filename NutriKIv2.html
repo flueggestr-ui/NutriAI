@@ -629,6 +629,7 @@ function renderGerichte(){
           <button class="btn bg bsm" onclick="dishToShop('${d.id}')">🛒 Einkaufsliste</button>
           <button class="btn bo bsm" onclick="openAddToPlan('${d.id}')">📅 Wochenplan</button>
           <button class="btn bo bsm" onclick="quickLog('${d.id}')">📓 Loggen</button>
+          <button class="btn bo bsm" onclick="openEditDish('${d.id}')">✏️ Bearbeiten</button>
         </div>
       </div>`:""}
     </div>`;
@@ -1161,7 +1162,67 @@ function renderModal(){
   if(S.modal==="addshop") return renderAddShopModal();
   if(S.modal==="addtoplan") return renderAddToPlanModal();
   if(S.modal==="goals") return renderGoalsModal();
+  if(S.modal==="editdish") return renderEditDishModal();
   return"";
+}
+
+function openEditDish(id){
+  const d=S.dishes.find(x=>x.id===id);if(!d)return;
+  S.mdata={...d,ingredients:(d.ingredients||[]).map(x=>({...x}))};
+  S.modal="editdish";render();
+}
+
+function renderEditDishModal(){
+  const d=S.mdata;if(!d)return"";
+  const ings=(d.ingredients||[]).map((ig,i)=>`<div class="iedit">
+    <input value="${esc(ig.name)}" oninput="S.mdata.ingredients[${i}].name=this.value" placeholder="Zutat"/>
+    <input class="iqty" value="${esc(ig.qty||"")}" oninput="S.mdata.ingredients[${i}].qty=this.value" placeholder="200 g"/>
+    <button class="btn bic bd" onclick="S.mdata.ingredients.splice(${i},1);render()">✕</button>
+  </div>`).join("");
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Gericht bearbeiten</div>
+    <div class="r2">
+      <div class="field"><label>Name</label><input value="${esc(d.name||"")}" oninput="S.mdata.name=this.value"/></div>
+      <div class="field"><label>Kategorie</label><select onchange="S.mdata.category=this.value">
+        ${MEALS.map(m=>`<option value="${m}" ${d.category===m?"selected":""}>${m}</option>`).join("")}
+      </select></div>
+    </div>
+    <div class="r2">
+      <div class="field"><label>⏱ Vorbereitungszeit</label><input value="${esc(d.prepTime||"")}" oninput="S.mdata.prepTime=this.value" placeholder="z.B. 15 Min"/></div>
+      <div class="field"><label>🔥 Kochzeit</label><input value="${esc(d.cookTime||"")}" oninput="S.mdata.cookTime=this.value" placeholder="z.B. 30 Min"/></div>
+    </div>
+    <div class="slbl">Nährwerte pro Portion</div>
+    <div class="r5">
+      ${["kcal","protein","fat","carbs","fiber"].map((k,i)=>`<div class="field"><label>${["kcal","P g","F g","KH g","Bst g"][i]}</label>
+        <input type="number" value="${d[k]||""}" oninput="S.mdata['${k}']=parseFloat(this.value)||0"/></div>`).join("")}
+    </div>
+    <div class="r2">
+      <div class="field"><label>Portionsgewicht (g)</label><input type="number" value="${d.portionWeight||""}" oninput="S.mdata.portionWeight=parseFloat(this.value)||0" placeholder="z.B. 550"/></div>
+      <div class="field"><label>Anzahl Portionen</label><input type="number" value="${d.servings||""}" oninput="S.mdata.servings=parseFloat(this.value)||0" placeholder="z.B. 4"/></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+      <span class="slbl" style="margin-bottom:0">Zutaten (gesamt)</span>
+      <button class="btn bo bsm" onclick="S.mdata.ingredients=S.mdata.ingredients||[];S.mdata.ingredients.push({name:\'\',qty:\'\'});render()">+ Zutat</button>
+    </div>
+    ${ings}
+    <div class="field" style="margin-top:9px"><label>Zubereitung (eine Zeile pro Schritt)</label>
+      <textarea style="min-height:90px" oninput="S.mdata.steps=this.value" placeholder="Schritt 1: Zutaten schneiden">${esc(d.steps||"")}</textarea>
+    </div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="saveEditDish()">💾 Speichern</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+
+function saveEditDish(){
+  const d=S.mdata;if(!d||!d.id)return;
+  const idx=S.dishes.findIndex(x=>x.id===d.id);
+  if(idx>=0){
+    S.dishes[idx]={...d};
+    saveLocal();closeModal();toast("✓ Gericht gespeichert");
+  }
 }
 
 function renderGenPlanModal(){
