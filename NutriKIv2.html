@@ -814,15 +814,58 @@ async function planToShop(){
 // ═══════════════════════════════════════════════
 // SHOPPING PAGE
 // ═══════════════════════════════════════════════
+
+// Supermarkt-Kategorien in der Reihenfolge wie man durchgeht
+const SHOP_CATS = [
+  {key:"gemuese",  icon:"🥦", label:"Gemüse & Salat",    keywords:["salat","tomate","tomaten","gurke","paprika","zucchini","brokkoli","blumenkohl","spinat","karotte","karotten","möhre","möhren","lauch","sellerie","petersilie","kräuter","basilikum","rosmarin","thymian","zwiebel","zwiebeln","knoblauch","ingwer","chili","erbsen","bohnen","grüne bohnen","pilze","champignons","mais","avocado","artischocke","spargel","pak choi","rucola","feldsalat","eisbergsalat","kopfsalat","chinakohl"]},
+  {key:"obst",     icon:"🍎", label:"Obst",               keywords:["apfel","äpfel","birne","birnen","banane","bananen","orange","orangen","zitrone","zitronen","limette","limetten","erdbeere","erdbeeren","himbeere","himbeeren","blaubeere","blaubeeren","kirsche","kirschen","traube","trauben","mango","ananas","kiwi","pfirsich","pfirsiche","pflaume","pflaumen","melone","grapefruit","mandarine","mandarinen","beere","beeren","obst","früchte"]},
+  {key:"brot",     icon:"🍞", label:"Brot & Backwaren",   keywords:["brot","brötchen","toast","vollkornbrot","baguette","ciabatta","laugenbrezel","croissant","vollkorn","körner","dinkel","roggen","aufschnitt","wurst","salami","schinken","fleischwurst","leberwurst","mortadella","pute","hähnchenbrust aufschnitt"]},
+  {key:"fleisch",  icon:"🥩", label:"Fleisch & Fisch",    keywords:["hähnchen","hähnchenfilet","hähnchenbrust","hähnchenschenkel","pute","putenfilet","rind","rindfleisch","hackfleisch","schwein","schweinefleisch","kotelett","steak","lamm","lachs","thunfisch","garnelen","shrimps","kabeljau","forelle","hering","scholle","makrele","sardinen","fisch","meeresfrüchte","bacon","speck"]},
+  {key:"milch",    icon:"🥛", label:"Milch & Käse",       keywords:["milch","vollmilch","fettarme milch","sahne","schlagsahne","joghurt","naturjoghurt","skyr","quark","magerquark","speisequark","frischkäse","frischkaese","käse","gouda","edamer","mozzarella","parmesan","feta","cheddar","ricotta","mascarpone","buttermilch","kefir","crème fraîche","schmand","saure sahne","kondensmilch","hafermilch","mandelmilch","sojamilch","kokosmilch"]},
+  {key:"eier",     icon:"🥚", label:"Eier & Butter",      keywords:["ei","eier","butter","margarine","pflanzenmargarine"]},
+  {key:"tiefkuehl",icon:"🧊", label:"Tiefkühl",           keywords:["tiefkühl","gefroren","tk ","tiefgekühlte","eis","eiscreme","fischstäbchen","pommes","pizza tiefkühl"]},
+  {key:"getreide", icon:"🌾", label:"Nudeln, Reis & Getreide", keywords:["nudeln","spaghetti","penne","fusilli","farfalle","tagliatelle","lasagne","reis","basmatireis","vollkornreis","jasminreis","quinoa","couscous","bulgur","haferflocken","hafer","grieß","polenta","mehl","weizenmehl","dinkelmehl","stärke","speisestärke","maisstärke","pankomehl","paniermehl","haferflocke"]},
+  {key:"huelsen",  icon:"🫘", label:"Hülsenfrüchte & Konserven", keywords:["linsen","kichererbsen","bohnen","kidneybohnen","weiße bohnen","erbsen","tofu","tempeh","seitan","soja","sojasoße","sojasauce","dose","konserve","tomatenmark","tomatensoße","pelati","passata","mais dose","thunfisch dose","ölsardinen"]},
+  {key:"oel",      icon:"🫙", label:"Öl, Soßen & Gewürze", keywords:["olivenöl","öl","sonnenblumenöl","rapsöl","kokosöl","essig","balsamico","soße","sauce","senf","mayonnaise","ketchup","sojasauce","sojasoße","fischsauce","sriracha","tabasco","worcester","salz","pfeffer","paprika gewürz","kurkuma","zimt","kardamom","oregano","curry","kreuzkümmel","koriander","muskat","lorbeer","chili gewürz","vanille","zucker","honig","ahornsirup","sirup","hefe","backpulver","natron"]},
+  {key:"snacks",   icon:"🍫", label:"Snacks & Süßes",     keywords:["schokolade","riegel","nuss","nüsse","mandeln","walnüsse","cashews","erdnüsse","pistazien","haselnüsse","müsliriegel","chips","cracker","kekse","plätzchen","kuchen","marzipan","nutella","erdnussbutter","marmelade","popcorn","studentenfutter","trockenfrüchte","rosinen","datteln","feigen"]},
+  {key:"getraenke",icon:"🥤", label:"Getränke",           keywords:["wasser","mineralwasser","saft","orangensaft","apfelsaft","multivitaminsaft","smoothie","cola","limonade","tee","kaffee","espresso","proteinshake","protein shake","whey","protein pulver","sportgetränk","elektrolyte"]},
+  {key:"sonstiges",icon:"🛒", label:"Sonstiges",          keywords:[]},
+];
+
+function getShopCat(itemName){
+  const name=(itemName||"").toLowerCase();
+  for(const cat of SHOP_CATS){
+    if(cat.key==="sonstiges")continue;
+    if(cat.keywords.some(kw=>name.includes(kw)))return cat.key;
+  }
+  return"sonstiges";
+}
+
 function renderShopping(){
-  // Consolidate undone items
   const undone=consolidateShop(S.shopping.filter(i=>!i.done));
   const done=S.shopping.filter(i=>i.done);
-  const grp={};undone.forEach(i=>{const s=i.source||"Manuell";if(!grp[s])grp[s]=[];grp[s].push(i);});
+
+  // Group by supermarket category
+  const catGroups={};
+  SHOP_CATS.forEach(c=>{catGroups[c.key]=[]});
+  undone.forEach(item=>{
+    const cat=getShopCat(item.name);
+    catGroups[cat].push(item);
+  });
+
+  const sections=SHOP_CATS
+    .filter(c=>catGroups[c.key].length>0)
+    .map(c=>`
+      <div style="display:flex;align-items:center;gap:8px;margin:14px 0 7px">
+        <span style="font-size:18px">${c.icon}</span>
+        <span class="slbl" style="margin-bottom:0">${c.label}</span>
+        <span style="font-size:11px;color:var(--fa);margin-left:auto">${catGroups[c.key].length} Artikel</span>
+      </div>
+      ${catGroups[c.key].map(renderShopItem).join("")}`).join("");
 
   return`<div class="ptitle">Einkaufs-<em>liste</em></div>
     <div class="psub">${undone.length} Artikel offen · ${done.length} erledigt</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
       <div class="live-badge${S.live?"":" off"}"><div class="live-dot"></div>${S.live?"Live synchronisiert":"Verbindung…"}</div>
     </div>
     <div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
@@ -830,10 +873,8 @@ function renderShopping(){
       ${done.length?`<button class="btn bd bsm" onclick="doClearDone()">🗑 Erledigte löschen</button>`:""}
     </div>
     ${S.shopping.length===0?`<div class="empty">Einkaufsliste ist leer.</div>`:""}
-    ${Object.entries(grp).map(([src,items])=>`
-      <div class="slbl" style="margin-top:11px">${esc(src)}</div>
-      ${items.map(renderShopItem).join("")}`).join("")}
-    ${done.length?`<div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:7px">
+    ${sections}
+    ${done.length?`<div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:7px">
       <span class="slbl" style="margin-bottom:0">✓ Erledigt (${done.length})</span>
     </div>${done.map(renderShopItem).join("")}`:""}`;
 }
