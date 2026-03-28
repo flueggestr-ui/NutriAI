@@ -479,17 +479,26 @@ function renderEditor(){
         ${MEALS.map(m=>`<option value="${m}" ${d.category===m?"selected":""}>${m}</option>`).join("")}
       </select></div>
     </div>
+    <div class="r2">
+      <div class="field"><label>⏱ Vorbereitungszeit</label><input value="${esc(d.prepTime||"")}" oninput="S.editDish.prepTime=this.value" placeholder="z.B. 15 Min"/></div>
+      <div class="field"><label>🔥 Kochzeit</label><input value="${esc(d.cookTime||"")}" oninput="S.editDish.cookTime=this.value" placeholder="z.B. 30 Min"/></div>
+    </div>
+    <div class="slbl">Nährwerte pro Portion</div>
     <div class="r5">
       ${["kcal","protein","fat","carbs","fiber"].map((k,i)=>`<div class="field"><label>${["kcal","P g","F g","KH g","Bst g"][i]}</label>
         <input type="number" value="${d[k]||""}" oninput="S.editDish['${k}']=parseFloat(this.value)||0"/></div>`).join("")}
     </div>
+    <div class="r2">
+      <div class="field"><label>Portionsgewicht (g)</label><input type="number" value="${d.portionWeight||""}" oninput="S.editDish.portionWeight=parseFloat(this.value)||0" placeholder="z.B. 550"/></div>
+      <div class="field"><label>Anzahl Portionen</label><input type="number" value="${d.servings||""}" oninput="S.editDish.servings=parseFloat(this.value)||0" placeholder="z.B. 4"/></div>
+    </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-      <span class="slbl" style="margin-bottom:0">Zutaten (1 Portion)</span>
+      <span class="slbl" style="margin-bottom:0">Zutaten (gesamt)</span>
       <button class="btn bo bsm" onclick="addIng()">+ Zutat</button>
     </div>
     ${ings}
-    <div class="field" style="margin-top:7px"><label>Notizen</label>
-      <textarea oninput="S.editDish.notes=this.value">${esc(d.notes||"")}</textarea>
+    <div class="field" style="margin-top:7px"><label>Zubereitung (Schritt für Schritt)</label>
+      <textarea oninput="S.editDish.steps=this.value" style="min-height:90px" placeholder="Schritt 1: Zutaten vorbereiten">${esc(d.steps||d.notes||"")}</textarea>
     </div>
   </div>`;
 }
@@ -503,8 +512,8 @@ async function sendAI(){
   S.msgs.push({r:"u",t:esc(txt)});S.aiLoading=true;render();scrollChat("aichat");
   try{
     const sys=`Du bist Ernährungsexperte. Antworte NUR als JSON-Array mit 3 Gerichten.
-Format: [{"name":"...","category":"Frühstück|Mittagessen|Abendessen|Snack","description":"2 Sätze","prepTime":"20 min","kcal":520,"protein":38,"fat":14,"carbs":52,"fiber":8,"ingredients":[{"name":"Hähnchenbrust","qty":"200 g"}],"notes":"Tipp"}]
-Nährwerte pro Portion, realistisch. Ballaststoffe (fiber) immer angeben. NUR JSON.`;
+Format: [{"name":"...","category":"Frühstück|Mittagessen|Abendessen|Snack","description":"2 Sätze","prepTime":"15 Min","cookTime":"30 Min","kcal":520,"protein":38,"fat":14,"carbs":52,"fiber":8,"portionWeight":550,"servings":4,"ingredients":[{"name":"Hähnchenbrust","qty":"1000 g"},{"name":"Kartoffeln","qty":"700 g"}],"steps":"Schritt 1: Zutaten schneiden\nSchritt 2: Würzen\nSchritt 3: Im Ofen garen"}]
+Nährwerte pro Portion, realistisch. Ballaststoffe (fiber) immer angeben. prepTime und cookTime immer angeben. steps als mehrzeiliger String mit Schritt-für-Schritt-Anleitung. NUR JSON.`;
     const data=await claude(sys,txt);
     if(data&&Array.isArray(data)&&data.length){
       S.sugs=data;S.selSug=null;S.editDish=null;S.aiStep="suggestions";
@@ -565,6 +574,10 @@ function renderGerichte(){
         <div style="display:flex;align-items:flex-start;gap:8px">
           <div style="flex:1">
             <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700">${esc(d.name)}</div>
+            ${(d.prepTime||d.cookTime)?`<div style="display:flex;gap:8px;margin-top:4px;font-size:11px;color:var(--mu)">
+              ${d.prepTime?`<span>⏱ ${esc(d.prepTime)}</span>`:""}
+              ${d.cookTime?`<span>🔥 ${esc(d.cookTime)}</span>`:""}
+            </div>`:""}
             <div class="chips" style="margin-top:5px">${macroChips({kcal:Math.round(scale("kcal")),protein:scale("protein"),fat:scale("fat"),carbs:scale("carbs"),fiber:scale("fiber")})}</div>
           </div>
           <div style="display:flex;gap:5px;flex-shrink:0">
@@ -596,9 +609,21 @@ function renderGerichte(){
             `<input type="number" placeholder="Portionsgewicht in g eintragen…" style="margin-top:8px;width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:7px 10px;font-family:Syne,sans-serif;font-size:12px;outline:none" 
               onchange="setPortionWeight('${d.id}',this.value)"/>`}
         </div>
+        <!-- ZEITEN -->
+        ${(d.prepTime||d.cookTime)?`<div style="display:flex;gap:12px;margin-bottom:10px;font-size:12px;color:var(--mu)">
+          ${d.prepTime?`<span>⏱ <strong>Vorbereitung:</strong> ${esc(d.prepTime)}</span>`:""}
+          ${d.cookTime?`<span>🔥 <strong>Kochzeit:</strong> ${esc(d.cookTime)}</span>`:""}
+        </div>`:""}
         <!-- ZUTATEN -->
         ${ings?`<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px">Zutaten für ${p} Portion${p!==1?"en":""}</div>${ings}</div>`:""}
-        ${d.notes?`<div style="font-size:12px;color:var(--mu);margin-bottom:10px">${esc(d.notes)}</div>`:""}
+        <!-- ZUBEREITUNG -->
+        ${d.steps?`<div style="margin-bottom:10px">
+          <div class="slbl" style="margin-bottom:6px">Zubereitung</div>
+          ${d.steps.split("\n").filter(s=>s.trim()).map((s,i)=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
+            <span style="background:var(--gr);color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+            <span>${esc(s.replace(/^Schritt\s*\d+[:.\s]*/i,""))}</span>
+          </div>`).join("")}
+        </div>`:""}
         <!-- ACTIONS -->
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <button class="btn bg bsm" onclick="dishToShop('${d.id}')">🛒 Einkaufsliste</button>
