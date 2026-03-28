@@ -217,18 +217,18 @@ function startSSE(){
     sseSource.addEventListener("put",e=>{
       try{
         const d=JSON.parse(e.data);
-        if(d.path==="/"&&d.data) state.shopping=Object.entries(d.data).map(([id,it])=>({...it,id}));
-        else if(d.path!=="/"&&d.data!==null){const id=d.path.replace("/","");const idx=state.shopping.findIndex(x=>x.id===id);if(idx>=0)state.shopping[idx]={...d.data,id};else state.shopping.push({...d.data,id});}
-        else if(d.path!=="/"&&d.data===null){state.shopping=state.shopping.filter(x=>x.id!==d.path.replace("/",""));}
-        else if(d.path==="/"&&d.data===null)state.shopping=[];
-        state.live=true;if(state.tab==="shopping")render();
+        if(d.path==="/"&&d.data) S.shopping=Object.entries(d.data).map(([id,it])=>({...it,id}));
+        else if(d.path!=="/"&&d.data!==null){const id=d.path.replace("/","");const idx=S.shopping.findIndex(x=>x.id===id);if(idx>=0)S.shopping[idx]={...d.data,id};else S.shopping.push({...d.data,id});}
+        else if(d.path!=="/"&&d.data===null){S.shopping=S.shopping.filter(x=>x.id!==d.path.replace("/",""));}
+        else if(d.path==="/"&&d.data===null)S.shopping=[];
+        S.live=true;if(S.tab==="shopping")render();
       }catch{}
     });
-    sseSource.onerror=()=>{state.live=false;if(state.tab==="shopping")render()};
-    sseSource.onopen=()=>{state.live=true};
-  }catch{state.live=false}
+    sseSource.onerror=()=>{S.live=false;if(S.tab==="shopping")render()};
+    sseSource.onopen=()=>{S.live=true};
+  }catch{S.live=false}
 }
-async function shopLoad(){const d=await fbGet("shopping");state.shopping=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>({...it,id})):[];}
+async function shopLoad(){const d=await fbGet("shopping");S.shopping=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>({...it,id})):[];}
 async function shopAdd(item){await fbSet("shopping/"+item.id,{name:item.name,qty:item.qty||"",done:item.done,source:item.source||""})}
 async function shopToggleFb(id,done){await fbPatch("shopping/"+id,{done})}
 async function shopDelFb(id){await fbDel("shopping/"+id)}
