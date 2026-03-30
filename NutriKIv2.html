@@ -20,25 +20,17 @@
 }
 body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-
-/* NAV */
 .nav{background:var(--sf);border-top:1px solid var(--br);position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;z-index:200;box-shadow:0 -2px 20px #1a100512}
 .nb{flex:1;padding:8px 2px 13px;background:none;border:none;color:var(--mu);cursor:pointer;font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;-webkit-tap-highlight-color:transparent}
 .nb .ni{font-size:20px;line-height:1;transition:transform .2s}
 .nb.on{color:var(--gr)}.nb.on .ni{transform:scale(1.12)}
-
-/* PAGE */
 .page{flex:1;padding:18px 15px 96px;animation:fu .22s ease}
 @keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .ptitle{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;line-height:1.1;margin-bottom:3px}
 .ptitle em{font-style:italic;color:var(--gr)}
 .psub{color:var(--mu);font-size:12px;margin-bottom:16px;font-weight:500}
 .slbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:7px}
-
-/* CARD */
 .card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
-
-/* BUTTON */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 15px;border-radius:9px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.03em;transition:all .15s;-webkit-tap-highlight-color:transparent}
 .bg{background:var(--gr);color:#fff}.bg:hover{background:var(--gd)}.bg:active{transform:scale(.97)}
 .bo{background:transparent;border:1.5px solid var(--br2);color:var(--ink)}.bo:hover{border-color:var(--gr);color:var(--gr)}
@@ -48,28 +40,21 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .bsm{padding:5px 10px;font-size:11px}
 .bic{width:30px;height:30px;padding:0;justify-content:center;border-radius:8px;font-size:14px}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-
-/* FIELD */
 .field{margin-bottom:11px}
 .field label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
-.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:8px 11px;color:var(--ink);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--ink);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gr);background:var(--sf)}
-.field textarea{resize:vertical;min-height:58px}
+.field textarea{resize:vertical;min-height:60px}
 .r2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .r5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px}
-
-/* CHIPS */
 .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .chip{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600}
 .ck{background:var(--gol);color:var(--go)}.cp{background:var(--bll);color:var(--bl)}
 .cf{background:var(--ol);color:var(--or)}.cc{background:var(--gl);color:var(--gr)}
 .cfi{background:var(--pul);color:var(--pu)}
-
-/* AI CHAT */
 .aichat{background:var(--bg);border:1.5px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:10px;max-height:200px;overflow-y:auto;scroll-behavior:smooth}
-.msg{margin-bottom:6px;display:flex}
-.msg.u{justify-content:flex-end}
+.msg{margin-bottom:6px;display:flex}.msg.u{justify-content:flex-end}
 .bubble{padding:8px 12px;font-size:13px;line-height:1.5;max-width:86%;border-radius:12px}
 .msg.a .bubble{background:var(--gl);color:var(--ink);border-radius:3px 12px 12px 12px}
 .msg.u .bubble{background:var(--gr);color:#fff;border-radius:12px 3px 12px 12px}
@@ -83,26 +68,18 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .sug{background:var(--card);border:1.5px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
 .sug:hover,.sug:active{border-color:var(--gr)}.sug.sel{border-color:var(--gr);background:var(--gl)}
 .sugname{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:3px}
-
-/* CATEGORY TABS */
 .cat-tabs{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:14px}
-.cat-tab{flex:1;padding:7px 4px;border:none;border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu);text-align:center;letter-spacing:.03em}
+.cat-tab{flex:1;padding:7px 4px;border:none;border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu);text-align:center}
 .cat-tab.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
-
-/* GERICHTE CARD */
 .dish-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
 .dish-header{padding:13px 14px 10px;cursor:pointer}
 .dish-body{padding:0 14px 13px;border-top:1px solid var(--bg)}
 .portion-stepper{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:9px;padding:7px 11px;margin-bottom:10px}
 .portion-btn{width:28px;height:28px;border-radius:7px;border:1.5px solid var(--br2);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gr)}
 .per100{background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:10px}
-.per100-title{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--mu);margin-bottom:5px}
-
-/* SHOPPING */
-.sitem{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:7px;box-shadow:var(--sh);transition:all .3s}
+.sitem{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:7px;box-shadow:var(--sh)}
 .sitem.dk{background:var(--card);border-color:var(--br)}
 .sitem.dk .sname{text-decoration:line-through;color:var(--fa)}
-.sitem.dk .sqty{color:var(--fa)}
 .scb{width:24px;height:24px;border-radius:7px;border:2px solid var(--br2);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s}
 .scb.done{background:var(--gr);border-color:var(--gr);color:#fff}
 .sname{flex:1;font-size:13px;font-weight:500;line-height:1.3}
@@ -111,45 +88,29 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .live-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gl);color:var(--gr);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);animation:pu 1.5s infinite}
 .live-badge.off{background:#fee;color:var(--or)}.live-badge.off .live-dot{background:var(--or)}
-
-/* PLAN */
 .plan-day-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
 .plan-day-hdr{padding:10px 14px;background:var(--card);border-bottom:1px solid var(--br);display:flex;align-items:center}
 .plan-slot{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bg);cursor:pointer;transition:background .15s}
 .plan-slot:last-child{border-bottom:none}
-.plan-slot:hover{background:var(--bg)}
-.plan-slot:active{background:var(--gl)}
+.plan-slot:hover{background:var(--bg)}.plan-slot:active{background:var(--gl)}
 .plab{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);min-width:58px}
 .pdname{flex:1;font-size:12.5px;font-weight:500}
 .pkcal{font-size:11px;color:var(--go);font-weight:700}
-.plan-empty-slot{color:var(--fa);font-size:12px;font-style:italic;flex:1}
-.plan-add-icon{font-size:16px;color:var(--fa)}
-
-/* PROGRESS BARS */
 .pbar-row{margin-bottom:8px}
 .pbar-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
 .pbar-label{font-weight:700;color:var(--mu)}
-.pbar-val{font-weight:700}
 .pbar-track{height:8px;background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid var(--br)}
 .pbar-fill{height:100%;border-radius:10px;transition:width .5s ease}
 .pbar-fill.over{background:var(--or)!important}
-
-/* USER SW */
 .user-sw{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:14px}
 .user-sw-btn{flex:1;padding:7px;border:none;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu)}
 .user-sw-btn.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
-
-/* DIARY */
 .drow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--bg)}
-
-/* WEIGHT */
 .wbig{font-family:'Playfair Display',serif;font-size:50px;font-weight:900;line-height:1}
 .wchart{display:flex;align-items:flex-end;gap:3px;height:70px;margin-top:10px}
 .wb{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0}
 .wbar{border-radius:3px 3px 0 0;min-height:3px;width:100%}
 .wlbl{font-size:8px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-
-/* MODAL */
 .ov{position:fixed;inset:0;background:#1a100552;backdrop-filter:blur(4px);z-index:300;display:flex;align-items:flex-end}
 .modal{background:var(--sf);border-radius:22px 22px 0 0;border-top:2.5px solid var(--gr);padding:20px 16px 36px;width:100%;max-height:94vh;overflow-y:auto;animation:su .26s ease}
 @keyframes su{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -157,174 +118,120 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;font-si
 .mact{display:flex;gap:9px;margin-top:14px}
 .iedit{display:flex;gap:5px;margin-bottom:7px;align-items:center}
 .iedit input{flex:1}.iqty{width:90px;flex-shrink:0}
-
-/* SETUP */
-.setup{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:36px 18px 30px;background:var(--bg)}
-.setup-logo{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;margin-bottom:5px;text-align:center}
-.setup-logo em{font-style:italic;color:var(--gr)}
-.step-box{background:var(--card);border:1px solid var(--br);border-radius:10px;padding:12px 14px;margin-bottom:8px}
-.step-num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--gr);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
-
-/* PHOTO UPLOAD */
-.photo-area{border:2px dashed var(--br2);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+/* AUTH */
+.auth-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px;background:var(--bg)}
+.auth-logo{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;margin-bottom:4px;text-align:center}
+.auth-logo em{font-style:italic;color:var(--gr)}
+.auth-tabs{display:flex;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:18px}
+.auth-tab{flex:1;padding:8px;border:none;border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;background:transparent;color:var(--mu);transition:all .2s}
+.auth-tab.on{background:var(--gr);color:#fff}
+/* FAMILY BANNER */
+.fam-banner{background:var(--gl);border:1px solid #a8d8b8;border-radius:var(--r);padding:10px 13px;margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gr)}
+/* COOKING MULTIPLIER */
+.cook-multi{background:var(--gol);border:1px solid #d4b840;border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cook-multi-btn{width:26px;height:26px;border-radius:6px;border:1.5px solid var(--br2);background:var(--sf);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gr)}
+.photo-area{border:2px dashed var(--br2);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
 .photo-area:hover{border-color:var(--gr);background:var(--gl)}
-.photo-preview{width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-bottom:10px}
-.ai-analyzing{display:flex;align-items:center;gap:10px;padding:12px;background:var(--gol);border-radius:var(--r);font-size:13px;color:var(--go);font-weight:600}
-
-/* TOAST */
+.photo-preview{width:100%;max-height:180px;object-fit:cover;border-radius:var(--r);margin-bottom:10px}
 .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--gr);color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:700;z-index:400;white-space:nowrap;box-shadow:0 4px 20px #27674944;animation:ti .3s ease}
 @keyframes ti{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-/* MISC */
 .badge{display:inline-block;background:var(--or);color:#fff;border-radius:10px;font-size:9px;padding:1px 6px;margin-left:3px;vertical-align:middle}
 .div{height:1px;background:var(--br);margin:12px 0}
 .empty{text-align:center;color:var(--mu);padding:36px 20px;font-size:13px;line-height:1.7}
 code{background:var(--bg);border:1px solid var(--br);border-radius:5px;padding:2px 7px;font-size:11px;font-family:monospace;color:var(--gr)}
 a{color:var(--gr)}
 select option{background:#fff}
+.setup-card{background:var(--sf);border:1px solid var(--br);border-radius:14px;padding:18px;margin-bottom:12px}
+.step-box{background:var(--card);border:1px solid var(--br);border-radius:9px;padding:10px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:8px}
+.step-num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--gr);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* LIBRARY */
+.lib-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:13px;margin-bottom:9px;box-shadow:var(--sh)}
+.fav-btn{background:none;border:none;cursor:pointer;font-size:20px;padding:4px;border-radius:8px;transition:transform .15s;-webkit-tap-highlight-color:transparent}
+.fav-btn:hover{transform:scale(1.2)}
+.pub-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gol);color:var(--go);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700}
+.migrate-banner{background:var(--bll);border:1.5px solid #a8cfe8;border-radius:var(--r);padding:14px;margin-bottom:14px}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
 'use strict';
-
 // ═══════════════════════════════════════════════
-// LOCAL STORAGE
+// STORAGE & FIREBASE
 // ═══════════════════════════════════════════════
 const LS={
   get:(k)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch{return null}},
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 };
-const K={dishes:"nk4_dishes",diary:"nk4_diary",weight:"nk4_weight",plan:"nk4_plan",cfg:"nk4_cfg",goals:"nk4_goals",user:"nk4_user"};
 
-// ═══════════════════════════════════════════════
-// FIREBASE REST
-// ═══════════════════════════════════════════════
-let FB="";
-let sseSource=null;
+let FB=""; // Firebase base URL
 const fbUrl=p=>`${FB}/${p}.json`;
-async function fbGet(p){try{const r=await fetch(fbUrl(p));return r.ok?r.json():null}catch{return null}}
+async function fbGet(p){try{const r=await fetch(fbUrl(p));if(!r.ok)return null;const d=await r.json();return d}catch{return null}}
 async function fbSet(p,d){try{await fetch(fbUrl(p),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})}catch{}}
 async function fbPatch(p,d){try{await fetch(fbUrl(p),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})}catch{}}
 async function fbDel(p){try{await fetch(fbUrl(p),{method:"DELETE"})}catch{}}
 
-// SSE sources for live sync
-let sseShopping=null, sseDishes=null, ssePlan=null;
+// ═══════════════════════════════════════════════
+// AUTH (simple, stored in Firebase)
+// ═══════════════════════════════════════════════
+// Data structure:
+// /users/{username} = {passwordHash, group, goals, displayName}
+// /groups/{group}/dishes/{id} = dish
+// /groups/{group}/shopping/{id} = item
+// /groups/{group}/plan/{username}/{day}/{meal} = meal  (personal plan per user)
+// /users/{username}/diary/{date} = entries[]
+// /users/{username}/weight = []
 
-function startSSE(){
-  startShoppingSSE();
-  startDishesSSE();
-  startPlanSSE();
-}
-
-function startShoppingSSE(){
-  if(sseShopping){sseShopping.close();sseShopping=null}
-  if(!FB)return;
-  try{
-    sseShopping=new EventSource(fbUrl("shopping")+"?accept=text/event-stream");
-    sseShopping.addEventListener("put",e=>{
-      try{
-        const d=JSON.parse(e.data);
-        if(d.path==="/"&&d.data) S.shopping=Object.entries(d.data).map(([id,it])=>({...it,id}));
-        else if(d.path!=="/"&&d.data!==null){const id=d.path.replace("/","");const idx=S.shopping.findIndex(x=>x.id===id);if(idx>=0)S.shopping[idx]={...d.data,id};else S.shopping.push({...d.data,id});}
-        else if(d.path!=="/"&&d.data===null){S.shopping=S.shopping.filter(x=>x.id!==d.path.replace("/",""));}
-        else if(d.path==="/"&&d.data===null)S.shopping=[];
-        S.live=true;if(S.tab==="shopping")render();
-      }catch{}
-    });
-    sseShopping.onerror=()=>{S.live=false};
-    sseShopping.onopen=()=>{S.live=true};
-  }catch{S.live=false}
+function hashPw(pw){
+  // Simple hash - not cryptographic but enough for family app
+  let h=0;for(let i=0;i<pw.length;i++){h=((h<<5)-h)+pw.charCodeAt(i);h|=0;}return h.toString(36);
 }
 
-function startDishesSSE(){
-  if(sseDishes){sseDishes.close();sseDishes=null}
-  if(!FB)return;
-  try{
-    sseDishes=new EventSource(fbUrl("dishes")+"?accept=text/event-stream");
-    sseDishes.addEventListener("put",e=>{
-      try{
-        const d=JSON.parse(e.data);
-        if(d.path==="/"&&d.data){
-          S.dishes=Object.entries(d.data).map(([id,it])=>({...it,id}));
-          LS.set(K.dishes,S.dishes);
-        } else if(d.path!=="/"&&d.data!==null){
-          const id=d.path.replace("/","");
-          const idx=S.dishes.findIndex(x=>x.id===id);
-          if(idx>=0)S.dishes[idx]={...d.data,id};else S.dishes.push({...d.data,id});
-          LS.set(K.dishes,S.dishes);
-        } else if(d.path!=="/"&&d.data===null){
-          S.dishes=S.dishes.filter(x=>x.id!==d.path.replace("/",""));
-          LS.set(K.dishes,S.dishes);
-        } else if(d.path==="/"&&d.data===null){
-          S.dishes=[];LS.set(K.dishes,[]);
-        }
-        if(S.tab==="gerichte"||S.tab==="ai")render();
-      }catch{}
-    });
-  }catch{}
+let SESSION=LS.get("nk_session")||null; // {username, group, displayName}
+
+async function doLogin(username,password){
+  const uname=username.trim().toLowerCase().replace(/[^a-z0-9_]/g,"");
+  if(!uname||!password)return"Bitte alle Felder ausfüllen";
+  const stored=await fbGet("users/"+uname);
+  if(!stored)return"Benutzer nicht gefunden";
+  if(stored.passwordHash!==hashPw(password))return"Falsches Passwort";
+  SESSION={username:uname,group:stored.group,displayName:stored.displayName||uname};
+  LS.set("nk_session",SESSION);
+  return null;
 }
 
-function startPlanSSE(){
-  if(ssePlan){ssePlan.close();ssePlan=null}
-  if(!FB)return;
-  try{
-    ssePlan=new EventSource(fbUrl("plan")+"?accept=text/event-stream");
-    ssePlan.addEventListener("put",e=>{
-      try{
-        const d=JSON.parse(e.data);
-        if(d.path==="/"&&d.data){S.plan=d.data;LS.set(K.plan,S.plan);}
-        else if(d.path!=="/"&&d.data!==null){
-          // path is like /Montag or /Montag/Frühstück
-          const parts=d.path.replace(/^\//,"").split("/");
-          if(parts.length===1){if(!S.plan[parts[0]])S.plan[parts[0]]={};Object.assign(S.plan[parts[0]],d.data);}
-          else if(parts.length===2){if(!S.plan[parts[0]])S.plan[parts[0]]={};S.plan[parts[0]][parts[1]]=d.data;}
-          LS.set(K.plan,S.plan);
-        } else if(d.path==="/"&&d.data===null){S.plan={};LS.set(K.plan,{});}
-        if(S.tab==="plan")render();
-      }catch{}
-    });
-  }catch{}
+async function doRegister(username,displayName,password,password2,group){
+  const uname=username.trim().toLowerCase().replace(/[^a-z0-9_]/g,"");
+  if(!uname||!displayName||!password||!group)return"Bitte alle Felder ausfüllen";
+  if(password!==password2)return"Passwörter stimmen nicht überein";
+  if(password.length<4)return"Passwort mindestens 4 Zeichen";
+  if(!uname.match(/^[a-z0-9_]{2,20}$/))return"Benutzername: 2-20 Zeichen, nur Buchstaben/Zahlen/_";
+  const existing=await fbGet("users/"+uname);
+  if(existing)return"Benutzername bereits vergeben";
+  const userData={passwordHash:hashPw(password),group:group.trim().toLowerCase().replace(/[^a-z0-9_-]/g,""),displayName:displayName.trim(),goals:DEF_GOALS_PERSONAL};
+  await fbSet("users/"+uname,userData);
+  SESSION={username:uname,group:userData.group,displayName:userData.displayName};
+  LS.set("nk_session",SESSION);
+  return null;
 }
 
-// Shopping Firebase ops
-async function shopLoad(){const d=await fbGet("shopping");S.shopping=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>({...it,id})):[];}
-async function shopAdd(item){await fbSet("shopping/"+item.id,{name:item.name,qty:item.qty||"",done:item.done,source:item.source||""})}
-async function shopToggleFb(id,done){await fbPatch("shopping/"+id,{done})}
-async function shopDelFb(id){await fbDel("shopping/"+id)}
+function doLogout(){SESSION=null;LS.set("nk_session",null);S.tab="ai";loadAllData().then(()=>render());}
 
-// Dishes Firebase ops
-async function dishesLoad(){
-  const d=await fbGet("dishes");
-  if(d&&typeof d==="object"){
-    S.dishes=Object.entries(d).map(([id,it])=>({...it,id}));
-    LS.set(K.dishes,S.dishes);
-  }
-}
-async function dishSaveFb(dish){
-  const {id,...data}=dish;
-  await fbSet("dishes/"+id,data);
-}
-async function dishDeleteFb(id){await fbDel("dishes/"+id)}
-
-// Plan Firebase ops
-async function planLoad(){
-  const d=await fbGet("plan");
-  if(d&&typeof d==="object"){S.plan=d;LS.set(K.plan,S.plan);}
-}
-async function planSaveFb(){
-  await fbSet("plan",S.plan);
-}
+// ═══════════════════════════════════════════════
+// FIREBASE PATHS (group & user scoped)
+// ═══════════════════════════════════════════════
+const grpPath=p=>SESSION?`groups/${SESSION.group}/${p}`:p;
+const usrPath=p=>SESSION?`users/${SESSION.username}/${p}`:p;
+const planPath=(day,meal)=>grpPath(`plan/${SESSION.username}/${day}/${meal}`);
 
 // ═══════════════════════════════════════════════
 // CLAUDE API
 // ═══════════════════════════════════════════════
-async function claude(system,user,imageB64=null){
-  const cfg=LS.get(K.cfg)||{};
+async function claude(system,user,imgB64=null){
+  const cfg=LS.get("nk_cfg")||{};
   if(!cfg.apiKey)throw new Error("Kein API-Key");
   const content=[];
-  if(imageB64)content.push({type:"image",source:{type:"base64",media_type:"image/jpeg",data:imageB64}});
+  if(imgB64)content.push({type:"image",source:{type:"base64",media_type:"image/jpeg",data:imgB64}});
   content.push({type:"text",text:user});
   const r=await fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
@@ -348,106 +255,319 @@ const DAYS=["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Son
 const MEALS=["Frühstück","Mittagessen","Abendessen","Snack"];
 const CATS=["Frühstück","Mittag & Abend","Snacks"];
 const CAT_MAP={"Frühstück":"Frühstück","Mittagessen":"Mittag & Abend","Abendessen":"Mittag & Abend","Snack":"Snacks"};
-function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend";}
-
-// Consolidate shopping items by name
+function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend"}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function parseQty(str){const m=String(str||"").match(/[\d.,]+/);return m?parseFloat(m[0].replace(",",".")):0}
+function parseUnit(str){return String(str||"").replace(/[\d.,\s]+/,"").trim()}
+function scaleQty(qtyStr,factor){const num=parseQty(qtyStr);const unit=parseUnit(qtyStr);if(!num)return qtyStr;return`${Math.round(num*factor*10)/10}${unit?" "+unit:""}`}
 function consolidateShop(items){
   const map={};
   items.forEach(item=>{
     const key=item.name.toLowerCase().trim();
-    if(!map[key]){map[key]={...item,_qty:parseQty(item.qty),_unit:parseUnit(item.qty),_count:1};}
-    else{
-      map[key]._qty+=parseQty(item.qty);
-      map[key]._count++;
-      // merge sources
-      if(item.source&&!map[key].source.includes(item.source))map[key].source+=" · "+item.source;
-    }
+    if(!map[key])map[key]={...item,_qty:parseQty(item.qty),_unit:parseUnit(item.qty)};
+    else{map[key]._qty+=parseQty(item.qty);if(item.source&&!map[key].source.includes(item.source))map[key].source+=" · "+item.source;}
   });
-  return Object.values(map).map(it=>{
-    const qty=it._unit?`${Math.round(it._qty*10)/10} ${it._unit}`:it.qty;
-    return{...it,qty};
-  });
-}
-function parseQty(str){const m=String(str||"").match(/[\d.,]+/);return m?parseFloat(m[0].replace(",",".")):0}
-function parseUnit(str){return String(str||"").replace(/[\d.,\s]+/,"").trim()}
-function scaleQty(qtyStr,factor){
-  const num=parseQty(qtyStr);
-  const unit=parseUnit(qtyStr);
-  if(!num)return qtyStr;
-  return`${Math.round(num*factor*10)/10}${unit?" "+unit:""}`;
+  return Object.values(map).map(it=>({...it,qty:it._unit?`${Math.round(it._qty*10)/10} ${it._unit}`:it.qty}));
 }
 
+// Supermarket categories
+const SHOP_CATS=[
+  {key:"gemuese",icon:"🥦",label:"Gemüse & Salat",kw:["salat","tomate","tomaten","gurke","paprika","zucchini","brokkoli","blumenkohl","spinat","karotte","karotten","möhre","möhren","lauch","sellerie","petersilie","kräuter","basilikum","rosmarin","thymian","oregano","zwiebel","zwiebeln","knoblauch","ingwer","chili","erbsen","bohnen","grüne bohnen","pilze","champignons","mais","avocado","artischocke","spargel","pak choi","rucola","feldsalat","eisbergsalat","kopfsalat","chinakohl","kresse"]},
+  {key:"obst",icon:"🍎",label:"Obst",kw:["apfel","äpfel","birne","birnen","banane","bananen","orange","orangen","zitrone","zitronen","limette","erdbeere","erdbeeren","himbeere","blaubeere","kirsche","traube","mango","ananas","kiwi","pfirsich","pflaume","melone","grapefruit","mandarine","beere","obst","früchte"]},
+  {key:"brot",icon:"🍞",label:"Brot & Aufschnitt",kw:["brot","brötchen","toast","vollkornbrot","baguette","ciabatta","croissant","aufschnitt","wurst","salami","schinken","fleischwurst","leberwurst","mortadella","pute aufschnitt"]},
+  {key:"fleisch",icon:"🥩",label:"Fleisch & Fisch",kw:["hähnchen","hähnchenfilet","hähnchenbrust","hähnchenschenkel","pute","putenfilet","rind","rindfleisch","hackfleisch","schwein","schweinefleisch","kotelett","steak","lachs","thunfisch","garnelen","shrimps","kabeljau","forelle","hering","fisch","meeresfrüchte","bacon","speck","fleisch"]},
+  {key:"milch",icon:"🥛",label:"Milch, Käse & Quark",kw:["milch","vollmilch","sahne","joghurt","naturjoghurt","skyr","quark","magerquark","speisequark","frischkäse","käse","gouda","edamer","mozzarella","parmesan","feta","cheddar","ricotta","mascarpone","buttermilch","kefir","crème fraîche","schmand","saure sahne","hafermilch","mandelmilch","sojamilch","kokosmilch"]},
+  {key:"eier",icon:"🥚",label:"Eier & Butter",kw:["ei","eier","butter","margarine"]},
+  {key:"tiefkuehl",icon:"🧊",label:"Tiefkühl",kw:["tiefkühl","gefroren","tk ","tiefgekühlte","gefrorene","eis","eiscreme","fischstäbchen","pommes"]},
+  {key:"getreide",icon:"🌾",label:"Nudeln, Reis & Getreide",kw:["nudeln","spaghetti","penne","fusilli","farfalle","tagliatelle","lasagne","reis","basmatireis","vollkornreis","jasminreis","quinoa","couscous","bulgur","haferflocken","hafer","grieß","polenta","mehl","weizenmehl","dinkelmehl","stärke","paniermehl"]},
+  {key:"huelsen",icon:"🫘",label:"Hülsenfrüchte & Konserven",kw:["linsen","kichererbsen","kidneybohnen","weiße bohnen","tofu","tempeh","soja","dose","konserve","tomatenmark","tomatensoße","passata","ölsardinen"]},
+  {key:"oel",icon:"🫙",label:"Öl, Soßen & Gewürze",kw:["olivenöl","öl","sonnenblumenöl","rapsöl","kokosöl","essig","balsamico","senf","mayonnaise","ketchup","sojasauce","sojasoße","fischsauce","salz","pfeffer","paprikapulver","kurkuma","zimt","kardamom","curry","kreuzkümmel","muskat","lorbeer","zucker","honig","ahornsirup","hefe","backpulver","vanille"]},
+  {key:"snacks",icon:"🍫",label:"Snacks & Süßes",kw:["schokolade","riegel","nuss","nüsse","mandeln","walnüsse","cashews","erdnüsse","pistazien","haselnüsse","müsliriegel","chips","cracker","kekse","kuchen","nutella","erdnussbutter","marmelade","popcorn","studentenfutter","trockenfrüchte","rosinen","datteln"]},
+  {key:"getraenke",icon:"🥤",label:"Getränke",kw:["wasser","mineralwasser","saft","orangensaft","apfelsaft","smoothie","cola","limonade","tee","kaffee","espresso","proteinshake","protein shake","whey","protein pulver"]},
+  {key:"sonstiges",icon:"🛒",label:"Sonstiges",kw:[]},
+];
+function getShopCat(name){
+  const n=(name||"").toLowerCase();
+  for(const c of SHOP_CATS){if(c.key==="sonstiges")continue;if(c.kw.some(k=>n.includes(k)))return c.key;}
+  return"sonstiges";
+}
+
+const DEF_GOALS_PERSONAL={kcal:2000,protein:120,carbs:220,fat:65,fiber:30};
+
 // ═══════════════════════════════════════════════
-// STATE
+// APP STATE
 // ═══════════════════════════════════════════════
-const _cfg=LS.get(K.cfg)||{};
+const _cfg=LS.get("nk_cfg")||{};
 if(_cfg.firebaseUrl)FB=_cfg.firebaseUrl;
 
-const DEF_GOALS={
-  du:{name:"Du",ziel:"Muskelaufbau",kcal:3175,protein:178,carbs:365,fat:90,fiber:35},
-  frau:{name:"Frau",ziel:"Abnehmen",kcal:1525,protein:123,carbs:160,fat:55,fiber:25}
-};
-
 let S={
-  setupDone:!!((_cfg.apiKey)&&(_cfg.firebaseUrl)),
-  tab:"ai",
-  activeUser:LS.get(K.user)||"du",
-  goals:LS.get(K.goals)||DEF_GOALS,
-  dishes:LS.get(K.dishes)||[], // overwritten by Firebase on load
-  shopping:[],
-  diary:LS.get(K.diary)||{},
-  weight:LS.get(K.weight)||[],
-  plan:LS.get(K.plan)||{}, // overwritten by Firebase on load
-  live:false,
+  // Auth UI
+  authTab:"login", authError:"", authLoading:false,
+  // Setup (first-time Firebase config)
+  needSetup:!_cfg.firebaseUrl||!_cfg.apiKey,
+  // App
+  tab:"ai", live:false,
+  dishes:[], shopping:[], diary:LS.get("nk_diary")||{},
+  weight:LS.get("nk_weight")||[], plan:{},
+  goals:null, // loaded from Firebase per user
+  groupMembers:[], // other members in same group
+  publicDishes:[], // library visible to all groups
+  groupFavIds:new Set(), // ids of dishes favorited by this group
+  dishView:"mine", // "mine" | "library"
+  libSearch:"", migrating:false, migrateCount:0,
   toast:null,_tt:null,
-  // AI page
-  msgs:[{r:"a",t:"Hallo! Beschreib mir, was du essen möchtest – z.B. <em>proteinreiches Abendessen</em> – und ich schlage dir 3 Gerichte mit Nährwerten vor!"}],
+  // AI
+  msgs:[{r:"a",t:"Hallo! Beschreib mir, was du essen möchtest – z.B. <em>proteinreiches Abendessen</em> – und ich schlage dir Gerichte mit Nährwerten vor!"}],
   aiStep:"chat",sugs:[],selSug:null,editDish:null,aiLoading:false,refLoading:false,
-  // Gerichte tab
+  // Gerichte
   dishCat:"Frühstück",dishPortions:{},openDish:null,
-  // Plan slot modal
-  planSlot:null, planSlotMode:"select", planSlotLoading:false,
-  planSlotMsgs:[],planSlotInput:"",
-  // Diary modal
-  modal:null,mdata:null,
-  // Log entry KI
+  // Plan
+  planSlot:null,planSlotMode:"select",planSlotLoading:false,
+  planSlotMsgs:[],planLoading:false,
+  // Shopping - family cooking multiplier
+  cookMulti:1,
+  // Diary
+  modal:null,mdata:null,activeGoalUser:"self",
   logMode:"dish",logSearch:"",logSel:null,logPortions:"1",logGram:"",logDate:today(),
   logCustom:{name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""},
   logFoodSearch:"",logFoodResult:null,logFoodLoading:false,
   logPhotoB64:null,logPhotoLoading:false,logPhotoResult:null,
 };
 
-function saveLocal(){
-  LS.set(K.diary,S.diary);LS.set(K.weight,S.weight);
-  LS.set(K.goals,S.goals);LS.set(K.user,S.activeUser);
-  // dishes and plan are saved to Firebase directly
+// ═══════════════════════════════════════════════
+// DATA LOADING & SAVING
+// ═══════════════════════════════════════════════
+let sseShop=null,sseDishes=null;
+
+function startSSE(){
+  // Shopping SSE
+  if(sseShop){sseShop.close();sseShop=null}
+  if(!FB||!SESSION)return;
+  try{
+    sseShop=new EventSource(fbUrl(grpPath("shopping"))+"?accept=text/event-stream");
+    sseShop.addEventListener("put",e=>{
+      try{
+        const d=JSON.parse(e.data);
+        if(d.path==="/"&&d.data)S.shopping=Object.entries(d.data).map(([id,it])=>({...it,id}));
+        else if(d.path!=="/"&&d.data!==null){const id=d.path.replace("/","");const idx=S.shopping.findIndex(x=>x.id===id);if(idx>=0)S.shopping[idx]={...d.data,id};else S.shopping.push({...d.data,id});}
+        else if(d.path!=="/"&&d.data===null)S.shopping=S.shopping.filter(x=>x.id!==d.path.replace("/",""));
+        else if(d.path==="/"&&d.data===null)S.shopping=[];
+        S.live=true;if(S.tab==="shopping")render();
+      }catch{}
+    });
+    sseShop.onerror=()=>{S.live=false};
+    sseShop.onopen=()=>{S.live=true};
+  }catch{S.live=false}
+  // Dishes SSE
+  if(sseDishes){sseDishes.close();sseDishes=null}
+  try{
+    sseDishes=new EventSource(fbUrl(grpPath("dishes"))+"?accept=text/event-stream");
+    sseDishes.addEventListener("put",e=>{
+      try{
+        const d=JSON.parse(e.data);
+        if(d.path==="/"&&d.data)S.dishes=Object.entries(d.data).map(([id,it])=>({...it,id}));
+        else if(d.path!=="/"&&d.data!==null){const id=d.path.replace("/","");const idx=S.dishes.findIndex(x=>x.id===id);if(idx>=0)S.dishes[idx]={...d.data,id};else S.dishes.push({...d.data,id});}
+        else if(d.path!=="/"&&d.data===null)S.dishes=S.dishes.filter(x=>x.id!==d.path.replace("/",""));
+        else if(d.path==="/"&&d.data===null)S.dishes=[];
+        if(S.tab==="gerichte"||S.tab==="ai")render();
+      }catch{}
+    });
+  }catch{}
 }
-async function saveDish(dish){
-  LS.set(K.dishes,S.dishes); // local cache
-  await dishSaveFb(dish);
+
+async function loadAllData(){
+  if(!SESSION||!FB)return;
+  // Shopping
+  const sh=await fbGet(grpPath("shopping"));
+  S.shopping=sh&&typeof sh==="object"?Object.entries(sh).map(([id,it])=>({...it,id})):[];
+  // Dishes
+  const di=await fbGet(grpPath("dishes"));
+  S.dishes=di&&typeof di==="object"?Object.entries(di).map(([id,it])=>({...it,id})):[];
+  // Plan (personal)
+  const pl=await fbGet(grpPath(`plan/${SESSION.username}`));
+  S.plan=pl&&typeof pl==="object"?pl:{};
+  // Goals (personal)
+  const userData=await fbGet(`users/${SESSION.username}`);
+  S.goals=userData?.goals||{...DEF_GOALS_PERSONAL};
+  // Group members
+  const allUsers=await fbGet("users");
+  S.groupMembers=allUsers?Object.entries(allUsers).filter(([u,d])=>d.group===SESSION.group&&u!==SESSION.username).map(([u,d])=>d.displayName||u):[];
+  // Public library + favorites
+  await loadPublicDishes();
 }
-async function saveAllDishes(){
-  LS.set(K.dishes,S.dishes);
-  for(const d of S.dishes) await dishSaveFb(d);
+
+async function dishSave(dish){const{id,...data}=dish;await fbSet(grpPath("dishes/"+id),data);}
+async function dishDelete(id){await fbDel(grpPath("dishes/"+id));}
+async function planSave(){await fbSet(grpPath(`plan/${SESSION.username}`),S.plan);}
+async function shopAdd(item){await fbSet(grpPath("shopping/"+item.id),{name:item.name,qty:item.qty||"",done:item.done,source:item.source||""});}
+async function shopToggle(id,done){await fbPatch(grpPath("shopping/"+id),{done});}
+async function shopDel(id){await fbDel(grpPath("shopping/"+id));}
+async function goalsSave(){await fbPatch(`users/${SESSION.username}`,{goals:S.goals});}
+
+// Public library
+async function publishDish(dish){
+  const{id,...data}=dish;
+  await fbSet(`public_dishes/${id}`,{...data,publishedBy:SESSION.group,publishedByDisplay:SESSION.displayName});
 }
-async function savePlan(){
-  LS.set(K.plan,S.plan);
-  await planSaveFb();
+async function loadPublicDishes(){
+  const d=await fbGet("public_dishes");
+  S.publicDishes=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>({...it,id})):[];
+  const favData=await fbGet(grpPath("favorites"));
+  S.groupFavIds=new Set(favData?Object.keys(favData):[]);
 }
+async function toggleFavorite(publicDishId){
+  if(S.groupFavIds.has(publicDishId)){
+    await fbDel(grpPath("favorites/"+publicDishId));
+    S.groupFavIds.delete(publicDishId);
+    toast("Favorit entfernt");
+  } else {
+    await fbSet(grpPath("favorites/"+publicDishId),{addedAt:Date.now(),addedBy:SESSION.username});
+    S.groupFavIds.add(publicDishId);
+    toast("⭐ Als Favorit gespeichert");
+  }
+  render();
+}
+async function addFavToGroupDishes(pubDish){
+  const newDish={...pubDish,id:uid()};
+  delete newDish.publishedBy;delete newDish.publishedByDisplay;
+  S.dishes.push(newDish);
+  await dishSave(newDish);
+  toast(`✓ "${newDish.name}" zu euren Gerichten hinzugefügt`);
+  render();
+}
+
+// Migration from old localStorage
+async function migrateOldDishes(){
+  const oldKeys=["nk4_dishes","nk3_dishes","nk_dishes"];
+  let imported=[];
+  for(const k of oldKeys){
+    const data=LS.get(k);
+    if(data&&Array.isArray(data)&&data.length){imported=data;break;}
+  }
+  if(!imported.length){toast("Keine alten Gerichte gefunden");return;}
+  S.migrating=true;S.migrateCount=0;render();
+  for(const dish of imported){
+    const newDish={...dish,id:dish.id||uid()};
+    S.dishes.push(newDish);
+    await dishSave(newDish);
+    // also publish to public library
+    await publishDish(newDish);
+    S.migrateCount++;
+  }
+  S.migrating=false;
+  toast(`✓ ${imported.length} Gerichte übertragen!`);
+  render();
+}
+
+function saveLocal(){LS.set("nk_diary",S.diary);LS.set("nk_weight",S.weight);}
 function toast(msg){if(S._tt)clearTimeout(S._tt);S.toast=msg;S._tt=setTimeout(()=>{S.toast=null;render()},2600);render()}
-function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function setTab(t){S.tab=t;render()}
 function closeModal(){S.modal=null;S.mdata=null;render()}
 
 // ═══════════════════════════════════════════════
-// RENDER SHELL
+// RENDER
 // ═══════════════════════════════════════════════
 function render(){
-  document.getElementById("root").innerHTML=S.setupDone?renderApp():renderSetup();
-  bindAll();
+  const root=document.getElementById("root");
+  if(S.needSetup){root.innerHTML=renderFirstSetup();bindAll();return;}
+  if(!SESSION){root.innerHTML=renderAuth();bindAll();return;}
+  root.innerHTML=renderApp();bindAll();
   if(S.tab==="ai")scrollChat("aichat");
 }
 
+// ─── FIRST-TIME SETUP (API + Firebase) ─────────────────────────────
+function renderFirstSetup(){
+  const saved=LS.get("nk_cfg")||{};
+  return`<div class="auth-screen">
+  <div class="auth-logo">Nutri<em>KI</em></div>
+  <p style="color:var(--mu);font-size:12px;margin-bottom:20px;text-align:center">Einmalige Einrichtung</p>
+  <div style="width:100%;max-width:420px">
+    <div class="setup-card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">🔑 Anthropic API-Key</div>
+      <div class="field"><input id="s_api" type="password" placeholder="sk-ant-..." value="${esc(saved.apiKey||"")}"/></div>
+      <div style="font-size:11px;color:var(--mu)">Erstellen auf <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys</div>
+    </div>
+    <div class="setup-card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px">🔴 Firebase Realtime Database</div>
+      <div class="step-box"><div class="step-num">1</div><div style="font-size:12px">Gehe zu <a href="https://console.firebase.google.com" target="_blank"><strong>console.firebase.google.com</strong></a> → Projekt erstellen</div></div>
+      <div class="step-box"><div class="step-num">2</div><div style="font-size:12px"><strong>Erstellen → Realtime Database → Testmodus</strong></div></div>
+      <div class="step-box"><div class="step-num">3</div><div style="font-size:12px">Datenbank-URL kopieren und einfügen:</div></div>
+      <div class="field" style="margin-top:10px"><input id="s_fb" placeholder="https://xxx-default-rtdb.firebaseio.com" value="${esc(saved.firebaseUrl||"")}"/></div>
+    </div>
+    <button class="btn bg" style="width:100%;justify-content:center;padding:13px;font-size:14px" onclick="doFirstSetup()">Weiter →</button>
+  </div></div>`;
+}
+async function doFirstSetup(){
+  const api=document.getElementById("s_api")?.value.trim();
+  const fb=document.getElementById("s_fb")?.value.trim().replace(/\/+$/,"");
+  if(!api||!fb)return alert("Bitte beide Felder ausfüllen");
+  LS.set("nk_cfg",{apiKey:api,firebaseUrl:fb});
+  FB=fb;
+  try{await fbSet("_init",{ok:true});S.needSetup=false;render();}
+  catch(e){alert("Firebase-Verbindung fehlgeschlagen: "+e.message);}
+}
+
+// ─── AUTH SCREEN ────────────────────────────────────────────────────
+function renderAuth(){
+  const isLogin=S.authTab==="login";
+  return`<div class="auth-screen">
+  <div class="auth-logo">Nutri<em>KI</em></div>
+  <p style="color:var(--mu);font-size:12px;margin-bottom:20px;text-align:center">Dein KI-Ernährungsassistent</p>
+  <div style="width:100%;max-width:380px">
+    <div class="auth-tabs">
+      <button class="auth-tab${isLogin?" on":""}" onclick="S.authTab='login';S.authError='';render()">Anmelden</button>
+      <button class="auth-tab${!isLogin?" on":""}" onclick="S.authTab='register';S.authError='';render()">Registrieren</button>
+    </div>
+    ${S.authError?`<div style="background:#fee;border:1px solid #fbb;border-radius:8px;padding:10px 13px;font-size:13px;color:var(--or);margin-bottom:12px">⚠️ ${esc(S.authError)}</div>`:""}
+    <div class="card">
+      ${isLogin?`
+        <div class="field"><label>Benutzername</label><input id="a_user" placeholder="mein_name" autocomplete="username"/></div>
+        <div class="field"><label>Passwort</label><input id="a_pw" type="password" placeholder="••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLoginUI()"/></div>
+        <button class="btn bg" style="width:100%;justify-content:center;padding:12px" onclick="doLoginUI()" ${S.authLoading?"disabled":""}>
+          ${S.authLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"Anmelden →"}
+        </button>
+      `:`
+        <div class="r2">
+          <div class="field"><label>Benutzername</label><input id="r_user" placeholder="max_mueller" autocomplete="username"/></div>
+          <div class="field"><label>Anzeigename</label><input id="r_display" placeholder="Max"/></div>
+        </div>
+        <div class="field"><label>🏠 Gruppe / Haushalt</label><input id="r_group" placeholder="familie_mueller"/></div>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:10px;line-height:1.5">Alle mit demselben Gruppenname teilen Gerichte, Einkaufsliste und Wochenplan.</div>
+        <div class="r2">
+          <div class="field"><label>Passwort</label><input id="r_pw" type="password" placeholder="••••••" autocomplete="new-password"/></div>
+          <div class="field"><label>Wiederholen</label><input id="r_pw2" type="password" placeholder="••••••" autocomplete="new-password"/></div>
+        </div>
+        <button class="btn bg" style="width:100%;justify-content:center;padding:12px" onclick="doRegisterUI()" ${S.authLoading?"disabled":""}>
+          ${S.authLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"Konto erstellen →"}
+        </button>
+      `}
+    </div>
+    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">Deine Frau registriert sich mit derselben Gruppe</p>
+  </div></div>`;
+}
+
+async function doLoginUI(){
+  S.authLoading=true;S.authError="";render();
+  const err=await doLogin(document.getElementById("a_user")?.value||"",document.getElementById("a_pw")?.value||"");
+  S.authLoading=false;
+  if(err){S.authError=err;render();return;}
+  await loadAllData();startSSE();render();
+}
+async function doRegisterUI(){
+  S.authLoading=true;S.authError="";render();
+  const err=await doRegister(
+    document.getElementById("r_user")?.value||"",
+    document.getElementById("r_display")?.value||"",
+    document.getElementById("r_pw")?.value||"",
+    document.getElementById("r_pw2")?.value||"",
+    document.getElementById("r_group")?.value||""
+  );
+  S.authLoading=false;
+  if(err){S.authError=err;render();return;}
+  await loadAllData();startSSE();render();
+}
+
+// ─── APP SHELL ──────────────────────────────────────────────────────
 function renderApp(){
   const undone=S.shopping.filter(i=>!i.done).length;
   const tabs=[
@@ -475,49 +595,16 @@ function renderApp(){
   ${S.modal?renderModal():""}`;
 }
 
-// ═══════════════════════════════════════════════
-// SETUP
-// ═══════════════════════════════════════════════
-function renderSetup(){
-  const saved=LS.get(K.cfg)||{};
-  return`<div class="setup">
-  <div class="setup-logo">Nutri<em>KI</em></div>
-  <p style="color:var(--mu);font-size:12px;margin-bottom:22px;text-align:center">Dein KI-Ernährungsassistent</p>
-  <div style="width:100%;max-width:420px">
-    <div class="card" style="margin-bottom:14px">
-      <div style="font-size:13px;font-weight:700;margin-bottom:10px">🔑 Anthropic API-Key</div>
-      <div class="field"><input id="s_api" type="password" placeholder="sk-ant-..." value="${esc(saved.apiKey||"")}"/></div>
-      <div style="font-size:11px;color:var(--mu)">Erstellen auf <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys</div>
-    </div>
-    <div class="card" style="margin-bottom:14px">
-      <div style="font-size:13px;font-weight:700;margin-bottom:8px">🔴 Live-Einkaufsliste (Firebase)</div>
-      <div class="step-box"><span class="step-num">1</span><span style="font-size:12px">Gehe zu <a href="https://console.firebase.google.com" target="_blank"><strong>console.firebase.google.com</strong></a> → Projekt erstellen</span></div>
-      <div class="step-box"><span class="step-num">2</span><span style="font-size:12px"><strong>Erstellen → Realtime Database → Testmodus</strong></span></div>
-      <div class="step-box"><span class="step-num">3</span><span style="font-size:12px">Datenbank-URL kopieren und hier einfügen:</span></div>
-      <div class="field" style="margin-top:10px"><input id="s_fb" placeholder="https://xxx-default-rtdb.firebaseio.com" value="${esc(saved.firebaseUrl||"")}"/></div>
-    </div>
-    <button class="btn bg" style="width:100%;justify-content:center;padding:13px;font-size:14px" onclick="doSetup()">App starten →</button>
-    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">Deine Frau öffnet dieselbe Datei + gibt dieselbe Firebase-URL ein</p>
-  </div></div>`;
-}
-async function doSetup(){
-  const api=document.getElementById("s_api")?.value.trim();
-  const fb=document.getElementById("s_fb")?.value.trim().replace(/\/+$/,"");
-  if(!api)return alert("Bitte API-Key eingeben");
-  if(!fb)return alert("Bitte Firebase-URL eingeben");
-  LS.set(K.cfg,{apiKey:api,firebaseUrl:fb});
-  FB=fb;S.setupDone=true;
-  try{
-    await fbSet("_init",{ok:true});
-    await Promise.all([shopLoad(),dishesLoad(),planLoad()]);
-    startSSE();
-    render();
-  }catch(e){alert("Firebase-Fehler: "+e.message);}
+// ─── MACRO CHIPS ────────────────────────────────────────────────────
+function macroChips(d){
+  return`<span class="chip ck">🔥 ${d.kcal||0} kcal</span>
+    <span class="chip cp">💪 ${d.protein||0}g P</span>
+    <span class="chip cf">🧈 ${d.fat||0}g F</span>
+    <span class="chip cc">🌾 ${d.carbs||0}g KH</span>
+    ${d.fiber?`<span class="chip cfi">🌿 ${d.fiber}g Bst.</span>`:""}`;
 }
 
-// ═══════════════════════════════════════════════
-// AI PAGE
-// ═══════════════════════════════════════════════
+// ─── AI PAGE ────────────────────────────────────────────────────────
 function renderAI(){
   const msgs=S.msgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
   const loading=S.aiLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
@@ -530,10 +617,10 @@ function renderAI(){
   } else {
     const sugs=S.sugs.map((s,i)=>`<div class="sug${S.selSug===i?" sel":""}" onclick="pickSug(${i})">
       <div class="sugname">${esc(s.name)}</div>
-      <div style="font-size:11px;color:var(--mu);margin-bottom:5px">⏱ ${esc(s.prepTime||"—")} · ${esc(s.category||"")}</div>
+      <div style="font-size:11px;color:var(--mu);margin-bottom:5px">⏱ ${esc(s.prepTime||"—")} 🔥 ${esc(s.cookTime||"—")} · ${esc(s.category||"")}</div>
       <div class="chips">${macroChips(s)}</div>
     </div>`).join("");
-    let refine="",editor="",acts="";
+    let acts="",refine="",editor="";
     if(S.selSug!==null){
       refine=`<div class="slbl" style="margin-top:12px">Per KI anpassen</div>
         <div class="airow" style="margin-bottom:12px">
@@ -547,23 +634,21 @@ function renderAI(){
         <button class="btn bgh bsm" onclick="resetAI()">← Neue Suche</button>
       </div>`;
     }
-    body=`<div class="slbl">Vorschläge</div>${sugs}${refine}${S.selSug!==null?`<div class="slbl">Bearbeiten</div>${editor}${acts}`:``}
-      ${S.selSug===null?`<button class="btn bgh bsm" style="margin-top:6px" onclick="resetAI()">← Neue Suche</button>`:""}`;
+    body=`<div class="slbl">Vorschläge</div>${sugs}${refine}${S.selSug!==null?`<div class="slbl">Bearbeiten</div>${editor}${acts}`:""}
+      ${S.selSug===null?`<button class="btn bgh bsm" onclick="resetAI()">← Neue Suche</button>`:""}`;
   }
-  const dishCount=S.dishes.length;
+  const userBanner=SESSION?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+    <div style="background:var(--gr);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${(SESSION.displayName||"?")[0].toUpperCase()}</div>
+    <div style="flex:1;font-size:12px"><strong>${esc(SESSION.displayName)}</strong> · Gruppe: <em>${esc(SESSION.group)}</em>
+      ${S.groupMembers.length?`<span style="color:var(--mu)"> · Mitglieder: ${S.groupMembers.map(esc).join(", ")}</span>`:""}
+    </div>
+    <button class="btn bgh bsm" onclick="doLogout()">Abmelden</button>
+  </div>`:"";
   return`<div class="ptitle">KI-<em>Assistent</em></div>
     <div class="psub">Gerichte entdecken, anpassen & speichern</div>
+    ${userBanner}
     <div class="aichat" id="aichat">${msgs}${loading}</div>
-    ${body}
-    ${dishCount?`<div class="div"></div><div style="font-size:12px;color:var(--mu);font-weight:600">📋 ${dishCount} Gericht${dishCount!==1?"e":""} gespeichert – sieh sie im <strong>Gerichte</strong>-Reiter</div>`:""}`;
-}
-
-function macroChips(d){
-  return`<span class="chip ck">🔥 ${d.kcal||0} kcal</span>
-    <span class="chip cp">💪 ${d.protein||0}g P</span>
-    <span class="chip cf">🧈 ${d.fat||0}g F</span>
-    <span class="chip cc">🌾 ${d.carbs||0}g KH</span>
-    ${d.fiber?`<span class="chip cfi">🌿 ${d.fiber}g Bst.</span>`:""}`;
+    ${body}`;
 }
 
 function renderEditor(){
@@ -581,8 +666,8 @@ function renderEditor(){
       </select></div>
     </div>
     <div class="r2">
-      <div class="field"><label>⏱ Vorbereitungszeit</label><input value="${esc(d.prepTime||"")}" oninput="S.editDish.prepTime=this.value" placeholder="z.B. 15 Min"/></div>
-      <div class="field"><label>🔥 Kochzeit</label><input value="${esc(d.cookTime||"")}" oninput="S.editDish.cookTime=this.value" placeholder="z.B. 30 Min"/></div>
+      <div class="field"><label>⏱ Vorbereitung</label><input value="${esc(d.prepTime||"")}" oninput="S.editDish.prepTime=this.value" placeholder="15 Min"/></div>
+      <div class="field"><label>🔥 Kochzeit</label><input value="${esc(d.cookTime||"")}" oninput="S.editDish.cookTime=this.value" placeholder="30 Min"/></div>
     </div>
     <div class="slbl">Nährwerte pro Portion</div>
     <div class="r5">
@@ -590,22 +675,23 @@ function renderEditor(){
         <input type="number" value="${d[k]||""}" oninput="S.editDish['${k}']=parseFloat(this.value)||0"/></div>`).join("")}
     </div>
     <div class="r2">
-      <div class="field"><label>Portionsgewicht (g)</label><input type="number" value="${d.portionWeight||""}" oninput="S.editDish.portionWeight=parseFloat(this.value)||0" placeholder="z.B. 550"/></div>
-      <div class="field"><label>Anzahl Portionen</label><input type="number" value="${d.servings||""}" oninput="S.editDish.servings=parseFloat(this.value)||0" placeholder="z.B. 4"/></div>
+      <div class="field"><label>Portionsgewicht (g)</label><input type="number" value="${d.portionWeight||""}" oninput="S.editDish.portionWeight=parseFloat(this.value)||0" placeholder="550"/></div>
+      <div class="field"><label>Rezept für X Portionen</label><input type="number" value="${d.servings||1}" oninput="S.editDish.servings=parseFloat(this.value)||1" placeholder="4"/></div>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-      <span class="slbl" style="margin-bottom:0">Zutaten (gesamt)</span>
+      <span class="slbl" style="margin-bottom:0">Zutaten (Rezeptmenge)</span>
       <button class="btn bo bsm" onclick="addIng()">+ Zutat</button>
     </div>
     ${ings}
-    <div class="field" style="margin-top:7px"><label>Zubereitung (Schritt für Schritt)</label>
-      <textarea oninput="S.editDish.steps=this.value" style="min-height:90px" placeholder="Schritt 1: Zutaten vorbereiten">${esc(d.steps||d.notes||"")}</textarea>
+    <div class="field" style="margin-top:7px"><label>Zubereitung (je Zeile ein Schritt)</label>
+      <textarea oninput="S.editDish.steps=this.value" style="min-height:80px" placeholder="Zutaten schneiden&#10;Würzen&#10;30 Min im Ofen garen">${esc(d.steps||"")}</textarea>
     </div>
   </div>`;
 }
 
 function addIng(){if(!S.editDish.ingredients)S.editDish.ingredients=[];S.editDish.ingredients.push({name:"",qty:""});render()}
 function rmIng(i){S.editDish.ingredients.splice(i,1);render()}
+function scrollChat(id){setTimeout(()=>{const c=document.getElementById(id);if(c)c.scrollTop=c.scrollHeight},60)}
 
 async function sendAI(){
   const el=document.getElementById("aiIn");if(!el)return;
@@ -613,92 +699,81 @@ async function sendAI(){
   S.msgs.push({r:"u",t:esc(txt)});S.aiLoading=true;render();scrollChat("aichat");
   try{
     const sys=`Du bist Ernährungsexperte. Antworte NUR als JSON-Array mit 3 Gerichten.
-Format: [{"name":"...","category":"Frühstück|Mittagessen|Abendessen|Snack","description":"2 Sätze","prepTime":"15 Min","cookTime":"30 Min","kcal":520,"protein":38,"fat":14,"carbs":52,"fiber":8,"portionWeight":550,"servings":4,"ingredients":[{"name":"Hähnchenbrust","qty":"1000 g"},{"name":"Kartoffeln","qty":"700 g"}],"steps":"Schritt 1: Zutaten schneiden\nSchritt 2: Würzen\nSchritt 3: Im Ofen garen"}]
-Nährwerte pro Portion, realistisch. Ballaststoffe (fiber) immer angeben. prepTime und cookTime immer angeben. steps als mehrzeiliger String mit Schritt-für-Schritt-Anleitung. NUR JSON.`;
+Format: [{"name":"...","category":"Frühstück|Mittagessen|Abendessen|Snack","description":"2 Sätze","prepTime":"15 Min","cookTime":"30 Min","kcal":520,"protein":38,"fat":14,"carbs":52,"fiber":8,"portionWeight":550,"servings":4,"ingredients":[{"name":"Hähnchenbrust","qty":"1000 g"}],"steps":"Schritt 1: ...\nSchritt 2: ..."}]
+Nährwerte pro Portion, realistisch. fiber immer angeben. NUR JSON.`;
     const data=await claude(sys,txt);
     if(data&&Array.isArray(data)&&data.length){
       S.sugs=data;S.selSug=null;S.editDish=null;S.aiStep="suggestions";
-      S.msgs.push({r:"a",t:`Ich habe <strong>${data.length} Vorschläge</strong>! Tippe auf einen zum Auswählen.`});
-    }else S.msgs.push({r:"a",t:"Keine Vorschläge gefunden. Versuche eine andere Beschreibung."});
+      S.msgs.push({r:"a",t:`<strong>${data.length} Vorschläge</strong> gefunden! Tippe auf einen zum Auswählen.`});
+    }else S.msgs.push({r:"a",t:"Keine Vorschläge. Versuche eine andere Beschreibung."});
   }catch(e){S.msgs.push({r:"a",t:"⚠️ "+esc(e.message)})}
   S.aiLoading=false;render();scrollChat("aichat");
 }
-
-function scrollChat(id){setTimeout(()=>{const c=document.getElementById(id);if(c)c.scrollTop=c.scrollHeight},60)}
-
 function pickSug(i){S.selSug=i;S.editDish={...S.sugs[i],ingredients:(S.sugs[i].ingredients||[]).map(x=>({...x}))};render()}
-
 async function refineAI(){
   const el=document.getElementById("refIn");if(!el||S.refLoading||S.selSug===null)return;
   const ins=el.value.trim();if(!ins)return;S.refLoading=true;render();
   try{
-    const sys=`Modifiziere das Gericht. Antworte NUR als JSON-Objekt mit denselben Feldern inkl. fiber. Passe Zutaten+Nährwerte realistisch an.`;
-    const data=await claude(sys,`Gericht: ${JSON.stringify(S.sugs[S.selSug])}\n\nAnweisung: ${ins}`);
+    const data=await claude("Modifiziere das Gericht. NUR JSON-Objekt mit denselben Feldern inkl. fiber, steps.",`Gericht: ${JSON.stringify(S.sugs[S.selSug])}\n\nAnweisung: ${ins}`);
     if(data&&data.name){S.sugs[S.selSug]=data;S.editDish={...data,ingredients:(data.ingredients||[]).map(x=>({...x}))}}
   }catch{}
   S.refLoading=false;render();
 }
-
 function saveFromAI(){
   if(!S.editDish)return;
   const d={...S.editDish,id:uid()};
   ["kcal","protein","fat","carbs","fiber"].forEach(k=>d[k]=parseFloat(d[k])||0);
-  S.dishes.push(d);saveLocal();saveDish(d);toast(`✓ "${d.name}" gespeichert`);resetAI();
+  S.dishes.push(d);dishSave(d);publishDish(d);toast(`✓ "${d.name}" gespeichert & in Bibliothek`);resetAI();
 }
 async function aiToShop(){
   if(!S.editDish)return;
+  const multi=S.cookMulti||1;
   for(const ig of(S.editDish.ingredients||[])){
-    if(ig.name){const item={id:uid(),name:ig.name,qty:ig.qty||"",done:false,source:S.editDish.name};S.shopping.push(item);await shopAdd(item);}
+    if(ig.name){const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,multi),done:false,source:S.editDish.name};S.shopping.push(item);await shopAdd(item);}
   }
   toast("✓ Zutaten zur Einkaufsliste");
 }
 function resetAI(){S.aiStep="chat";S.sugs=[];S.selSug=null;S.editDish=null;render()}
-function deleteDish(id){if(!confirm("Gericht löschen?"))return;S.dishes=S.dishes.filter(d=>d.id!==id);saveLocal();dishDeleteFb(id);toast("Gelöscht");render()}
+function deleteDish(id){if(!confirm("Gericht löschen?"))return;S.dishes=S.dishes.filter(d=>d.id!==id);dishDelete(id);toast("Gelöscht");render()}
 
-// ═══════════════════════════════════════════════
-// GERICHTE PAGE
-// ═══════════════════════════════════════════════
+// ─── GERICHTE PAGE ─────────────────────────────────────────────────
 function renderGerichte(){
   const filtered=S.dishes.filter(d=>dishCat(d)===S.dishCat);
   const cards=filtered.map(d=>{
     const p=S.dishPortions[d.id]||1;
+    const srv=d.servings||1;
     const scale=k=>Math.round((d[k]||0)*p*10)/10;
+    const pw=d.portionWeight||0;
+    const p100=k=>pw>0?Math.round((d[k]||0)/pw*100*10)/10:"—";
     const isOpen=S.openDish===d.id;
-    // per 100g calculation – assume 1 portion = portionWeight g (or 300g default)
-    const pw=d.portionWeight||300;
-    const p100=k=>pw>0?Math.round((d[k]||0)/pw*100*10)/10:0;
+    const ingFactor=p/srv; // scale ingredients from recipe servings to selected portions
     const ings=(d.ingredients||[]).map(ig=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
-      <span>${esc(ig.name)}</span><span style="color:var(--mu);font-weight:600">${esc(scaleQty(ig.qty,p))}</span>
+      <span>${esc(ig.name)}</span><span style="color:var(--mu);font-weight:600">${esc(scaleQty(ig.qty,ingFactor))}</span>
     </div>`).join("");
     return`<div class="dish-card">
       <div class="dish-header" onclick="S.openDish=S.openDish==='${d.id}'?null:'${d.id}';render()">
         <div style="display:flex;align-items:flex-start;gap:8px">
           <div style="flex:1">
             <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700">${esc(d.name)}</div>
-            ${(d.prepTime||d.cookTime)?`<div style="display:flex;gap:8px;margin-top:4px;font-size:11px;color:var(--mu)">
-              ${d.prepTime?`<span>⏱ ${esc(d.prepTime)}</span>`:""}
-              ${d.cookTime?`<span>🔥 ${esc(d.cookTime)}</span>`:""}
-            </div>`:""}
+            ${(d.prepTime||d.cookTime)?`<div style="font-size:11px;color:var(--mu);margin-top:3px">${d.prepTime?`⏱ ${esc(d.prepTime)} `:""}${d.cookTime?`🔥 ${esc(d.cookTime)}`:""}</div>`:""}
             <div class="chips" style="margin-top:5px">${macroChips({kcal:Math.round(scale("kcal")),protein:scale("protein"),fat:scale("fat"),carbs:scale("carbs"),fiber:scale("fiber")})}</div>
           </div>
-          <div style="display:flex;gap:5px;flex-shrink:0">
+          <div style="display:flex;gap:5px;flex-shrink:0;align-items:flex-start">
             <button class="btn bic bd" onclick="event.stopPropagation();deleteDish('${d.id}')">✕</button>
-            <span style="font-size:18px;color:var(--mu);padding:6px">${isOpen?"▲":"▼"}</span>
+            <span style="font-size:16px;color:var(--mu);padding:6px">${isOpen?"▲":"▼"}</span>
           </div>
         </div>
       </div>
       ${isOpen?`<div class="dish-body">
-        <!-- PORTION STEPPER -->
         <div class="portion-stepper">
           <span style="font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.05em">PORTIONEN</span>
           <button class="portion-btn" onclick="chgPortion('${d.id}',-0.5)">−</button>
-          <span style="font-size:16px;font-weight:700;min-width:24px;text-align:center">${p}</span>
+          <span style="font-size:16px;font-weight:700;min-width:28px;text-align:center">${p}</span>
           <button class="portion-btn" onclick="chgPortion('${d.id}',0.5)">+</button>
-          ${d.portionWeight?`<span style="font-size:11px;color:var(--mu);margin-left:4px">= ${Math.round(d.portionWeight*p)} g</span>`:""}
+          ${pw?`<span style="font-size:11px;color:var(--mu)">= ca. ${Math.round(pw*p)} g</span>`:""}
         </div>
-        <!-- PER 100g -->
         <div class="per100">
-          <div class="per100-title">NÄHRWERTE JE 100 G ${d.portionWeight?"":'<span style="font-weight:400">(Portionsgewicht eintragen)</span>'}</div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--mu);margin-bottom:5px">NÄHRWERTE JE 100 G</div>
           <div class="chips">
             <span class="chip ck">🔥 ${p100("kcal")} kcal</span>
             <span class="chip cp">💪 ${p100("protein")}g P</span>
@@ -706,83 +781,132 @@ function renderGerichte(){
             <span class="chip cc">🌾 ${p100("carbs")}g KH</span>
             ${d.fiber?`<span class="chip cfi">🌿 ${p100("fiber")}g Bst.</span>`:""}
           </div>
-          ${d.portionWeight?"":
-            `<input type="number" placeholder="Portionsgewicht in g eintragen…" style="margin-top:8px;width:100%;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:7px 10px;font-family:Syne,sans-serif;font-size:12px;outline:none" 
-              onchange="setPortionWeight('${d.id}',this.value)"/>`}
+          ${!pw?`<div style="margin-top:7px;display:flex;gap:7px;align-items:center">
+            <input type="number" placeholder="Portionsgewicht in g" style="flex:1;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:6px 10px;font-family:Syne,sans-serif;font-size:12px;outline:none" onchange="setPortionWeight('${d.id}',this.value)"/>
+          </div>`:""}
         </div>
-        <!-- ZEITEN -->
-        ${(d.prepTime||d.cookTime)?`<div style="display:flex;gap:12px;margin-bottom:10px;font-size:12px;color:var(--mu)">
-          ${d.prepTime?`<span>⏱ <strong>Vorbereitung:</strong> ${esc(d.prepTime)}</span>`:""}
-          ${d.cookTime?`<span>🔥 <strong>Kochzeit:</strong> ${esc(d.cookTime)}</span>`:""}
-        </div>`:""}
-        <!-- ZUTATEN -->
-        ${ings?`<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px">Zutaten für ${p} Portion${p!==1?"en":""}</div>${ings}</div>`:""}
-        <!-- ZUBEREITUNG -->
+        ${ings?`<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px">Zutaten für ${p} Portion${p!==1?"en":""} (Rezept für ${srv})</div>${ings}</div>`:""}
         ${d.steps?`<div style="margin-bottom:10px">
           <div class="slbl" style="margin-bottom:6px">Zubereitung</div>
           ${d.steps.split("\n").filter(s=>s.trim()).map((s,i)=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
             <span style="background:var(--gr);color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
-            <span>${esc(s.replace(/^Schritt\s*\d+[:.\s]*/i,""))}</span>
+            <span>${esc(s.replace(/^schritt\s*\d+[:.\s]*/i,""))}</span>
           </div>`).join("")}
         </div>`:""}
-        <!-- ACTIONS -->
+        ${d.notes?`<div style="font-size:12px;color:var(--mu);margin-bottom:10px">${esc(d.notes)}</div>`:""}
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <button class="btn bg bsm" onclick="dishToShop('${d.id}')">🛒 Einkaufsliste</button>
-          <button class="btn bo bsm" onclick="openAddToPlan('${d.id}')">📅 Wochenplan</button>
+          <button class="btn bo bsm" onclick="S.modal='addtoplan';S.mdata={dishId:'${d.id}',portions:${p}};render()">📅 Wochenplan</button>
           <button class="btn bo bsm" onclick="quickLog('${d.id}')">📓 Loggen</button>
           <button class="btn bo bsm" onclick="openEditDish('${d.id}')">✏️ Bearbeiten</button>
         </div>
       </div>`:""}
     </div>`;
   }).join("");
+  // ── Library view ──────────────────────────────────────────
+  if(S.dishView==="library"){
+    const libFiltered=S.publicDishes.filter(d=>
+      !S.libSearch||d.name.toLowerCase().includes(S.libSearch.toLowerCase())
+    );
+    const libCards=libFiltered.map(d=>{
+      const isFav=S.groupFavIds.has(d.id);
+      const isOwn=S.dishes.some(x=>x.id===d.id);
+      return`<div class="lib-card">
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <div style="flex:1">
+            <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700">${esc(d.name)}</div>
+            <div style="font-size:10px;color:var(--mu);margin-top:2px">von ${esc(d.publishedByDisplay||d.publishedBy||"")}</div>
+            <div class="chips" style="margin-top:5px">${macroChips(d)}</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-shrink:0">
+            <button class="fav-btn" onclick="toggleFavorite('${d.id}')" title="${isFav?"Favorit entfernen":"Als Favorit markieren"}">${isFav?"❤️":"🤍"}</button>
+          </div>
+        </div>
+        ${isFav?`<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+          ${isOwn?`<span style="font-size:11px;color:var(--gr);font-weight:600">✓ Bereits in euren Gerichten</span>`:
+          `<button class="btn bg bsm" onclick="addFavToGroupDishes(${JSON.stringify(d).replace(/"/g,'&quot;')})">+ Zu unseren Gerichten</button>`}
+        </div>`:""}
+      </div>`;
+    }).join("");
+    return`<div class="ptitle">Gerichte-<em>Bibliothek</em></div>
+      <div class="psub">${S.publicDishes.length} Gerichte von allen Gruppen · ❤️ ${S.groupFavIds.size} Favoriten</div>
+      <div style="display:flex;gap:7px;margin-bottom:12px">
+        <button class="btn bg bsm" onclick="S.dishView='mine';render()">← Meine Gerichte</button>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <input value="${esc(S.libSearch)}" oninput="S.libSearch=this.value;render()" placeholder="🔍 Bibliothek durchsuchen…"/>
+      </div>
+      ${S.groupFavIds.size>0?`<div style="background:var(--gol);border:1px solid #d4b840;border-radius:8px;padding:8px 12px;font-size:12px;color:var(--go);margin-bottom:12px">
+        ❤️ Eure Favoriten sind oben markiert. Tippe auf "+ Zu unseren Gerichten" um sie eurer Gruppe hinzuzufügen.
+      </div>`:""}
+      ${libFiltered.length===0?`<div class="empty">Keine Gerichte gefunden.<br>Speichert Gerichte über den KI-Assistenten und sie erscheinen hier automatisch!</div>`:libCards}`;
+  }
+
+  // ── Own dishes view ────────────────────────────────────────
+  // Check for old dishes to migrate
+  const hasOldDishes=["nk4_dishes","nk3_dishes"].some(k=>{const d=LS.get(k);return d&&Array.isArray(d)&&d.length>0;});
+  const migrateBanner=hasOldDishes&&S.dishes.length===0?`<div class="migrate-banner">
+    <div style="font-size:13px;font-weight:700;margin-bottom:4px">📦 Alte Gerichte gefunden!</div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Du hast Gerichte aus der vorherigen App-Version. Diese können übertragen und automatisch in die öffentliche Bibliothek eingestellt werden.</div>
+    ${S.migrating?`<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--bl)"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div> Übertrage Gericht ${S.migrateCount}…</div>`:
+    `<button class="btn bg bsm" onclick="migrateOldDishes()">📥 Gerichte übertragen</button>`}
+  </div>`:""
 
   return`<div class="ptitle">Meine <em>Gerichte</em></div>
-    <div class="psub">${S.dishes.length} Rezepte gespeichert</div>
-    <div class="cat-tabs">
-      ${CATS.map(c=>`<button class="cat-tab${S.dishCat===c?" on":""}" onclick="S.dishCat='${c}';render()">${c}</button>`).join("")}
+    <div class="psub">${S.dishes.length} Rezepte · Gruppe: ${esc(SESSION?.group||"")}</div>
+    <div style="display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap">
+      <div class="cat-tabs" style="flex:1;margin-bottom:0">
+        ${CATS.map(c=>`<button class="cat-tab${S.dishCat===c?" on":""}" onclick="S.dishCat='${c}';S.dishView='mine';render()">${c}</button>`).join("")}
+      </div>
+      <button class="btn bo bsm" onclick="S.dishView='library';S.libSearch='';render()" style="flex-shrink:0">📚 Bibliothek (${S.publicDishes.length})</button>
     </div>
-    ${filtered.length===0?`<div class="empty">Keine Gerichte in dieser Kategorie.<br>Gehe zum ✨ KI-Assistenten und speichere Gerichte!</div>`:cards}`;
+    ${migrateBanner}
+    ${filtered.length===0?`<div class="empty">Keine Gerichte in dieser Kategorie.<br>Nutze den ✨ KI-Assistenten!</div>`:cards}`;
 }
-
 function chgPortion(id,d){const cur=S.dishPortions[id]||1;S.dishPortions[id]=Math.max(0.5,Math.round((cur+d)*2)/2);render()}
-function setPortionWeight(id,v){const d=S.dishes.find(x=>x.id===id);if(d){d.portionWeight=parseFloat(v)||0;saveLocal();render()}}
-
+function setPortionWeight(id,v){const d=S.dishes.find(x=>x.id===id);if(d){d.portionWeight=parseFloat(v)||0;dishSave(d);render()}}
 async function dishToShop(id){
   const d=S.dishes.find(x=>x.id===id);if(!d)return;
   const p=S.dishPortions[id]||1;
+  const srv=d.servings||1;
+  const multi=S.cookMulti||1;
+  const factor=(p/srv)*multi;
   for(const ig of(d.ingredients||[])){
     if(!ig.name)continue;
-    const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,p),done:false,source:d.name+(p!==1?` (${p}×)`:"")};
+    const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,factor),done:false,source:`${d.name} (${p}×${multi>1?`, ${multi} Pers.`:""})`};
     S.shopping.push(item);await shopAdd(item);
   }
-  toast(`✓ Zutaten (${p}×) zur Einkaufsliste`);
+  toast(`✓ Zutaten für ${p} Portion${p!==1?"en":""} hinzugefügt`);
 }
-function openAddToPlan(id){S.modal="addtoplan";S.mdata={dishId:id};render()}
 function quickLog(id){
   const d=S.dishes.find(x=>x.id===id);if(!d)return;
-  S.modal="diary";S.logMode="dish";S.logSel=d;S.logPortions="1";S.logGram="";S.logDate=today();render();
+  S.modal="diary";S.logMode="dish";S.logSel=d;S.logPortions=String(S.dishPortions[id]||1);S.logGram="";S.logDate=today();render();
+}
+function openEditDish(id){
+  const d=S.dishes.find(x=>x.id===id);if(!d)return;
+  S.mdata={...d,ingredients:(d.ingredients||[]).map(x=>({...x}))};
+  S.modal="editdish";render();
 }
 
-// ═══════════════════════════════════════════════
-// PLAN PAGE
-// ═══════════════════════════════════════════════
+// ─── PLAN PAGE ─────────────────────────────────────────────────────
 function renderPlan(){
+  if(S.planLoading)return`<div class="ptitle">Wochen-<em>plan</em></div>
+    <div style="text-align:center;padding:60px 20px">
+      <div class="dots" style="justify-content:center"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div style="font-size:14px;color:var(--mu);margin-top:16px">KI erstellt deinen Plan…</div>
+    </div>`;
   const hasPlan=Object.keys(S.plan).length>0;
-  if(S.planLoading) return`<div class="ptitle">Wochen-<em>plan</em></div><div style="text-align:center;padding:60px 20px">
-    <div class="dots" style="justify-content:center"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div style="font-size:14px;color:var(--mu);margin-top:16px;font-weight:500">KI erstellt deinen Wochenplan…<br><span style="font-size:12px">~20–30 Sekunden</span></div>
-  </div>`;
-
   const dayKcal=day=>Object.values(S.plan[day]||{}).reduce((s,m)=>s+(m.kcal||0),0);
   const slots=hasPlan?DAYS.map(day=>{
     if(!S.plan[day])return"";
     const ms=MEALS.map(meal=>{
       const m=S.plan[day]?.[meal];
+      const label=meal==="Frühstück"?"Früh":meal==="Mittagessen"?"Mittag":meal==="Abendessen"?"Abend":"Snack";
       return`<div class="plan-slot" onclick="openPlanSlot('${day}','${meal}')">
-        <span class="plab">${meal==="Frühstück"?"Früh":meal==="Mittagessen"?"Mittag":meal==="Abendessen"?"Abend":"Snack"}</span>
-        ${m?`<span class="pdname">${esc(m.name)}</span><span class="pkcal">${m.kcal||0} kcal</span>`
-          :`<span class="plan-empty-slot">Tippe zum Hinzufügen…</span>`}
-        <span class="plan-add-icon">${m?"✏️":"＋"}</span>
+        <span class="plab">${label}</span>
+        ${m?`<span class="pdname">${esc(m.name)}${m.portions&&m.portions!==1?` <span style="color:var(--mu);font-size:10px">(${m.portions}×)</span>`:""}</span><span class="pkcal">${m.kcal||0} kcal</span>`:
+        `<span style="color:var(--fa);font-size:12px;font-style:italic;flex:1">Tippe zum Hinzufügen</span>`}
+        <span style="font-size:14px;color:var(--fa)">${m?"✏️":"＋"}</span>
       </div>`;
     }).join("");
     return`<div class="plan-day-card">
@@ -792,185 +916,127 @@ function renderPlan(){
       </div>${ms}
     </div>`;
   }).join(""):"";
-
-  return`<div class="ptitle">Wochen-<em>plan</em></div>
-    <div class="psub">Tippe auf eine Mahlzeit zum Bearbeiten</div>
+  return`<div class="ptitle">Mein <em>Wochenplan</em></div>
+    <div class="psub">Persönlicher Ernährungsplan · ${esc(SESSION?.displayName||"")}</div>
+    <div style="background:var(--bll);border:1px solid #a8cfe8;border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:12px;color:var(--bl)">
+      💡 Der Wochenplan zeigt deine persönlichen Portionen & Nährwerte. Die Einkaufsliste berücksichtigt zusätzlich die Familien-Portionen.
+    </div>
     ${!hasPlan?`<div style="background:linear-gradient(135deg,var(--gl),var(--bll));border:1.5px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:14px">
       <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:4px">Plan generieren</div>
       <p style="font-size:12px;color:var(--mu);margin-bottom:12px">Die KI erstellt einen vollständigen 7-Tage-Plan.</p>
       <button class="btn bg" onclick="S.modal='genplan';render()">✨ Wochenplan erstellen</button>
     </div>`:`<div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
-      <button class="btn bg bsm" onclick="planToShop()">🛒 Alle Zutaten → Einkauf</button>
+      <button class="btn bg bsm" onclick="planToShop()">🛒 Alle → Einkauf</button>
       <button class="btn bo bsm" onclick="S.modal='genplan';render()">✨ Neu generieren</button>
-      <button class="btn bd bsm" onclick="S.plan={};savePlan();render()">🗑 Löschen</button>
+      <button class="btn bd bsm" onclick="S.plan={};planSave();render()">🗑 Löschen</button>
     </div>`}
     ${slots}`;
 }
-
-// Open plan slot modal (click on a meal)
 function openPlanSlot(day,meal){
   S.planSlot={day,meal};S.planSlotMode="select";S.planSlotLoading=false;
-  S.planSlotMsgs=[{r:"a",t:`Was soll am <strong>${day}</strong> zum <strong>${meal}</strong> geben? Beschreib es oder wähle ein gespeichertes Gericht.`}];
-  S.planSlotInput="";S.modal="planslot";render();
+  S.planSlotMsgs=[{r:"a",t:`Was möchtest du am <strong>${day}</strong> zum <strong>${meal}</strong>?`}];
+  S.modal="planslot";render();
 }
-
-function renderPlanSlotModal(){
-  const {day,meal}=S.planSlot||{};
-  const existing=S.plan[day]?.[meal];
-  const filtered=S.dishes.filter(d=>{
-    if(meal==="Frühstück")return d.category==="Frühstück";
-    if(meal==="Snack")return d.category==="Snack";
-    return d.category==="Mittagessen"||d.category==="Abendessen";
-  });
-  const allDishes=S.dishes;// show all if no matching
-
-  const msgs=S.planSlotMsgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
-  const loading=S.planSlotLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
-
-  const dishList=(filtered.length?filtered:allDishes).map(d=>`<div style="padding:8px 10px;border-radius:8px;cursor:pointer;background:var(--bg);margin-bottom:5px;display:flex;align-items:center;gap:8px"
-    onclick="addDishToPlanSlot('${d.id}')">
-    <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
-    <div style="font-size:11px;color:var(--go)">${d.kcal||0} kcal</div>
-  </div>`).join("");
-
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mtitle">${day} · ${meal}</div>
-    ${existing?`<div style="background:var(--gl);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:13px;display:flex;align-items:center;gap:8px">
-      <span style="flex:1"><strong>${esc(existing.name)}</strong> · ${existing.kcal} kcal</span>
-      <button class="btn bd bsm" onclick="removePlanSlot('${day}','${meal}')">Entfernen</button>
-    </div>`:""}
-    <div style="display:flex;gap:7px;margin-bottom:12px">
-      <button class="btn bsm${S.planSlotMode==="select"?" bg":" bo"}" onclick="S.planSlotMode='select';render()">📋 Gespeicherte Gerichte</button>
-      <button class="btn bsm${S.planSlotMode==="ai"?" bg":" bo"}" onclick="S.planSlotMode='ai';render()">✨ KI-Vorschlag</button>
-    </div>
-    ${S.planSlotMode==="select"?`
-      <div style="max-height:260px;overflow-y:auto">${dishList}
-        ${S.dishes.length===0?`<div class="empty" style="padding:20px">Noch keine Gerichte gespeichert.<br>Nutze zuerst den KI-Assistenten!</div>`:""}
-      </div>`:`
-      <div class="aichat" id="slotchat">${msgs}${loading}</div>
-      <div class="airow">
-        <input id="slotIn" placeholder="z.B. leichtes Mittagessen mit Fisch…" onkeydown="if(event.key==='Enter')sendSlotAI()"/>
-        <button class="btn bg" onclick="sendSlotAI()" ${S.planSlotLoading?"disabled":""}>→</button>
-      </div>`}
-    <button class="btn bo" style="width:100%;justify-content:center;margin-top:6px" onclick="closeModal()">Schließen</button>
-  </div></div>`;
-}
-
 async function sendSlotAI(){
   const el=document.getElementById("slotIn");if(!el||S.planSlotLoading)return;
   const txt=el.value.trim();if(!txt)return;
   const {day,meal}=S.planSlot;
   S.planSlotMsgs.push({r:"u",t:esc(txt)});S.planSlotLoading=true;render();scrollChat("slotchat");
   try{
-    const sys=`Du bist Ernährungsexperte. Erstelle EIN passendes Gericht für ${meal}.
-Antworte NUR als JSON-Objekt: {"name":"...","kcal":500,"protein":35,"fat":15,"carbs":55,"fiber":8,"ingredients":[{"name":"...","qty":"..."}],"notes":"..."}
-Nährwerte realistisch, fiber immer angeben.`;
+    const sys=`Du bist Ernährungsexperte. Erstelle EIN Gericht für ${meal}. NUR JSON:
+{"name":"...","kcal":500,"protein":35,"fat":15,"carbs":55,"fiber":8,"ingredients":[{"name":"...","qty":"..."}],"steps":"..."}`;
     const data=await claude(sys,txt);
     if(data&&data.name){
       if(!S.plan[day])S.plan[day]={};
-      S.plan[day][meal]={...data};
-      savePlan();
-      S.planSlotMsgs.push({r:"a",t:`✓ <strong>${esc(data.name)}</strong> (${data.kcal} kcal) für ${day} als ${meal} eingetragen!`});
-      toast(`✓ ${data.name} eingetragen`);
-    }else S.planSlotMsgs.push({r:"a",t:"Konnte kein Gericht erstellen. Versuche eine andere Beschreibung."});
+      const portions=1;
+      S.plan[day][meal]={...data,portions};
+      planSave();
+      S.planSlotMsgs.push({r:"a",t:`✓ <strong>${esc(data.name)}</strong> (${data.kcal} kcal) eingetragen!`});
+      toast(`✓ ${data.name}`);
+    }else S.planSlotMsgs.push({r:"a",t:"Konnte kein Gericht erstellen."});
   }catch(e){S.planSlotMsgs.push({r:"a",t:"⚠️ "+esc(e.message)})}
   S.planSlotLoading=false;render();scrollChat("slotchat");
 }
-
 function addDishToPlanSlot(dishId){
   const d=S.dishes.find(x=>x.id===dishId);if(!d||!S.planSlot)return;
-  const{day,meal}=S.planSlot;
+  const {day,meal}=S.planSlot;
+  // Use currently selected portions for this dish
+  const portions=S.dishPortions[dishId]||1;
   if(!S.plan[day])S.plan[day]={};
-  S.plan[day][meal]={name:d.name,kcal:d.kcal||0,protein:d.protein||0,fat:d.fat||0,carbs:d.carbs||0,fiber:d.fiber||0,ingredients:d.ingredients||[]};
-  savePlan();closeModal();toast(`✓ "${d.name}" am ${day} als ${meal}`);
+  // Scale nutrients by portions
+  S.plan[day][meal]={
+    name:d.name,
+    kcal:Math.round((d.kcal||0)*portions),
+    protein:Math.round((d.protein||0)*portions*10)/10,
+    fat:Math.round((d.fat||0)*portions*10)/10,
+    carbs:Math.round((d.carbs||0)*portions*10)/10,
+    fiber:Math.round((d.fiber||0)*portions*10)/10,
+    ingredients:d.ingredients||[],
+    portions,
+    dishId,
+  };
+  planSave();closeModal();toast(`✓ "${d.name}" (${portions}×) am ${day}`);
 }
-
-function removePlanSlot(day,meal){
-  if(S.plan[day])delete S.plan[day][meal];
-  savePlan();render();
-}
-
+function removePlanSlot(day,meal){if(S.plan[day])delete S.plan[day][meal];planSave();render()}
 async function generatePlan(prefs){
   S.modal=null;S.planLoading=true;render();
   try{
-    const sys=`Du bist Ernährungsexperte. Erstelle einen vollständigen 7-Tage-Ernährungsplan. NUR JSON, kein Text.
-Format: {"Montag":{"Frühstück":{"name":"...","kcal":400,"protein":20,"fat":10,"carbs":55,"fiber":8,"ingredients":[{"name":"...","qty":"..."}]},"Mittagessen":{...},"Abendessen":{...},"Snack":{...}},...alle 7 Tage}`;
-    const saved=S.dishes.length?`Baue bevorzugt diese Gerichte ein: ${S.dishes.map(d=>d.name).join(", ")}.`:"";
+    const sys=`Du bist Ernährungsexperte. Erstelle einen vollständigen 7-Tage-Ernährungsplan. NUR JSON:
+{"Montag":{"Frühstück":{"name":"...","kcal":400,"protein":20,"fat":10,"carbs":55,"fiber":8,"portions":1,"ingredients":[{"name":"...","qty":"..."}]},...},...alle 7 Tage}`;
+    const saved=S.dishes.length?`Nutze bevorzugt: ${S.dishes.map(d=>d.name).join(", ")}.`:"";
     const data=await claude(sys,`Plan für: ${prefs}. ${saved}`);
-    if(data&&data["Montag"]){S.plan=data;savePlan();toast("✓ Wochenplan erstellt!")}
-    else toast("⚠️ Fehler – bitte erneut versuchen");
+    if(data&&data["Montag"]){S.plan=data;planSave();toast("✓ Wochenplan erstellt!")}
+    else toast("⚠️ Fehler, bitte erneut versuchen");
   }catch(e){toast("⚠️ "+e.message)}
   S.planLoading=false;render();
 }
-
 async function planToShop(){
   let n=0;
-  for(const dayMeals of Object.values(S.plan))for(const meal of Object.values(dayMeals))for(const ig of(meal.ingredients||[])){
-    if(ig.name){const item={id:uid(),name:ig.name,qty:ig.qty||"",done:false,source:"Wochenplan"};S.shopping.push(item);await shopAdd(item);n++;}
+  const multi=S.cookMulti||1;
+  for(const [day,dayMeals] of Object.entries(S.plan)){
+    for(const meal of Object.values(dayMeals)){
+      const portions=meal.portions||1;
+      const factor=portions*multi;
+      for(const ig of(meal.ingredients||[])){
+        if(ig.name){
+          const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,factor),done:false,source:`${meal.name} (${day})`};
+          S.shopping.push(item);await shopAdd(item);n++;
+        }
+      }
+    }
   }
-  toast(`✓ ${n} Artikel hinzugefügt`);setTab("shopping");
+  toast(`✓ ${n} Artikel (×${multi} Personen) hinzugefügt`);setTab("shopping");
 }
 
-// ═══════════════════════════════════════════════
-// SHOPPING PAGE
-// ═══════════════════════════════════════════════
-
-// Supermarkt-Kategorien in der Reihenfolge wie man durchgeht
-const SHOP_CATS = [
-  {key:"gemuese",  icon:"🥦", label:"Gemüse & Salat",    keywords:["salat","tomate","tomaten","gurke","paprika","zucchini","brokkoli","blumenkohl","spinat","karotte","karotten","möhre","möhren","lauch","sellerie","petersilie","kräuter","basilikum","rosmarin","thymian","zwiebel","zwiebeln","knoblauch","ingwer","chili","erbsen","bohnen","grüne bohnen","pilze","champignons","mais","avocado","artischocke","spargel","pak choi","rucola","feldsalat","eisbergsalat","kopfsalat","chinakohl"]},
-  {key:"obst",     icon:"🍎", label:"Obst",               keywords:["apfel","äpfel","birne","birnen","banane","bananen","orange","orangen","zitrone","zitronen","limette","limetten","erdbeere","erdbeeren","himbeere","himbeeren","blaubeere","blaubeeren","kirsche","kirschen","traube","trauben","mango","ananas","kiwi","pfirsich","pfirsiche","pflaume","pflaumen","melone","grapefruit","mandarine","mandarinen","beere","beeren","obst","früchte"]},
-  {key:"brot",     icon:"🍞", label:"Brot & Backwaren",   keywords:["brot","brötchen","toast","vollkornbrot","baguette","ciabatta","laugenbrezel","croissant","vollkorn","körner","dinkel","roggen","aufschnitt","wurst","salami","schinken","fleischwurst","leberwurst","mortadella","pute","hähnchenbrust aufschnitt"]},
-  {key:"fleisch",  icon:"🥩", label:"Fleisch & Fisch",    keywords:["hähnchen","hähnchenfilet","hähnchenbrust","hähnchenschenkel","pute","putenfilet","rind","rindfleisch","hackfleisch","schwein","schweinefleisch","kotelett","steak","lamm","lachs","thunfisch","garnelen","shrimps","kabeljau","forelle","hering","scholle","makrele","sardinen","fisch","meeresfrüchte","bacon","speck"]},
-  {key:"milch",    icon:"🥛", label:"Milch & Käse",       keywords:["milch","vollmilch","fettarme milch","sahne","schlagsahne","joghurt","naturjoghurt","skyr","quark","magerquark","speisequark","frischkäse","frischkaese","käse","gouda","edamer","mozzarella","parmesan","feta","cheddar","ricotta","mascarpone","buttermilch","kefir","crème fraîche","schmand","saure sahne","kondensmilch","hafermilch","mandelmilch","sojamilch","kokosmilch"]},
-  {key:"eier",     icon:"🥚", label:"Eier & Butter",      keywords:["ei","eier","butter","margarine","pflanzenmargarine"]},
-  {key:"tiefkuehl",icon:"🧊", label:"Tiefkühl",           keywords:["tiefkühl","gefroren","tk ","tiefgekühlte","eis","eiscreme","fischstäbchen","pommes","pizza tiefkühl"]},
-  {key:"getreide", icon:"🌾", label:"Nudeln, Reis & Getreide", keywords:["nudeln","spaghetti","penne","fusilli","farfalle","tagliatelle","lasagne","reis","basmatireis","vollkornreis","jasminreis","quinoa","couscous","bulgur","haferflocken","hafer","grieß","polenta","mehl","weizenmehl","dinkelmehl","stärke","speisestärke","maisstärke","pankomehl","paniermehl","haferflocke"]},
-  {key:"huelsen",  icon:"🫘", label:"Hülsenfrüchte & Konserven", keywords:["linsen","kichererbsen","bohnen","kidneybohnen","weiße bohnen","erbsen","tofu","tempeh","seitan","soja","sojasoße","sojasauce","dose","konserve","tomatenmark","tomatensoße","pelati","passata","mais dose","thunfisch dose","ölsardinen"]},
-  {key:"oel",      icon:"🫙", label:"Öl, Soßen & Gewürze", keywords:["olivenöl","öl","sonnenblumenöl","rapsöl","kokosöl","essig","balsamico","soße","sauce","senf","mayonnaise","ketchup","sojasauce","sojasoße","fischsauce","sriracha","tabasco","worcester","salz","pfeffer","paprika gewürz","kurkuma","zimt","kardamom","oregano","curry","kreuzkümmel","koriander","muskat","lorbeer","chili gewürz","vanille","zucker","honig","ahornsirup","sirup","hefe","backpulver","natron"]},
-  {key:"snacks",   icon:"🍫", label:"Snacks & Süßes",     keywords:["schokolade","riegel","nuss","nüsse","mandeln","walnüsse","cashews","erdnüsse","pistazien","haselnüsse","müsliriegel","chips","cracker","kekse","plätzchen","kuchen","marzipan","nutella","erdnussbutter","marmelade","popcorn","studentenfutter","trockenfrüchte","rosinen","datteln","feigen"]},
-  {key:"getraenke",icon:"🥤", label:"Getränke",           keywords:["wasser","mineralwasser","saft","orangensaft","apfelsaft","multivitaminsaft","smoothie","cola","limonade","tee","kaffee","espresso","proteinshake","protein shake","whey","protein pulver","sportgetränk","elektrolyte"]},
-  {key:"sonstiges",icon:"🛒", label:"Sonstiges",          keywords:[]},
-];
-
-function getShopCat(itemName){
-  const name=(itemName||"").toLowerCase();
-  for(const cat of SHOP_CATS){
-    if(cat.key==="sonstiges")continue;
-    if(cat.keywords.some(kw=>name.includes(kw)))return cat.key;
-  }
-  return"sonstiges";
-}
-
+// ─── SHOPPING PAGE ─────────────────────────────────────────────────
 function renderShopping(){
   const undone=consolidateShop(S.shopping.filter(i=>!i.done));
   const done=S.shopping.filter(i=>i.done);
-
-  // Group by supermarket category
-  const catGroups={};
-  SHOP_CATS.forEach(c=>{catGroups[c.key]=[]});
-  undone.forEach(item=>{
-    const cat=getShopCat(item.name);
-    catGroups[cat].push(item);
-  });
-
-  const sections=SHOP_CATS
-    .filter(c=>catGroups[c.key].length>0)
-    .map(c=>`
-      <div style="display:flex;align-items:center;gap:8px;margin:14px 0 7px">
-        <span style="font-size:18px">${c.icon}</span>
-        <span class="slbl" style="margin-bottom:0">${c.label}</span>
-        <span style="font-size:11px;color:var(--fa);margin-left:auto">${catGroups[c.key].length} Artikel</span>
-      </div>
-      ${catGroups[c.key].map(renderShopItem).join("")}`).join("");
-
+  const catGroups={};SHOP_CATS.forEach(c=>{catGroups[c.key]=[]});
+  undone.forEach(item=>{catGroups[getShopCat(item.name)].push(item);});
+  const sections=SHOP_CATS.filter(c=>catGroups[c.key].length>0).map(c=>`
+    <div style="display:flex;align-items:center;gap:8px;margin:14px 0 7px">
+      <span style="font-size:18px">${c.icon}</span>
+      <span class="slbl" style="margin-bottom:0">${c.label}</span>
+      <span style="font-size:11px;color:var(--fa);margin-left:auto">${catGroups[c.key].length}</span>
+    </div>
+    ${catGroups[c.key].map(renderShopItem).join("")}`).join("");
   return`<div class="ptitle">Einkaufs-<em>liste</em></div>
-    <div class="psub">${undone.length} Artikel offen · ${done.length} erledigt</div>
+    <div class="psub">${undone.length} offen · ${done.length} erledigt · Gruppe: ${esc(SESSION?.group||"")}</div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
       <div class="live-badge${S.live?"":" off"}"><div class="live-dot"></div>${S.live?"Live synchronisiert":"Verbindung…"}</div>
     </div>
+    <!-- FAMILY COOKING MULTIPLIER -->
+    <div class="cook-multi">
+      <span style="font-size:11px;font-weight:700;color:var(--go);flex:1">🍳 Kochen für</span>
+      <button class="cook-multi-btn" onclick="S.cookMulti=Math.max(1,S.cookMulti-1);render()">−</button>
+      <span style="font-size:16px;font-weight:700;min-width:20px;text-align:center">${S.cookMulti}</span>
+      <button class="cook-multi-btn" onclick="S.cookMulti++;render()">+</button>
+      <span style="font-size:11px;color:var(--go);margin-left:4px">Person${S.cookMulti!==1?"en":""}</span>
+      <span style="font-size:10px;color:var(--mu);margin-left:8px">Wird beim Hinzufügen skaliert</span>
+    </div>
     <div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
-      <button class="btn bg bsm" onclick="S.modal='addshop';render()">+ Artikel hinzufügen</button>
+      <button class="btn bg bsm" onclick="S.modal='addshop';render()">+ Artikel</button>
       ${done.length?`<button class="btn bd bsm" onclick="doClearDone()">🗑 Erledigte löschen</button>`:""}
     </div>
     ${S.shopping.length===0?`<div class="empty">Einkaufsliste ist leer.</div>`:""}
@@ -979,7 +1045,6 @@ function renderShopping(){
       <span class="slbl" style="margin-bottom:0">✓ Erledigt (${done.length})</span>
     </div>${done.map(renderShopItem).join("")}`:""}`;
 }
-
 function renderShopItem(item){
   return`<div class="sitem${item.done?" dk":""}">
     <button class="scb${item.done?" done":""}" onclick="doToggle('${item.id}')">
@@ -993,55 +1058,43 @@ function renderShopItem(item){
     <button class="btn bic bd" onclick="doDelShop('${item.id}')">✕</button>
   </div>`;
 }
-
-async function doToggle(id){
-  const item=S.shopping.find(x=>x.id===id);if(!item)return;
-  item.done=!item.done;render();await shopToggleFb(id,item.done);
-}
-async function doDelShop(id){S.shopping=S.shopping.filter(x=>x.id!==id);render();await shopDelFb(id);}
-async function doClearDone(){
-  const ids=S.shopping.filter(i=>i.done).map(i=>i.id);
-  S.shopping=S.shopping.filter(i=>!i.done);render();
-  for(const id of ids)await shopDelFb(id);
-}
-async function doAddShop(name,qty,source){
+async function doToggle(id){const item=S.shopping.find(x=>x.id===id);if(!item)return;item.done=!item.done;render();await shopToggle(id,item.done);}
+async function doDelShop(id){S.shopping=S.shopping.filter(x=>x.id!==id);render();await shopDel(id);}
+async function doClearDone(){const ids=S.shopping.filter(i=>i.done).map(i=>i.id);S.shopping=S.shopping.filter(i=>!i.done);render();for(const id of ids)await shopDel(id);}
+async function doAddShop(name,qty){
   if(!name.trim())return;
-  const item={id:uid(),name:name.trim(),qty:(qty||"").trim(),done:false,source:source||"Manuell"};
+  const item={id:uid(),name:name.trim(),qty:(qty||"").trim(),done:false,source:"Manuell"};
   S.shopping.push(item);render();await shopAdd(item);
 }
 
-// ═══════════════════════════════════════════════
-// DIARY PAGE
-// ═══════════════════════════════════════════════
+// ─── DIARY PAGE ────────────────────────────────────────────────────
 function pbar(label,cur,goal,color){
   const pct=Math.min(100,goal>0?Math.round(cur/goal*100):0);
   const over=cur>goal;
   return`<div class="pbar-row">
     <div class="pbar-top">
       <span class="pbar-label">${label}</span>
-      <span class="pbar-val" style="color:${over?"var(--or)":color}">${cur} / ${goal}${label==="Kalorien"?" kcal":" g"} <span style="font-weight:400;color:var(--mu)">(${pct}%)</span></span>
+      <span style="font-weight:700;font-size:11px;color:${over?"var(--or)":color}">${cur}/${goal}${label==="Kalorien"?" kcal":" g"} <span style="font-weight:400;color:var(--mu)">(${pct}%)</span></span>
     </div>
     <div class="pbar-track"><div class="pbar-fill${over?" over":""}" style="width:${pct}%;background:${color}"></div></div>
   </div>`;
 }
-
 function renderDiary(){
-  const u=S.activeUser,g=S.goals[u];
+  const g=S.goals||DEF_GOALS_PERSONAL;
   const te=S.diary[today()]||[];
   const tm=te.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0),fi:a.fi+(e.fiber||0)}),{kcal:0,p:0,f:0,c:0,fi:0});
   const tot=es=>es.reduce((a,e)=>({kcal:a.kcal+(e.kcal||0),p:a.p+(e.protein||0),f:a.f+(e.fat||0),c:a.c+(e.carbs||0),fi:a.fi+(e.fiber||0)}),{kcal:0,p:0,f:0,c:0,fi:0});
   const krest=Math.max(0,g.kcal-tm.kcal);
-
   const todayCard=`<div class="card" style="margin-bottom:13px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
       <div>
-        <div style="font-size:10px;color:var(--mu);letter-spacing:.08em">HEUTE · ${g.name.toUpperCase()} · ${g.ziel.toUpperCase()}</div>
+        <div style="font-size:10px;color:var(--mu);letter-spacing:.08em">HEUTE · ${esc(SESSION?.displayName||"").toUpperCase()}</div>
         <div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--gr);line-height:1">${tm.kcal}<span style="font-size:15px;font-weight:400"> kcal</span></div>
       </div>
       <div style="text-align:right">
         <div style="font-size:10px;color:var(--mu)">NOCH OFFEN</div>
         <div style="font-size:20px;font-weight:700;color:${krest===0?"var(--or)":"var(--ink)"}">${krest} kcal</div>
-        <div style="font-size:10px;color:var(--mu)">Ziel: ${g.kcal} kcal</div>
+        <div style="font-size:10px;color:var(--mu)">Ziel: ${g.kcal}</div>
       </div>
     </div>
     ${pbar("Kalorien",tm.kcal,g.kcal,"var(--go)")}
@@ -1050,10 +1103,9 @@ function renderDiary(){
     ${pbar("Fett",tm.f,g.fat,"var(--or)")}
     ${pbar("Ballaststoffe",tm.fi,g.fiber||30,"var(--pu)")}
     <div style="display:flex;justify-content:flex-end;margin-top:8px">
-      <button class="btn bgh bsm" onclick="S.modal='goals';render()">⚙️ Ziele</button>
+      <button class="btn bgh bsm" onclick="S.modal='goals';render()">⚙️ Ziele anpassen</button>
     </div>
   </div>`;
-
   const entries=Object.entries(S.diary).sort((a,b)=>b[0].localeCompare(a[0])).map(([date,es])=>{
     const m=tot(es);
     return`<div class="card">
@@ -1070,66 +1122,48 @@ function renderDiary(){
         <button class="btn bic bd" onclick="delLog('${date}','${e.id}')">✕</button>
       </div>`).join("")}
       <div class="chips" style="margin-top:8px">
-        <span class="chip ck">🔥 ${m.kcal} kcal</span>
-        <span class="chip cp">💪 ${m.p}g P</span>
-        <span class="chip cf">🧈 ${m.f}g F</span>
-        <span class="chip cc">🌾 ${m.c}g KH</span>
-        <span class="chip cfi">🌿 ${m.fi}g Bst.</span>
+        <span class="chip ck">🔥 ${m.kcal}</span><span class="chip cp">💪 ${m.p}g</span>
+        <span class="chip cf">🧈 ${m.f}g</span><span class="chip cc">🌾 ${m.c}g</span>
+        <span class="chip cfi">🌿 ${m.fi}g</span>
       </div>
     </div>`;
   }).join("");
-
   return`<div class="ptitle">Ernährungs-<em>log</em></div>
-    <div class="psub">Heute: ${fmtD(today())}</div>
-    <div class="user-sw">
-      <button class="user-sw-btn${u==="du"?" on":""}" onclick="S.activeUser='du';saveLocal();render()">👤 ${S.goals.du.name}</button>
-      <button class="user-sw-btn${u==="frau"?" on":""}" onclick="S.activeUser='frau';saveLocal();render()">👤 ${S.goals.frau.name}</button>
-    </div>
+    <div class="psub">${esc(SESSION?.displayName||"")} · ${fmtD(today())}</div>
     ${todayCard}
     <button class="btn bg" style="margin-bottom:14px" onclick="openDiaryModal()">+ Eintrag hinzufügen</button>
     ${Object.keys(S.diary).length===0?`<div class="empty">Noch keine Einträge.</div>`:""}${entries}`;
 }
-
 function openDiaryModal(){
-  S.logMode=S.dishes.length?"dish":"food";
-  S.logSel=null;S.logPortions="1";S.logGram="";S.logDate=today();S.logSearch="";
-  S.logFoodSearch="";S.logFoodResult=null;S.logFoodLoading=false;
-  S.logPhotoB64=null;S.logPhotoLoading=false;S.logPhotoResult=null;
+  S.logMode=S.dishes.length?"dish":"food";S.logSel=null;S.logPortions="1";S.logGram="";
+  S.logDate=today();S.logSearch="";S.logFoodSearch="";S.logFoodResult=null;
+  S.logPhotoB64=null;S.logPhotoResult=null;
   S.logCustom={name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""};
   S.modal="diary";render();
 }
-
 function delLog(date,id){if(S.diary[date])S.diary[date]=S.diary[date].filter(e=>e.id!==id);saveLocal();render()}
-
 function renderDiaryModal(){
-  const modes=[
-    {id:"dish",label:"📋 Mein Gericht"},
-    {id:"food",label:"🔍 Lebensmittel"},
-    {id:"photo",label:"📸 Foto / Text"},
-    {id:"manual",label:"✏️ Manuell"},
-  ];
-  if(!S.dishes.length)modes.shift();// remove dish mode if no dishes
+  const modes=[{id:"dish",label:"📋 Gericht"},{id:"food",label:"🔍 Lebensmittel"},{id:"photo",label:"📸 Foto/Text"},{id:"manual",label:"✏️ Manuell"}];
+  if(!S.dishes.length)modes.shift();
   const f=S.logGram?parseFloat(S.logGram)/100:parseFloat(S.logPortions)||1;
   const preview=S.logSel?`<div class="chips" style="margin-bottom:10px">
     <span class="chip ck">🔥 ${Math.round((S.logSel.kcal||0)*f)} kcal</span>
     <span class="chip cp">💪 ${Math.round((S.logSel.protein||0)*f*10)/10}g P</span>
     <span class="chip cfi">🌿 ${Math.round((S.logSel.fiber||0)*f*10)/10}g Bst.</span>
   </div>`:"";
-
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="mtitle">Eintrag loggen</div>
     <div class="field"><label>Datum</label><input type="date" value="${S.logDate}" onchange="S.logDate=this.value"/></div>
-    <div style="display:flex;gap:6px;margin-bottom:13px;flex-wrap:wrap">
+    <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
       ${modes.map(m=>`<button class="btn bsm${S.logMode===m.id?" bg":" bo"}" onclick="S.logMode='${m.id}';render()">${m.label}</button>`).join("")}
     </div>
-
     ${S.logMode==="dish"?`
       <div class="field"><input value="${esc(S.logSearch)}" oninput="S.logSearch=this.value;render()" placeholder="🔍 Gericht suchen…"/></div>
-      <div style="max-height:170px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:4px">
+      <div style="max-height:160px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:4px">
         ${S.dishes.filter(d=>d.name.toLowerCase().includes(S.logSearch.toLowerCase())).map(d=>`
-          <div style="padding:8px 10px;border-radius:7px;cursor:pointer;background:${S.logSel?.id===d.id?"var(--gl)":"transparent"};display:flex;align-items:center;gap:8px"
-            onclick="S.logSel=${JSON.stringify(d).replace(/"/g,"&quot;")};render()">
+          <div style="padding:7px 9px;border-radius:7px;cursor:pointer;background:${S.logSel?.id===d.id?"var(--gl)":"transparent"};display:flex;align-items:center;gap:7px"
+            onclick="S.logSel=${JSON.stringify(d).replace(/"/g,"&quot;")};S.logPortions=String(S.dishPortions['${d.id}']||1);render()">
             <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
             <div style="font-size:11px;color:var(--go)">${d.kcal||0} kcal</div>
             ${S.logSel?.id===d.id?`<span style="color:var(--gr);font-weight:700">✓</span>`:""}
@@ -1139,44 +1173,30 @@ function renderDiaryModal(){
         <div class="field"><label>Portionen</label><input type="number" value="${S.logPortions}" step=".5" oninput="S.logPortions=this.value;render()"/></div>
         <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" oninput="S.logGram=this.value;render()"/></div>
       </div>${preview}`:""}`:""}
-
     ${S.logMode==="food"?`
-      <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Die KI sucht Nährwerte für jedes Lebensmittel mit Mengenangabe.</div>
       <div class="airow">
-        <input id="foodIn" placeholder="z.B. 200g Magerquark oder 1 Banane" onkeydown="if(event.key==='Enter')searchFood()" value="${esc(S.logFoodSearch)}"/>
+        <input id="foodIn" placeholder="z.B. 200g Magerquark" onkeydown="if(event.key==='Enter')searchFood()" value="${esc(S.logFoodSearch)}"/>
         <button class="btn bg" onclick="searchFood()" ${S.logFoodLoading?"disabled":""}>${S.logFoodLoading?"…":"🔍"}</button>
       </div>
-      ${S.logFoodLoading?`<div class="ai-analyzing" style="background:var(--gol);border-radius:var(--r);padding:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--go);font-weight:600;margin-bottom:10px">
-        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>KI sucht Nährwerte…
-      </div>`:""}
       ${S.logFoodResult?`<div class="card" style="margin-bottom:10px">
-        <div style="font-size:14px;font-weight:700;margin-bottom:6px">${esc(S.logFoodResult.name)}</div>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:6px">${esc(S.logFoodResult.portionNote||"")}</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:5px">${esc(S.logFoodResult.name)}</div>
         <div class="chips">${macroChips(S.logFoodResult)}</div>
-      </div>`:""}
-    `:""}
-
+      </div>`:""}`:""}
     ${S.logMode==="photo"?`
-      <div style="font-size:12px;color:var(--mu);margin-bottom:10px">Lade ein Foto hoch oder beschreibe deine Mahlzeit – die KI berechnet die Nährwerte.</div>
       ${S.logPhotoB64?`<img src="data:image/jpeg;base64,${S.logPhotoB64}" class="photo-preview"/>`:""}
       <div class="photo-area" onclick="document.getElementById('photoIn').click()" style="margin-bottom:10px">
-        <div style="font-size:24px;margin-bottom:6px">📸</div>
-        <div style="font-size:13px;font-weight:600;color:var(--mu)">${S.logPhotoB64?"Anderes Foto wählen":"Foto tippen zum Hochladen"}</div>
+        <div style="font-size:24px;margin-bottom:4px">📸</div>
+        <div style="font-size:12px;font-weight:600;color:var(--mu)">${S.logPhotoB64?"Anderes Foto":"Foto hochladen"}</div>
       </div>
       <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
       <div class="airow">
         <input id="photoText" placeholder="Oder beschreiben: 3 Kugeln Eis, 1 Cappuccino…" onkeydown="if(event.key==='Enter')analyzeFood()"/>
         <button class="btn bpu" onclick="analyzeFood()" ${S.logPhotoLoading?"disabled":""}>${S.logPhotoLoading?"…":"✨"}</button>
       </div>
-      ${S.logPhotoLoading?`<div style="background:var(--gol);border-radius:var(--r);padding:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--go);font-weight:600;margin-bottom:10px">
-        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>KI analysiert…
-      </div>`:""}
       ${S.logPhotoResult?`<div class="card" style="margin-bottom:10px">
         <div style="font-size:13px;font-weight:700;margin-bottom:5px">${esc(S.logPhotoResult.name)}</div>
         <div class="chips">${macroChips(S.logPhotoResult)}</div>
-      </div>`:""}
-    `:""}
-
+      </div>`:""}`:""}
     ${S.logMode==="manual"?`
       <div class="field"><label>Name</label><input value="${esc(S.logCustom.name||"")}" oninput="S.logCustom.name=this.value" autofocus/></div>
       <div class="r3">
@@ -1188,55 +1208,44 @@ function renderDiaryModal(){
           <input type="number" value="${S.logCustom[k]||""}" oninput="S.logCustom['${k}']=this.value"/></div>`).join("")}
       </div>
     `:""}
-
     <div class="mact">
       <button class="btn bg" style="flex:1" onclick="submitLog()">Eintragen</button>
       <button class="btn bo" onclick="closeModal()">Abbrechen</button>
     </div>
   </div></div>`;
 }
-
 async function searchFood(){
   const el=document.getElementById("foodIn");if(!el)return;
   const q=el.value.trim();if(!q)return;
   S.logFoodSearch=q;S.logFoodLoading=true;S.logFoodResult=null;render();
   try{
-    const sys=`Du bist Ernährungsexperte. Der Nutzer nennt ein Lebensmittel mit Menge. Gib NUR ein JSON-Objekt zurück:
-{"name":"Magerquark (200g)","portionNote":"200 g","kcal":140,"protein":28,"fat":1,"carbs":6,"fiber":0}
-Nährwerte realistisch für die genannte Menge. fiber immer angeben.`;
-    const data=await claude(sys,q);
+    const data=await claude(`Ernährungsexperte. Gib NUR JSON: {"name":"...","portionNote":"...","kcal":0,"protein":0,"fat":0,"carbs":0,"fiber":0}. Nährwerte für genannte Menge.`,q);
     if(data&&data.name){S.logFoodResult=data;S.logSel=data;}
-  }catch(e){}
+  }catch{}
   S.logFoodLoading=false;render();
 }
-
 function handlePhoto(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=e=>{S.logPhotoB64=e.target.result.split(",")[1];render();};
   reader.readAsDataURL(file);
 }
-
 async function analyzeFood(){
   const textEl=document.getElementById("photoText");
-  const textDesc=textEl?textEl.value.trim():"";
-  if(!S.logPhotoB64&&!textDesc)return;
+  const desc=textEl?textEl.value.trim():"";
+  if(!S.logPhotoB64&&!desc)return;
   S.logPhotoLoading=true;S.logPhotoResult=null;render();
   try{
-    const sys=`Du bist Ernährungsexperte. Analysiere das Foto ODER die Beschreibung und schätze die Nährwerte.
-Antworte NUR als JSON: {"name":"...","kcal":400,"protein":8,"fat":15,"carbs":55,"fiber":3}
-Sei realistisch bei den Schätzungen. fiber immer angeben. Kein Text davor/danach.`;
-    const prompt=textDesc?`Beschreibung: ${textDesc}`:"Was ist auf diesem Bild? Schätze die Nährwerte.";
-    const data=await claude(sys,prompt,S.logPhotoB64||null);
+    const sys=`Ernährungsexperte. Analysiere Foto ODER Beschreibung. NUR JSON: {"name":"...","kcal":0,"protein":0,"fat":0,"carbs":0,"fiber":0}`;
+    const data=await claude(sys,desc||"Was ist auf dem Bild? Schätze Nährwerte.",S.logPhotoB64||null);
     if(data&&data.name){S.logPhotoResult=data;S.logSel=data;}
-  }catch(e){}
+  }catch{}
   S.logPhotoLoading=false;render();
 }
-
 function submitLog(){
   let e=null;
+  const f=S.logGram?parseFloat(S.logGram)/100:parseFloat(S.logPortions)||1;
   if((S.logMode==="dish"||S.logMode==="food"||S.logMode==="photo")&&S.logSel){
-    const f=S.logGram?parseFloat(S.logGram)/100:parseFloat(S.logPortions)||1;
     const note=S.logGram?`${S.logGram}g`:(parseFloat(S.logPortions)!==1?`${S.logPortions}×`:"");
     e={id:uid(),name:S.logSel.name,kcal:Math.round((S.logSel.kcal||0)*f),protein:Math.round((S.logSel.protein||0)*f*10)/10,fat:Math.round((S.logSel.fat||0)*f*10)/10,carbs:Math.round((S.logSel.carbs||0)*f*10)/10,fiber:Math.round((S.logSel.fiber||0)*f*10)/10,portionNote:note,date:S.logDate};
   }else if(S.logMode==="manual"&&S.logCustom.name){
@@ -1244,13 +1253,10 @@ function submitLog(){
   }
   if(!e)return;
   if(!S.diary[e.date])S.diary[e.date]=[];
-  S.diary[e.date].push(e);
-  saveLocal();closeModal();toast("✓ Geloggt");
+  S.diary[e.date].push(e);saveLocal();closeModal();toast("✓ Geloggt");
 }
 
-// ═══════════════════════════════════════════════
-// WEIGHT PAGE
-// ═══════════════════════════════════════════════
+// ─── WEIGHT PAGE ────────────────────────────────────────────────────
 function renderWeight(){
   const logs=S.weight,latest=logs.length?logs[logs.length-1]:null;
   const l14=logs.slice(-14),vals=l14.map(w=>w.kg);
@@ -1264,7 +1270,7 @@ function renderWeight(){
       <div class="wlbl">${fmtShort(w.date)}</div></div>`;}).join("")}
     </div>
   </div>`:"";
-  return`<div class="ptitle">Körper-<em>gewicht</em></div><div class="psub">Fortschritt verfolgen</div>
+  return`<div class="ptitle">Körper-<em>gewicht</em></div><div class="psub">${esc(SESSION?.displayName||"")} · persönlich</div>
     ${latest?`<div class="card" style="text-align:center;margin-bottom:12px">
       <div style="font-size:10px;color:var(--mu);letter-spacing:.08em;margin-bottom:6px">AKTUELL</div>
       <div class="wbig">${latest.kg}<span style="font-size:22px;font-weight:400"> kg</span></div>
@@ -1281,39 +1287,161 @@ function renderWeight(){
       <button class="btn bg" onclick="doLogWeight()">Speichern</button>
     </div>
     <div class="div"></div>
-    ${logs.length?[...logs].reverse().map(w=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--br)">
+    ${logs.length?[...logs].reverse().map(w=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--br)">
       <span style="color:var(--mu);font-size:13px">${fmtD(w.date)}</span>
       <span style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700">${w.kg} kg</span>
-    </div>`).join(""):`<div class="empty">Noch kein Gewicht eingetragen.</div>`}`;
+    </div>`).join(""):`<div class="empty">Noch kein Gewicht.</div>`}`;
 }
 function doLogWeight(){
   const kg=parseFloat(document.getElementById("wkg")?.value);
   const date=document.getElementById("wdate")?.value||today();
   if(!kg)return;
   S.weight=S.weight.filter(w=>w.date!==date);S.weight.push({kg,date});S.weight.sort((a,b)=>a.date.localeCompare(b.date));
-  saveLocal();toast("✓ "+kg+" kg gespeichert");render();
+  saveLocal();toast("✓ "+kg+" kg");render();
 }
 
-// ═══════════════════════════════════════════════
-// MODALS
-// ═══════════════════════════════════════════════
+// ─── MODALS ─────────────────────────────────────────────────────────
 function renderModal(){
-  if(S.modal==="genplan") return renderGenPlanModal();
-  if(S.modal==="planslot") return renderPlanSlotModal();
-  if(S.modal==="diary") return renderDiaryModal();
-  if(S.modal==="addshop") return renderAddShopModal();
-  if(S.modal==="addtoplan") return renderAddToPlanModal();
-  if(S.modal==="goals") return renderGoalsModal();
-  if(S.modal==="editdish") return renderEditDishModal();
+  if(S.modal==="genplan")return renderGenPlanModal();
+  if(S.modal==="planslot")return renderPlanSlotModal();
+  if(S.modal==="diary")return renderDiaryModal();
+  if(S.modal==="addshop")return renderAddShopModal();
+  if(S.modal==="addtoplan")return renderAddToPlanModal();
+  if(S.modal==="goals")return renderGoalsModal();
+  if(S.modal==="editdish")return renderEditDishModal();
   return"";
 }
-
-function openEditDish(id){
-  const d=S.dishes.find(x=>x.id===id);if(!d)return;
-  S.mdata={...d,ingredients:(d.ingredients||[]).map(x=>({...x}))};
-  S.modal="editdish";render();
+function renderGenPlanModal(){
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Wochenplan erstellen</div>
+    <div class="field"><label>Ziele & Vorlieben</label>
+      <textarea id="planPrefs" placeholder="z.B. Muskelaufbau, ~3000 kcal/Tag, schnelle Gerichte" style="min-height:80px"></textarea>
+    </div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:12px">💡 Dauert ~20–30 Sekunden</div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="generatePlan(document.getElementById('planPrefs').value)">✨ Generieren</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
 }
-
+function renderPlanSlotModal(){
+  const {day,meal}=S.planSlot||{};
+  const existing=S.plan[day]?.[meal];
+  const msgs=S.planSlotMsgs.map(m=>`<div class="msg ${m.r}"><div class="bubble">${m.t}</div></div>`).join("");
+  const loading=S.planSlotLoading?`<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`:"";
+  const matchedDishes=S.dishes.filter(d=>{
+    if(meal==="Frühstück")return d.category==="Frühstück";
+    if(meal==="Snack")return d.category==="Snack";
+    return d.category==="Mittagessen"||d.category==="Abendessen";
+  });
+  const dishList=(matchedDishes.length?matchedDishes:S.dishes).map(d=>`
+    <div style="padding:8px 10px;border-radius:8px;cursor:pointer;background:var(--bg);margin-bottom:5px;display:flex;align-items:center;gap:8px"
+      onclick="addDishToPlanSlot('${d.id}')">
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:500">${esc(d.name)}</div>
+        <div style="font-size:10px;color:var(--mu)">${S.dishPortions[d.id]||1} Portion${(S.dishPortions[d.id]||1)!==1?"en":""} · ${Math.round((d.kcal||0)*(S.dishPortions[d.id]||1))} kcal</div>
+      </div>
+      <span style="font-size:12px;color:var(--gr);font-weight:700">+</span>
+    </div>`).join("");
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">${day} · ${meal}</div>
+    ${existing?`<div style="background:var(--gl);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:13px;display:flex;align-items:center;gap:8px">
+      <span style="flex:1"><strong>${esc(existing.name)}</strong>${existing.portions&&existing.portions!==1?` · ${existing.portions}×`:""} · ${existing.kcal} kcal</span>
+      <button class="btn bd bsm" onclick="removePlanSlot('${day}','${meal}')">Entfernen</button>
+    </div>`:""}
+    <div style="display:flex;gap:7px;margin-bottom:12px">
+      <button class="btn bsm${S.planSlotMode==="select"?" bg":" bo"}" onclick="S.planSlotMode='select';render()">📋 Gespeichert</button>
+      <button class="btn bsm${S.planSlotMode==="ai"?" bg":" bo"}" onclick="S.planSlotMode='ai';render()">✨ KI-Vorschlag</button>
+    </div>
+    ${S.planSlotMode==="select"?`
+      <div style="max-height:260px;overflow-y:auto">${S.dishes.length?dishList:`<div class="empty" style="padding:16px">Noch keine Gerichte gespeichert.</div>`}</div>
+    `:`
+      <div class="aichat" id="slotchat">${msgs}${loading}</div>
+      <div class="airow">
+        <input id="slotIn" placeholder="z.B. Hähnchen mit Reis…" onkeydown="if(event.key==='Enter')sendSlotAI()"/>
+        <button class="btn bg" onclick="sendSlotAI()" ${S.planSlotLoading?"disabled":""}>→</button>
+      </div>
+    `}
+    <button class="btn bo" style="width:100%;justify-content:center;margin-top:6px" onclick="closeModal()">Schließen</button>
+  </div></div>`;
+}
+function renderAddShopModal(){
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Artikel hinzufügen</div>
+    <div class="r2">
+      <div class="field"><label>Artikel</label><input id="sa_n" placeholder="z.B. Tomaten" autofocus/></div>
+      <div class="field"><label>Menge</label><input id="sa_q" placeholder="500 g"/></div>
+    </div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="doAddShop(document.getElementById('sa_n').value,document.getElementById('sa_q').value);closeModal()">Hinzufügen</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+function renderAddToPlanModal(){
+  const d=S.dishes.find(x=>x.id===S.mdata?.dishId);if(!d)return"";
+  const portions=S.mdata?.portions||1;
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Zum Wochenplan</div>
+    <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px">${esc(d.name)}</div>
+    <div class="chips" style="margin-bottom:14px">
+      <span class="chip ck">🔥 ${Math.round((d.kcal||0)*portions)} kcal (${portions}×)</span>
+    </div>
+    <div class="r2">
+      <div class="field"><label>Tag</label><select id="atp_d">${DAYS.map(day=>`<option value="${day}">${day}</option>`).join("")}</select></div>
+      <div class="field"><label>Mahlzeit</label><select id="atp_m">${MEALS.map(m=>`<option value="${m}">${m}</option>`).join("")}</select></div>
+    </div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="confirmAddToPlan('${d.id}',${portions})">📅 Hinzufügen</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+function confirmAddToPlan(id,portions){
+  const d=S.dishes.find(x=>x.id===id);if(!d)return;
+  const day=document.getElementById("atp_d")?.value,meal=document.getElementById("atp_m")?.value;
+  if(!day||!meal)return;
+  if(!S.plan[day])S.plan[day]={};
+  S.plan[day][meal]={
+    name:d.name,portions,
+    kcal:Math.round((d.kcal||0)*portions),
+    protein:Math.round((d.protein||0)*portions*10)/10,
+    fat:Math.round((d.fat||0)*portions*10)/10,
+    carbs:Math.round((d.carbs||0)*portions*10)/10,
+    fiber:Math.round((d.fiber||0)*portions*10)/10,
+    ingredients:d.ingredients||[],dishId:id
+  };
+  planSave();closeModal();toast(`✓ "${d.name}" (${portions}×) am ${day}`);
+}
+function renderGoalsModal(){
+  const g=S.goals||DEF_GOALS_PERSONAL;
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Meine Tagesziele</div>
+    <div style="font-size:13px;color:var(--mu);margin-bottom:12px">${esc(SESSION?.displayName||"")} · Gruppe: ${esc(SESSION?.group||"")}</div>
+    <div class="r3">
+      <div class="field"><label>kcal</label><input type="number" id="g_kcal" value="${g.kcal}"/></div>
+      <div class="field"><label>Protein g</label><input type="number" id="g_protein" value="${g.protein}"/></div>
+      <div class="field"><label>Carbs g</label><input type="number" id="g_carbs" value="${g.carbs}"/></div>
+    </div>
+    <div class="r2">
+      <div class="field"><label>Fett g</label><input type="number" id="g_fat" value="${g.fat}"/></div>
+      <div class="field"><label>Ballaststoffe g</label><input type="number" id="g_fiber" value="${g.fiber||30}"/></div>
+    </div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="saveGoals()">Speichern</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+async function saveGoals(){
+  const g={};["kcal","protein","carbs","fat","fiber"].forEach(k=>{const el=document.getElementById("g_"+k);if(el)g[k]=parseInt(el.value)||0;});
+  S.goals=g;await goalsSave();closeModal();toast("✓ Ziele gespeichert");
+}
 function renderEditDishModal(){
   const d=S.mdata;if(!d)return"";
   const ings=(d.ingredients||[]).map((ig,i)=>`<div class="iedit">
@@ -1331,8 +1459,8 @@ function renderEditDishModal(){
       </select></div>
     </div>
     <div class="r2">
-      <div class="field"><label>⏱ Vorbereitungszeit</label><input value="${esc(d.prepTime||"")}" oninput="S.mdata.prepTime=this.value" placeholder="z.B. 15 Min"/></div>
-      <div class="field"><label>🔥 Kochzeit</label><input value="${esc(d.cookTime||"")}" oninput="S.mdata.cookTime=this.value" placeholder="z.B. 30 Min"/></div>
+      <div class="field"><label>⏱ Vorbereitung</label><input value="${esc(d.prepTime||"")}" oninput="S.mdata.prepTime=this.value" placeholder="15 Min"/></div>
+      <div class="field"><label>🔥 Kochzeit</label><input value="${esc(d.cookTime||"")}" oninput="S.mdata.cookTime=this.value" placeholder="30 Min"/></div>
     </div>
     <div class="slbl">Nährwerte pro Portion</div>
     <div class="r5">
@@ -1340,16 +1468,16 @@ function renderEditDishModal(){
         <input type="number" value="${d[k]||""}" oninput="S.mdata['${k}']=parseFloat(this.value)||0"/></div>`).join("")}
     </div>
     <div class="r2">
-      <div class="field"><label>Portionsgewicht (g)</label><input type="number" value="${d.portionWeight||""}" oninput="S.mdata.portionWeight=parseFloat(this.value)||0" placeholder="z.B. 550"/></div>
-      <div class="field"><label>Anzahl Portionen</label><input type="number" value="${d.servings||""}" oninput="S.mdata.servings=parseFloat(this.value)||0" placeholder="z.B. 4"/></div>
+      <div class="field"><label>Portionsgewicht (g)</label><input type="number" value="${d.portionWeight||""}" oninput="S.mdata.portionWeight=parseFloat(this.value)||0" placeholder="550"/></div>
+      <div class="field"><label>Rezept für X Portionen</label><input type="number" value="${d.servings||1}" oninput="S.mdata.servings=parseFloat(this.value)||1" placeholder="4"/></div>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-      <span class="slbl" style="margin-bottom:0">Zutaten (gesamt)</span>
-      <button class="btn bo bsm" onclick="S.mdata.ingredients=S.mdata.ingredients||[];S.mdata.ingredients.push({name:\'\',qty:\'\'});render()">+ Zutat</button>
+      <span class="slbl" style="margin-bottom:0">Zutaten (Rezeptmenge)</span>
+      <button class="btn bo bsm" onclick="if(!S.mdata.ingredients)S.mdata.ingredients=[];S.mdata.ingredients.push({name:'',qty:''});render()">+ Zutat</button>
     </div>
     ${ings}
-    <div class="field" style="margin-top:9px"><label>Zubereitung (eine Zeile pro Schritt)</label>
-      <textarea style="min-height:90px" oninput="S.mdata.steps=this.value" placeholder="Schritt 1: Zutaten schneiden">${esc(d.steps||"")}</textarea>
+    <div class="field" style="margin-top:9px"><label>Zubereitung (je Zeile ein Schritt)</label>
+      <textarea style="min-height:80px" oninput="S.mdata.steps=this.value" placeholder="Schritt 1: …">${esc(d.steps||"")}</textarea>
     </div>
     <div class="mact">
       <button class="btn bg" style="flex:1" onclick="saveEditDish()">💾 Speichern</button>
@@ -1357,115 +1485,23 @@ function renderEditDishModal(){
     </div>
   </div></div>`;
 }
-
 function saveEditDish(){
   const d=S.mdata;if(!d||!d.id)return;
   const idx=S.dishes.findIndex(x=>x.id===d.id);
-  if(idx>=0){
-    S.dishes[idx]={...d};
-    saveLocal();saveDish(d);closeModal();toast("✓ Gericht gespeichert");
-  }
+  if(idx>=0){S.dishes[idx]={...d};dishSave(d);publishDish(d);closeModal();toast("✓ Gericht gespeichert");}
 }
 
-function renderGenPlanModal(){
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mtitle">Wochenplan erstellen</div>
-    <div class="field"><label>Ziele & Vorlieben</label>
-      <textarea id="planPrefs" placeholder="z.B. Muskelaufbau, ~2400 kcal/Tag, kein Schweinefleisch, schnell zubereitet" style="min-height:80px"></textarea>
-    </div>
-    <div style="font-size:12px;color:var(--mu);margin-bottom:12px">💡 Die KI erstellt alle 7 Tage mit 4 Mahlzeiten. Dauert ~20 Sek.</div>
-    <div class="mact">
-      <button class="btn bg" style="flex:1" onclick="generatePlan(document.getElementById('planPrefs').value)">✨ Generieren</button>
-      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-    </div>
-  </div></div>`;
-}
-
-function renderAddShopModal(){
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mtitle">Artikel hinzufügen</div>
-    <div class="r2">
-      <div class="field"><label>Artikel</label><input id="sa_n" placeholder="z.B. Tomaten" autofocus/></div>
-      <div class="field"><label>Menge</label><input id="sa_q" placeholder="z.B. 500 g"/></div>
-    </div>
-    <div class="mact">
-      <button class="btn bg" style="flex:1" onclick="doAddShop(document.getElementById('sa_n').value,document.getElementById('sa_q').value,'Manuell');closeModal()">Hinzufügen</button>
-      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-    </div>
-  </div></div>`;
-}
-
-function renderAddToPlanModal(){
-  const d=S.dishes.find(x=>x.id===S.mdata?.dishId);if(!d)return"";
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mtitle">Zum Wochenplan</div>
-    <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:14px">${esc(d.name)}</div>
-    <div class="r2">
-      <div class="field"><label>Tag</label><select id="atp_d">${DAYS.map(day=>`<option value="${day}">${day}</option>`).join("")}</select></div>
-      <div class="field"><label>Mahlzeit</label><select id="atp_m">${MEALS.map(m=>`<option value="${m}">${m}</option>`).join("")}</select></div>
-    </div>
-    <div class="mact">
-      <button class="btn bg" style="flex:1" onclick="confirmAddToPlan('${d.id}')">📅 Hinzufügen</button>
-      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-    </div>
-  </div></div>`;
-}
-function confirmAddToPlan(id){
-  const d=S.dishes.find(x=>x.id===id);if(!d)return;
-  const day=document.getElementById("atp_d")?.value,meal=document.getElementById("atp_m")?.value;
-  if(!day||!meal)return;
-  if(!S.plan[day])S.plan[day]={};
-  S.plan[day][meal]={name:d.name,kcal:d.kcal||0,protein:d.protein||0,fat:d.fat||0,carbs:d.carbs||0,fiber:d.fiber||0,ingredients:d.ingredients||[]};
-  savePlan();closeModal();toast(`✓ "${d.name}" am ${day} als ${meal}`);
-}
-
-function renderGoalsModal(){
-  const g=S.goals;
-  const row=(who)=>`
-    <div style="font-size:13px;font-weight:700;color:var(--gr);margin:12px 0 8px">👤 ${g[who].name}</div>
-    <div class="r3">
-      <div class="field"><label>kcal</label><input type="number" id="g_${who}_kcal" value="${g[who].kcal}"/></div>
-      <div class="field"><label>Protein g</label><input type="number" id="g_${who}_protein" value="${g[who].protein}"/></div>
-      <div class="field"><label>Carbs g</label><input type="number" id="g_${who}_carbs" value="${g[who].carbs}"/></div>
-    </div>
-    <div class="r2">
-      <div class="field"><label>Fett g</label><input type="number" id="g_${who}_fat" value="${g[who].fat}"/></div>
-      <div class="field"><label>Ballaststoffe g</label><input type="number" id="g_${who}_fiber" value="${g[who].fiber||30}"/></div>
-    </div>`;
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mtitle">Tagesziele</div>
-    ${row("du")}
-    <div class="div"></div>
-    ${row("frau")}
-    <div class="mact">
-      <button class="btn bg" style="flex:1" onclick="saveGoals()">Speichern</button>
-      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-    </div>
-  </div></div>`;
-}
-function saveGoals(){
-  ["du","frau"].forEach(who=>["kcal","protein","carbs","fat","fiber"].forEach(k=>{
-    const el=document.getElementById(`g_${who}_${k}`);if(el)S.goals[who][k]=parseInt(el.value)||0;
-  }));
-  saveLocal();closeModal();toast("✓ Ziele gespeichert");
-}
-
-// ═══════════════════════════════════════════════
-// BIND + INIT
-// ═══════════════════════════════════════════════
+// ─── BIND ───────────────────────────────────────────────────────────
 function bindAll(){
   document.querySelectorAll("input[type=text],input:not([type])").forEach(el=>{
     el.addEventListener("keydown",e=>{if(e.key==="Enter")e.preventDefault()});
   });
 }
 
-if(S.setupDone){
-  Promise.all([shopLoad(),dishesLoad(),planLoad()]).then(()=>{startSSE();render();});
-}else render();
+// ─── INIT ───────────────────────────────────────────────────────────
+if(S.needSetup){render();}
+else if(SESSION){loadAllData().then(()=>{startSSE();render();});}
+else{render();}
 </script>
 </body>
 </html>
