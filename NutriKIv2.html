@@ -547,21 +547,24 @@ function renderAuth(){
 }
 
 async function doLoginUI(){
+  // Read values BEFORE render() replaces the DOM
+  const user=document.getElementById("a_user")?.value||"";
+  const pw=document.getElementById("a_pw")?.value||"";
   S.authLoading=true;S.authError="";render();
-  const err=await doLogin(document.getElementById("a_user")?.value||"",document.getElementById("a_pw")?.value||"");
+  const err=await doLogin(user,pw);
   S.authLoading=false;
   if(err){S.authError=err;render();return;}
   await loadAllData();startSSE();render();
 }
 async function doRegisterUI(){
+  // Read values BEFORE render() replaces the DOM
+  const user=document.getElementById("r_user")?.value||"";
+  const display=document.getElementById("r_display")?.value||"";
+  const pw=document.getElementById("r_pw")?.value||"";
+  const pw2=document.getElementById("r_pw2")?.value||"";
+  const group=document.getElementById("r_group")?.value||"";
   S.authLoading=true;S.authError="";render();
-  const err=await doRegister(
-    document.getElementById("r_user")?.value||"",
-    document.getElementById("r_display")?.value||"",
-    document.getElementById("r_pw")?.value||"",
-    document.getElementById("r_pw2")?.value||"",
-    document.getElementById("r_group")?.value||""
-  );
+  const err=await doRegister(user,display,pw,pw2,group);
   S.authLoading=false;
   if(err){S.authError=err;render();return;}
   await loadAllData();startSSE();render();
