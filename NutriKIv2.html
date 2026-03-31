@@ -257,9 +257,69 @@ const CATS=["Frühstück","Mittag & Abend","Snacks"];
 const CAT_MAP={"Frühstück":"Frühstück","Mittagessen":"Mittag & Abend","Abendessen":"Mittag & Abend","Snack":"Snacks"};
 function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend"}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-function parseQty(str){const m=String(str||"").match(/[\d.,]+/);return m?parseFloat(m[0].replace(",",".")):0}
-function parseUnit(str){return String(str||"").replace(/[\d.,\s]+/,"").trim()}
-function scaleQty(qtyStr,factor){const num=parseQty(qtyStr);const unit=parseUnit(qtyStr);if(!num)return qtyStr;return`${Math.round(num*factor*10)/10}${unit?" "+unit:""}`}
+function parseQty(str){const m=String(str||"").match(/[\d]+(?:[.,][\d]+)?/);return m?parseFloat(m[0].replace(",",".")):0}
+
+function fmtNum(n){
+  // Format a scaled number nicely: no trailing zeros, max 1 decimal
+  if(Number.isInteger(n))return String(n);
+  const r=Math.round(n*10)/10;
+  return Number.isInteger(r)?String(r):r.toFixed(1);
+}
+
+function scaleQty(qtyStr,factor){
+  if(!qtyStr&&qtyStr!==0)return "";
+  const str=String(qtyStr).trim();
+  if(!str)return "";
+  if(!factor||factor===1)return str;
+
+  // Handle fractions like "1/2", "1/4", "3/4"
+  const fracM=str.match(/^(\d+)\/( \d+)/);
+  if(fracM){
+    const num=parseInt(fracM[1])/parseInt(fracM[2]);
+    return fmtNum(num*factor);
+  }
+
+  // Number at START (most common): "200 g", "2 TL", "1.5 kg", "2", "2 Paprika", "2 Stk"
+  const m1=str.match(/^([\d]+(?:[.,][\d]+)?)\s*(.*)/);
+  if(m1){
+    const num=parseFloat(m1[1].replace(",","."));
+    if(!num)return str;
+    const unit=m1[2].trim();
+    const scaled=num*factor;
+    return unit?`${fmtNum(scaled)} ${unit}`:fmtNum(scaled);
+  }
+
+  // Number at END: "Paprika 2", "Eier 3"
+  const m2=str.match(/^(.*?)\s+([\d]+(?:[.,][\d]+)?)$/);
+  if(m2){
+    const num=parseFloat(m2[2].replace(",","."));
+    if(!num)return str;
+    const scaled=num*factor;
+    return`${m2[1].trim()} ${fmtNum(scaled)}`;
+  }
+
+  return str;
+}
+
+// Scale an ingredient - handles qty field AND name field (if qty is empty)
+function scaleIngredient(ig, factor){
+  if(ig.qty&&String(ig.qty).trim()){
+    return{name:ig.name, qty:scaleQty(ig.qty, factor)};
+  }
+  // qty is empty: try to find and scale number inside the name
+  const name=String(ig.name||"").trim();
+  const m=name.match(/^([\d]+(?:[.,][\d]+)?)\s*(.*)/);
+  if(m){
+    const num=parseFloat(m[1].replace(",","."));
+    if(num){return{name:m[2].trim(), qty:fmtNum(num*factor)};}
+  }
+  const m2=name.match(/^(.*?)\s+([\d]+(?:[.,][\d]+)?)\s*(.*)$/);
+  if(m2){
+    const num=parseFloat(m2[2].replace(",","."));
+    if(num){return{name:(m2[1]+" "+(m2[3]||"")).trim(), qty:fmtNum(num*factor)};}
+  }
+  return{name:ig.name, qty:""};
+}
 function consolidateShop(items){
   const map={};
   items.forEach(item=>{
@@ -750,9 +810,9 @@ function renderGerichte(){
     const p100=k=>pw>0?Math.round((d[k]||0)/pw*100*10)/10:"—";
     const isOpen=S.openDish===d.id;
     const ingFactor=p/srv; // scale ingredients from recipe servings to selected portions
-    const ings=(d.ingredients||[]).map(ig=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
-      <span>${esc(ig.name)}</span><span style="color:var(--mu);font-weight:600">${esc(scaleQty(ig.qty,ingFactor))}</span>
-    </div>`).join("");
+    const ings=(d.ingredients||[]).map(ig=>{const si=scaleIngredient(ig,ingFactor);return`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
+      <span>${esc(si.name||ig.name)}</span><span style="color:var(--mu);font-weight:600">${esc(si.qty)}</span>
+    </div>`}).join("");
     return`<div class="dish-card">
       <div class="dish-header" onclick="S.openDish=S.openDish==='${d.id}'?null:'${d.id}';render()">
         <div style="display:flex;align-items:flex-start;gap:8px">
