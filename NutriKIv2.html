@@ -786,6 +786,15 @@ function saveFromAI(){
   if(!S.editDish)return;
   const d={...S.editDish,id:uid()};
   ["kcal","protein","fat","carbs","fiber"].forEach(k=>d[k]=parseFloat(d[k])||0);
+  // Normalize ingredients to 1 portion (divide by servings if recipe is for multiple)
+  const srv=parseFloat(d.servings)||1;
+  if(srv>1&&d.ingredients){
+    d.ingredients=d.ingredients.map(ig=>({
+      ...ig,
+      qty:scaleQty(ig.qty,1/srv)
+    }));
+    d.servings=1;
+  }
   S.dishes.push(d);dishSave(d);publishDish(d);toast(`✓ "${d.name}" gespeichert & in Bibliothek`);resetAI();
 }
 async function aiToShop(){
@@ -809,8 +818,8 @@ function renderGerichte(){
     const pw=d.portionWeight||0;
     const p100=k=>pw>0?Math.round((d[k]||0)/pw*100*10)/10:"—";
     const isOpen=S.openDish===d.id;
-    const ingFactor=p/srv; // scale ingredients from recipe servings to selected portions
-    const ings=(d.ingredients||[]).map(ig=>{const si=scaleIngredient(ig,ingFactor);return`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
+    // Ingredients stored per 1 portion - multiply by p for display
+    const ings=(d.ingredients||[]).map(ig=>{const si=scaleIngredient(ig,p);return`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg);font-size:12px">
       <span>${esc(si.name||ig.name)}</span><span style="color:var(--mu);font-weight:600">${esc(si.qty)}</span>
     </div>`}).join("");
     return`<div class="dish-card">
@@ -931,9 +940,8 @@ function setPortionWeight(id,v){const d=S.dishes.find(x=>x.id===id);if(d){d.port
 async function dishToShop(id){
   const d=S.dishes.find(x=>x.id===id);if(!d)return;
   const p=S.dishPortions[id]||1;
-  const srv=d.servings||1;
   const multi=S.cookMulti||1;
-  const factor=(p/srv)*multi;
+  const factor=p*multi; // ingredients are per 1 portion already
   for(const ig of(d.ingredients||[])){
     if(!ig.name)continue;
     const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,factor),done:false,source:`${d.name} (${p}×${multi>1?`, ${multi} Pers.`:""})`};
