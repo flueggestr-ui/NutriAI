@@ -409,9 +409,6 @@ let S={
   logCustom:{name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""},
   logFoodSearch:"",logFoodResult:null,logFoodLoading:false,
   logPhotoB64:null,logPhotoLoading:false,logPhotoResult:null,
-  logIngredients:[], // editable ingredients for current log entry
-  logMacrosOverride:null, // recalculated macros after ingredient edit
-  logRecalcLoading:false,
 };
 
 // ═══════════════════════════════════════════════
@@ -1240,7 +1237,6 @@ function openDiaryModal(){
   S.logDate=today();S.logSearch="";S.logFoodSearch="";S.logFoodResult=null;
   S.logPhotoB64=null;S.logPhotoResult=null;
   S.logCustom={name:"",kcal:"",protein:"",fat:"",carbs:"",fiber:""};
-  S.logIngredients=[];S.logMacrosOverride=null;S.logRecalcLoading=false;
   S.modal="diary";render();
 }
 function delLog(date,id){if(S.diary[date])S.diary[date]=S.diary[date].filter(e=>e.id!==id);saveLocal();render()}
@@ -1265,56 +1261,16 @@ function renderDiaryModal(){
       <div style="max-height:160px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:4px">
         ${S.dishes.filter(d=>d.name.toLowerCase().includes(S.logSearch.toLowerCase())).map(d=>`
           <div style="padding:7px 9px;border-radius:7px;cursor:pointer;background:${S.logSel?.id===d.id?"var(--gl)":"transparent"};display:flex;align-items:center;gap:7px"
-            onclick="S.logSel=${JSON.stringify(d).replace(/"/g,"&quot;")};S.logPortions=String(S.dishPortions['${d.id}']||1);initLogIngredients(${JSON.stringify(d).replace(/"/g,"&quot;")},S.dishPortions['${d.id}']||1);S.logMacrosOverride=null;render()">
+            onclick="S.logSel=${JSON.stringify(d).replace(/"/g,"&quot;")};S.logPortions=String(S.dishPortions['${d.id}']||1);render()">
             <div style="flex:1;font-size:13px;font-weight:500">${esc(d.name)}</div>
             <div style="font-size:11px;color:var(--go)">${d.kcal||0} kcal</div>
             ${S.logSel?.id===d.id?`<span style="color:var(--gr);font-weight:700">✓</span>`:""}
           </div>`).join("")}
       </div>
-      ${S.logSel?`
-        <div class="r2" style="margin-bottom:10px">
-          <div class="field"><label>Portionen</label><input type="number" value="${S.logPortions}" step=".5" oninput="initLogIngredients(S.logSel,this.value);S.logPortions=this.value;S.logGram='';S.logMacrosOverride=null;render()"/></div>
-          <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" oninput="S.logGram=this.value;S.logMacrosOverride=null;render()"/></div>
-        </div>
-        ${preview}
-        ${S.logIngredients.length?`
-        <div style="background:var(--bg);border-radius:10px;padding:10px 12px;margin-bottom:10px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--mu)">ZUTATEN ANPASSEN</span>
-            <button class="btn bpu bsm" onclick="recalcMacros()" ${S.logRecalcLoading?"disabled":""}>
-              ${S.logRecalcLoading?"…":"✨ Neu berechnen"}
-            </button>
-          </div>
-          <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Menge ändern oder Zutat mit ✕ entfernen</div>
-          ${S.logIngredients.map((ig,i)=>{
-            if(ig.active===false)return "";
-            const hasNum=parseNumStr(String(ig.qty||"").match(/^(\d[\d.,]*(?:\/\d+)?[½¼¾⅓⅔⅛⅜⅝⅞]?|[½¼¾⅓⅔⅛⅜⅝⅞])/u)?.[1]||"")!==null;
-            return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">'
-              +'<div style="flex:1;font-size:13px;font-weight:500;min-width:0">'+esc(ig.name)+'</div>'
-              +'<div style="display:flex;align-items:center;gap:0;background:var(--sf);border:1.5px solid var(--br);border-radius:8px;overflow:hidden">'
-              +(hasNum?'<button style="width:26px;height:32px;border:none;background:none;cursor:pointer;font-size:16px;color:var(--gr);font-weight:700;padding:0" onclick="event.stopPropagation();setLogIngQty('+i+',-1)">−</button>':'')
-              +'<input type="text" id="ling_'+i+'" value="'+esc(ig.qty)+'" style="width:72px;border:none;background:transparent;font-family:Syne,sans-serif;font-size:12px;outline:none;text-align:center;padding:5px 2px"'
-              +' onchange="updateLogIngQty('+i+',this.value)"'
-              +' onblur="updateLogIngQty('+i+',this.value)"/>'
-              +(hasNum?'<button style="width:26px;height:32px;border:none;background:none;cursor:pointer;font-size:16px;color:var(--gr);font-weight:700;padding:0" onclick="event.stopPropagation();setLogIngQty('+i+',1)">+</button>':'')
-              +'</div>'
-              +'<button class="btn bic bd" style="width:28px;height:32px;flex-shrink:0;font-size:13px;border-radius:8px" onclick="event.stopPropagation();S.logIngredients['+i+'].active=false;S.logMacrosOverride=null;render()">✕</button>'
-              +'</div>';
-          }).join("")}
-          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
-            <button class="btn bgh bsm" onclick="S.logIngredients=S.logIngredients.map(i=>({...i,active:true}));initLogIngredients(S.logSel,S.logPortions);S.logMacrosOverride=null;render()">↺ Zurücksetzen</button>
-          </div>
-          ${S.logMacrosOverride?`<div style="background:var(--gl);border-radius:8px;padding:8px 10px;margin-top:8px">
-            <div style="font-size:10px;color:var(--gr);font-weight:700;margin-bottom:4px">✓ NEU BERECHNET</div>
-            <div class="chips">
-              <span class="chip ck">🔥 \${S.logMacrosOverride.kcal} kcal</span>
-              <span class="chip cp">💪 \${S.logMacrosOverride.protein}g P</span>
-              <span class="chip cf">🧈 \${S.logMacrosOverride.fat}g F</span>
-              <span class="chip cc">🌾 \${S.logMacrosOverride.carbs}g KH</span>
-            </div>
-          </div>`:""}
-        </div>`:""}
-      `:""}`:""}
+      ${S.logSel?`<div class="r2">
+        <div class="field"><label>Portionen</label><input type="number" value="${S.logPortions}" step=".5" oninput="S.logPortions=this.value;render()"/></div>
+        <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" oninput="S.logGram=this.value;render()"/></div>
+      </div>${preview}`:""}`:""}
     ${S.logMode==="food"?`
       <div class="airow">
         <input id="foodIn" placeholder="z.B. 200g Magerquark" onkeydown="if(event.key==='Enter')searchFood()" value="${esc(S.logFoodSearch)}"/>
@@ -1384,70 +1340,12 @@ async function analyzeFood(){
   }catch{}
   S.logPhotoLoading=false;render();
 }
-function updateLogIngQty(i, val){
-  S.logIngredients[i].qty=val;
-  S.logMacrosOverride=null;
-}
-
-function setLogIngQty(i, delta){
-  const ig=S.logIngredients[i];
-  if(!ig)return;
-  const str=String(ig.qty||"").trim();
-  // Extract number and unit
-  const m=str.match(/^(\d[\d.,]*(?:\/\d+)?[½¼¾⅓⅔⅛⅜⅝⅞]?|[½¼¾⅓⅔⅛⅜⅝⅞])\s*(.*)/u);
-  if(!m){return;}
-  const num=parseNumStr(m[1]);
-  if(num===null||num===0)return;
-  const unit=m[2].trim();
-  // Step: if num>=100 use 10g steps, if num>=10 use 5 steps, else 1
-  const step=num>=100?10:num>=10?5:1;
-  const newNum=Math.max(0,num+delta*step);
-  ig.qty=unit?fmtNum(newNum)+" "+unit:fmtNum(newNum);
-  S.logMacrosOverride=null;
-  render();
-}
-
-function initLogIngredients(dish, portions){
-  const p=parseFloat(portions)||1;
-  S.logIngredients=(dish.ingredients||[]).map(ig=>({
-    name:ig.name,
-    qty:scaleQty(ig.qty,p),
-    active:true
-  }));
-}
-
-async function recalcMacros(){
-  const activeIngs=S.logIngredients.filter(i=>i.active!==false);
-  if(!activeIngs.length)return;
-  S.logRecalcLoading=true;render();
-  try{
-    const ingList=activeIngs.map(i=>`${i.qty} ${i.name}`).join(", ");
-    const dishName=S.logSel?.name||"";
-    const sys=`Du bist Ernährungsexperte. Berechne die Nährwerte für diese Zutaten einer Mahlzeit. NUR JSON: {"kcal":0,"protein":0,"fat":0,"carbs":0,"fiber":0}. Ganze Zahlen für kcal, eine Dezimalstelle für den Rest.`;
-    const data=await claude(sys,`Gericht: ${dishName}
-Zutaten: ${ingList}`);
-    if(data&&data.kcal!==undefined){
-      S.logMacrosOverride={
-        kcal:Math.round(data.kcal),
-        protein:Math.round(data.protein*10)/10,
-        fat:Math.round(data.fat*10)/10,
-        carbs:Math.round(data.carbs*10)/10,
-        fiber:Math.round((data.fiber||0)*10)/10
-      };
-    }
-  }catch(e){toast("⚠️ "+e.message)}
-  S.logRecalcLoading=false;render();
-}
-
 function submitLog(){
   let e=null;
   const f=S.logGram?parseFloat(S.logGram)/100:parseFloat(S.logPortions)||1;
   if((S.logMode==="dish"||S.logMode==="food"||S.logMode==="photo")&&S.logSel){
     const note=S.logGram?`${S.logGram}g`:(parseFloat(S.logPortions)!==1?`${S.logPortions}×`:"");
-    const macros=S.logMacrosOverride||{kcal:Math.round((S.logSel.kcal||0)*f),protein:Math.round((S.logSel.protein||0)*f*10)/10,fat:Math.round((S.logSel.fat||0)*f*10)/10,carbs:Math.round((S.logSel.carbs||0)*f*10)/10,fiber:Math.round((S.logSel.fiber||0)*f*10)/10};
-    const activeIngs=S.logIngredients.filter(i=>i.active!==false);
-    const ingNote=activeIngs.length&&activeIngs.length<(S.logSel.ingredients||[]).length?` (${activeIngs.length}/${(S.logSel.ingredients||[]).length} Zutaten)`:"";
-    e={id:uid(),name:S.logSel.name,...macros,portionNote:note+ingNote,date:S.logDate};
+    e={id:uid(),name:S.logSel.name,kcal:Math.round((S.logSel.kcal||0)*f),protein:Math.round((S.logSel.protein||0)*f*10)/10,fat:Math.round((S.logSel.fat||0)*f*10)/10,carbs:Math.round((S.logSel.carbs||0)*f*10)/10,fiber:Math.round((S.logSel.fiber||0)*f*10)/10,portionNote:note,date:S.logDate};
   }else if(S.logMode==="manual"&&S.logCustom.name){
     e={id:uid(),name:S.logCustom.name,kcal:parseFloat(S.logCustom.kcal)||0,protein:parseFloat(S.logCustom.protein)||0,fat:parseFloat(S.logCustom.fat)||0,carbs:parseFloat(S.logCustom.carbs)||0,fiber:parseFloat(S.logCustom.fiber)||0,portionNote:"",date:S.logDate};
   }
