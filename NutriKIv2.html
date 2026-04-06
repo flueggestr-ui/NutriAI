@@ -401,6 +401,7 @@ let S={
   // Plan
   planSlot:null,planSlotMode:"select",planSlotLoading:false,
   planSlotMsgs:[],planLoading:false,
+  planSelected:{}, // {"Montag_Frühstück": true} - which meals to add to shopping
   // Shopping - family cooking multiplier
   cookMulti:1,
   // Diary
@@ -1003,11 +1004,39 @@ function renderPlan(){
     const ms=MEALS.map(meal=>{
       const m=S.plan[day]?.[meal];
       const label=meal==="Frühstück"?"Früh":meal==="Mittagessen"?"Mittag":meal==="Abendessen"?"Abend":"Snack";
-      return`<div class="plan-slot" onclick="openPlanSlot('${day}','${meal}')">
+      const key=day+"_"+meal;
+      const isSel=S.planSelected[key]===true;
+      if(!m) return`<div class="plan-slot" onclick="openPlanSlot('${day}','${meal}')">
         <span class="plab">${label}</span>
-        ${m?`<span class="pdname">${esc(m.name)}${m.portions&&m.portions!==1?` <span style="color:var(--mu);font-size:10px">(${m.portions}×)</span>`:""}</span><span class="pkcal">${m.kcal||0} kcal</span>`:
-        `<span style="color:var(--fa);font-size:12px;font-style:italic;flex:1">Tippe zum Hinzufügen</span>`}
-        <span style="font-size:14px;color:var(--fa)">${m?"✏️":"＋"}</span>
+        <span style="color:var(--fa);font-size:12px;font-style:italic;flex:1">Tippe zum Hinzufügen</span>
+        <span style="font-size:14px;color:var(--fa)">＋</span>
+      </div>`;
+      const p=m.portions||1;
+      return`<div style="display:flex;align-items:center;border-bottom:1px solid var(--bg)">
+        <!-- Checkbox for selective shopping -->
+        <button onclick="event.stopPropagation();S.planSelected['${key}']=!S.planSelected['${key}'];render()"
+          style="width:36px;height:52px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="width:20px;height:20px;border-radius:6px;border:2px solid ${isSel?"var(--gr)":"var(--br2)"};background:${isSel?"var(--gr)":"transparent"};display:flex;align-items:center;justify-content:center">
+            ${isSel?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>':""}
+          </div>
+        </button>
+        <!-- Slot content -->
+        <div class="plan-slot" style="flex:1;border-bottom:none;padding-left:4px" onclick="openPlanSlot('${day}','${meal}')">
+          <span class="plab">${label}</span>
+          <span class="pdname">${esc(m.name)}</span>
+          <span class="pkcal">${m.kcal||0} kcal</span>
+          <span style="font-size:13px;color:var(--mu)">✏️</span>
+        </div>
+        <!-- Portion stepper -->
+        <div style="display:flex;align-items:center;gap:0;flex-shrink:0;margin-right:10px" onclick="event.stopPropagation()">
+          <button style="width:24px;height:28px;border:1.5px solid var(--br2);border-radius:7px 0 0 7px;background:var(--sf);cursor:pointer;font-size:14px;font-weight:700;color:var(--gr);display:flex;align-items:center;justify-content:center"
+            onclick="chgPlanPortions('${day}','${meal}',-0.5)">−</button>
+          <div style="min-width:28px;height:28px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--sf)">
+            ${p}
+          </div>
+          <button style="width:24px;height:28px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:14px;font-weight:700;color:var(--gr);display:flex;align-items:center;justify-content:center"
+            onclick="chgPlanPortions('${day}','${meal}',0.5)">+</button>
+        </div>
       </div>`;
     }).join("");
     return`<div class="plan-day-card">
@@ -1020,14 +1049,15 @@ function renderPlan(){
   return`<div class="ptitle">Mein <em>Wochenplan</em></div>
     <div class="psub">Persönlicher Ernährungsplan · ${esc(SESSION?.displayName||"")}</div>
     <div style="background:var(--bll);border:1px solid #a8cfe8;border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:12px;color:var(--bl)">
-      💡 Der Wochenplan zeigt deine persönlichen Portionen & Nährwerte. Die Einkaufsliste berücksichtigt zusätzlich die Familien-Portionen.
+      ☑️ Häkchen setzen → nur diese Mahlzeiten in Einkauf · −/+ Portionen direkt anpassen
     </div>
     ${!hasPlan?`<div style="background:linear-gradient(135deg,var(--gl),var(--bll));border:1.5px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:14px">
       <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:4px">Plan generieren</div>
       <p style="font-size:12px;color:var(--mu);margin-bottom:12px">Die KI erstellt einen vollständigen 7-Tage-Plan.</p>
       <button class="btn bg" onclick="S.modal='genplan';render()">✨ Wochenplan erstellen</button>
     </div>`:`<div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
-      <button class="btn bg bsm" onclick="planToShop()">🛒 Alle → Einkauf</button>
+      <button class="btn bg bsm" onclick="planToShop(false)">🛒 Auswahl → Einkauf</button>
+      <button class="btn bo bsm" onclick="planToShop(true)">🛒 Alle → Einkauf</button>
       <button class="btn bo bsm" onclick="S.modal='genplan';render()">✨ Neu generieren</button>
       <button class="btn bd bsm" onclick="S.plan={};planSave();render()">🗑 Löschen</button>
     </div>`}
@@ -1091,11 +1121,30 @@ async function generatePlan(prefs){
   }catch(e){toast("⚠️ "+e.message)}
   S.planLoading=false;render();
 }
-async function planToShop(){
+function chgPlanPortions(day,meal,delta){
+  const m=S.plan[day]?.[meal]; if(!m)return;
+  const oldP=m.portions||1;
+  const newP=Math.max(0.5,Math.round((oldP+delta)*2)/2);
+  const ratio=newP/oldP;
+  // Rescale all nutrients
+  m.portions=newP;
+  m.kcal=Math.round((m.kcal||0)*ratio);
+  m.protein=Math.round((m.protein||0)*ratio*10)/10;
+  m.fat=Math.round((m.fat||0)*ratio*10)/10;
+  m.carbs=Math.round((m.carbs||0)*ratio*10)/10;
+  m.fiber=Math.round((m.fiber||0)*ratio*10)/10;
+  planSave();render();
+}
+
+async function planToShop(all){
   let n=0;
   const multi=S.cookMulti||1;
+  const hasSelection=Object.values(S.planSelected).some(v=>v===true);
   for(const [day,dayMeals] of Object.entries(S.plan)){
-    for(const meal of Object.values(dayMeals)){
+    for(const [mealName,meal] of Object.entries(dayMeals)){
+      const key=day+"_"+mealName;
+      // If not all: skip unselected
+      if(!all&&hasSelection&&!S.planSelected[key])continue;
       const portions=meal.portions||1;
       const factor=portions*multi;
       for(const ig of(meal.ingredients||[])){
@@ -1106,7 +1155,8 @@ async function planToShop(){
       }
     }
   }
-  toast(`✓ ${n} Artikel (×${multi} Personen) hinzugefügt`);setTab("shopping");
+  if(n===0){toast("Keine Mahlzeiten ausgewählt – Häkchen setzen!");return;}
+  toast(`✓ ${n} Artikel (×${multi} Pers.) hinzugefügt`);setTab("shopping");
 }
 
 // ─── SHOPPING PAGE ─────────────────────────────────────────────────
@@ -1131,7 +1181,7 @@ function renderShopping(){
     <div class="cook-multi">
       <span style="font-size:11px;font-weight:700;color:var(--go);flex:1">🍳 Kochen für</span>
       <button class="cook-multi-btn" onclick="S.cookMulti=Math.max(1,S.cookMulti-1);render()">−</button>
-      <span style="font-size:16px;font-weight:700;min-width:20px;text-align:center">${S.cookMulti}</span>
+      <span style="font-size:16px;font-weight:700;min-width:20px;text-align:center">${S.cookMulti||1}</span>
       <button class="cook-multi-btn" onclick="S.cookMulti++;render()">+</button>
       <span style="font-size:11px;color:var(--go);margin-left:4px">Person${S.cookMulti!==1?"en":""}</span>
       <span style="font-size:10px;color:var(--mu);margin-left:8px">Wird beim Hinzufügen skaliert</span>
