@@ -402,6 +402,7 @@ let S={
   planSlot:null,planSlotMode:"select",planSlotLoading:false,
   planSlotMsgs:[],planLoading:false,
   planSelected:{}, // {"Montag_Frühstück": true} - which meals to add to shopping
+  planShopQueue:[], planBuyPortions:{}, // for shopping modal
   // Shopping - family cooking multiplier
   cookMulti:1,
   // Diary
@@ -1030,12 +1031,12 @@ function renderPlan(){
         <!-- Portion stepper -->
         <div style="display:flex;align-items:center;gap:0;flex-shrink:0;margin-right:10px" onclick="event.stopPropagation()">
           <button style="width:24px;height:28px;border:1.5px solid var(--br2);border-radius:7px 0 0 7px;background:var(--sf);cursor:pointer;font-size:14px;font-weight:700;color:var(--gr);display:flex;align-items:center;justify-content:center"
-            onclick="chgPlanPortions('${day}','${meal}',-0.5)">−</button>
+            onclick="chgPlanPortions('${day}','${meal}',-0.25)">−</button>
           <div style="min-width:28px;height:28px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--sf)">
             ${p}
           </div>
           <button style="width:24px;height:28px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:14px;font-weight:700;color:var(--gr);display:flex;align-items:center;justify-content:center"
-            onclick="chgPlanPortions('${day}','${meal}',0.5)">+</button>
+            onclick="chgPlanPortions('${day}','${meal}',0.25)">+</button>
         </div>
       </div>`;
     }).join("");
@@ -1056,8 +1057,8 @@ function renderPlan(){
       <p style="font-size:12px;color:var(--mu);margin-bottom:12px">Die KI erstellt einen vollständigen 7-Tage-Plan.</p>
       <button class="btn bg" onclick="S.modal='genplan';render()">✨ Wochenplan erstellen</button>
     </div>`:`<div style="display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap">
-      <button class="btn bg bsm" onclick="planToShop(false)">🛒 Auswahl → Einkauf</button>
-      <button class="btn bo bsm" onclick="planToShop(true)">🛒 Alle → Einkauf</button>
+      <button class="btn bg bsm" onclick="openPlanShopModal(false)">🛒 Auswahl einkaufen</button>
+      <button class="btn bo bsm" onclick="openPlanShopModal(true)">🛒 Alle einkaufen</button>
       <button class="btn bo bsm" onclick="S.modal='genplan';render()">✨ Neu generieren</button>
       <button class="btn bd bsm" onclick="S.plan={};planSave();render()">🗑 Löschen</button>
     </div>`}
@@ -1124,43 +1125,57 @@ async function generatePlan(prefs){
 function chgPlanPortions(day,meal,delta){
   const m=S.plan[day]?.[meal]; if(!m)return;
   const oldP=m.portions||1;
-  const newP=Math.max(0.5,Math.round((oldP+delta)*2)/2);
-  const ratio=newP/oldP;
-  // Rescale all nutrients
+  const newP=Math.max(0.25,Math.round((oldP+delta)*4)/4);
+  // Store base macros (1-portion) on first change
+  if(!m.baseKcal){m.baseKcal=m.kcal/oldP;m.baseProtein=(m.protein||0)/oldP;m.baseFat=(m.fat||0)/oldP;m.baseCarbs=(m.carbs||0)/oldP;m.baseFiber=(m.fiber||0)/oldP;}
   m.portions=newP;
-  m.kcal=Math.round((m.kcal||0)*ratio);
-  m.protein=Math.round((m.protein||0)*ratio*10)/10;
-  m.fat=Math.round((m.fat||0)*ratio*10)/10;
-  m.carbs=Math.round((m.carbs||0)*ratio*10)/10;
-  m.fiber=Math.round((m.fiber||0)*ratio*10)/10;
+  // Update display macros (personal plan stays accurate)
+  m.kcal=Math.round(m.baseKcal*newP);
+  m.protein=Math.round(m.baseProtein*newP*10)/10;
+  m.fat=Math.round(m.baseFat*newP*10)/10;
+  m.carbs=Math.round(m.baseCarbs*newP*10)/10;
+  m.fiber=Math.round(m.baseFiber*newP*10)/10;
   planSave();render();
 }
 
-async function planToShop(all){
-  let n=0;
-  const multi=S.cookMulti||1;
+function planToShop(all){
+  // Collect which meals to shop
   const hasSelection=Object.values(S.planSelected).some(v=>v===true);
+  const toShop=[];
   for(const [day,dayMeals] of Object.entries(S.plan)){
     for(const [mealName,meal] of Object.entries(dayMeals)){
       const key=day+"_"+mealName;
-      // If not all: skip unselected
       if(!all&&hasSelection&&!S.planSelected[key])continue;
-      const portions=meal.portions||1;
-      const factor=portions*multi;
-      for(const ig of(meal.ingredients||[])){
-        if(ig.name){
-          const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,factor),done:false,source:`${meal.name} (${day})`};
-          S.shopping.push(item);await shopAdd(item);n++;
-        }
+      toShop.push({day,meal:mealName,data:meal,key});
+    }
+  }
+  if(toShop.length===0){toast("Keine Mahlzeiten ausgewählt – Häkchen setzen!");return;}
+  // Open buy-portions modal
+  S.planShopQueue=toShop;
+  S.planBuyPortions={}; // {key: portions}
+  toShop.forEach(m=>{S.planBuyPortions[m.key]=S.cookMulti||1;});
+  S.modal="planshop";render();
+}
+
+async function confirmPlanToShop(){
+  let n=0;
+  for(const {day,meal,data,key} of (S.planShopQueue||[])){
+    const buyPortions=S.planBuyPortions[key]||1;
+    for(const ig of(data.ingredients||[])){
+      if(ig.name){
+        const item={id:uid(),name:ig.name,qty:scaleQty(ig.qty,buyPortions),done:false,
+          source:`${data.name} (${day}, ${buyPortions}×)`};
+        S.shopping.push(item);await shopAdd(item);n++;
       }
     }
   }
-  if(n===0){toast("Keine Mahlzeiten ausgewählt – Häkchen setzen!");return;}
-  toast(`✓ ${n} Artikel (×${multi} Pers.) hinzugefügt`);setTab("shopping");
+  closeModal();
+  toast(`✓ ${n} Artikel zur Einkaufsliste`);setTab("shopping");
 }
 
 // ─── SHOPPING PAGE ─────────────────────────────────────────────────
 function renderShopping(){
+  try{
   const undone=consolidateShop(S.shopping.filter(i=>!i.done));
   const done=S.shopping.filter(i=>i.done);
   const catGroups={};SHOP_CATS.forEach(c=>{catGroups[c.key]=[]});
@@ -1180,9 +1195,9 @@ function renderShopping(){
     <!-- FAMILY COOKING MULTIPLIER -->
     <div class="cook-multi">
       <span style="font-size:11px;font-weight:700;color:var(--go);flex:1">🍳 Kochen für</span>
-      <button class="cook-multi-btn" onclick="S.cookMulti=Math.max(1,S.cookMulti-1);render()">−</button>
+      <button class="cook-multi-btn" onclick="S.cookMulti=Math.max(1,(S.cookMulti||1)-1);render()">−</button>
       <span style="font-size:16px;font-weight:700;min-width:20px;text-align:center">${S.cookMulti||1}</span>
-      <button class="cook-multi-btn" onclick="S.cookMulti++;render()">+</button>
+      <button class="cook-multi-btn" onclick="S.cookMulti=(S.cookMulti||1)+1;render()">+</button>
       <span style="font-size:11px;color:var(--go);margin-left:4px">Person${S.cookMulti!==1?"en":""}</span>
       <span style="font-size:10px;color:var(--mu);margin-left:8px">Wird beim Hinzufügen skaliert</span>
     </div>
@@ -1195,6 +1210,9 @@ function renderShopping(){
     ${done.length?`<div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:7px">
       <span class="slbl" style="margin-bottom:0">✓ Erledigt (${done.length})</span>
     </div>${done.map(renderShopItem).join("")}`:""}`;
+  }catch(err){
+    return `<div class="ptitle">Einkaufs-<em>liste</em></div><div style="background:#fee;border:1px solid #fbb;border-radius:var(--r);padding:14px;margin-top:16px;font-size:13px;color:#b83418">⚠️ Fehler beim Laden der Einkaufsliste:<br><strong>${err.message}</strong><br><br><button class="btn bo bsm" onclick="S.shopping=[];render()">Liste zurücksetzen</button></div>`;
+  }
 }
 function renderShopItem(item){
   return`<div class="sitem${item.done?" dk":""}">
@@ -1553,14 +1571,78 @@ function doLogWeight(){
 // ─── MODALS ─────────────────────────────────────────────────────────
 function renderModal(){
   if(S.modal==="genplan")return renderGenPlanModal();
+  if(S.modal==="planshop")return renderPlanShopModal();
   if(S.modal==="planslot")return renderPlanSlotModal();
   if(S.modal==="diary")return renderDiaryModal();
   if(S.modal==="addshop")return renderAddShopModal();
   if(S.modal==="addtoplan")return renderAddToPlanModal();
   if(S.modal==="goals")return renderGoalsModal();
   if(S.modal==="editdish")return renderEditDishModal();
+  if(S.modal==="planshop")return renderPlanShopModal();
   return"";
 }
+function renderPlanShopModal(){
+  const queue=S.planShopQueue||[];
+  const rows=queue.map(({day,meal,data,key})=>{
+    const bp=S.planBuyPortions[key]||1;
+    return`<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--br)">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600">${esc(data.name)}</div>
+        <div style="font-size:11px;color:var(--mu)">${day} · ${meal}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex-shrink:0">
+        <button style="width:28px;height:30px;border:1.5px solid var(--br2);border-radius:7px 0 0 7px;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
+          onclick="S.planBuyPortions['${key}']=Math.max(0.25,Math.round((S.planBuyPortions['${key}']-.25)*4)/4);render()">−</button>
+        <div style="min-width:36px;height:30px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--sf)">${bp}</div>
+        <button style="width:28px;height:30px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
+          onclick="S.planBuyPortions['${key}']=Math.round((S.planBuyPortions['${key}']+.25)*4)/4;render()">+</button>
+        <span style="font-size:11px;color:var(--mu);margin-left:6px">Port.</span>
+      </div>
+    </div>`;
+  }).join("");
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Einkaufsmengen festlegen</div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Wie viele Portionen möchtest du von jedem Gericht einkaufen? (Unabhängig von deinem persönlichen Plan)</div>
+    <div style="max-height:55vh;overflow-y:auto">${rows}</div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="confirmPlanToShop()">🛒 Zur Einkaufsliste hinzufügen</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+
+function renderPlanShopModal(){
+  const queue=S.planShopQueue||[];
+  const bp=S.planBuyPortions||{};
+  const rows=queue.map(m=>{
+    const p=bp[m.key]||1;
+    return`<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bg)">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500">${esc(m.data.name)}</div>
+        <div style="font-size:11px;color:var(--mu)">${m.day} · ${m.meal}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;flex-shrink:0">
+        <button style="width:26px;height:30px;border:1.5px solid var(--br2);border-radius:7px 0 0 7px;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
+          onclick="S.planBuyPortions['${m.key}']=Math.max(0.25,Math.round(((S.planBuyPortions['${m.key}']||1)-0.25)*4)/4);render()">−</button>
+        <div style="min-width:38px;height:30px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--sf)">${p}×</div>
+        <button style="width:26px;height:30px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
+          onclick="S.planBuyPortions['${m.key}']=Math.round(((S.planBuyPortions['${m.key}']||1)+0.25)*4)/4;render()">+</button>
+      </div>
+    </div>`;
+  }).join("");
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">Einkauf planen</div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:12px">Wie viele Portionen einkaufen? Unabhängig von deinem persönlichen Plan.</div>
+    <div style="max-height:340px;overflow-y:auto">${rows||"<div class=empty>Keine Mahlzeiten ausgewählt</div>"}</div>
+    <div class="mact">
+      <button class="btn bg" style="flex:1" onclick="confirmPlanToShop()">🛒 Zur Einkaufsliste</button>
+      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
+    </div>
+  </div></div>`;
+}
+
 function renderGenPlanModal(){
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
