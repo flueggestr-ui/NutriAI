@@ -258,6 +258,7 @@ const CAT_MAP={"Frühstück":"Frühstück","Mittagessen":"Mittag & Abend","Abend
 function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend"}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function parseQty(str){const m=String(str||"").match(/[\d]+(?:[.,][\d]+)?/);return m?parseFloat(m[0].replace(",",".")):0}
+function parseUnit(str){const m=String(str||"").match(/[\d.,½¼¾⅓⅔⅛⅜⅝⅞\/\s]+([a-zA-ZäöüÄÖÜßg]+)/);return m?m[1].trim():""}
 
 function fmtNum(n){
   // Format a scaled number nicely: no trailing zeros, max 1 decimal
@@ -1578,46 +1579,15 @@ function renderModal(){
   if(S.modal==="addtoplan")return renderAddToPlanModal();
   if(S.modal==="goals")return renderGoalsModal();
   if(S.modal==="editdish")return renderEditDishModal();
-  if(S.modal==="planshop")return renderPlanShopModal();
   return"";
 }
 function renderPlanShopModal(){
   const queue=S.planShopQueue||[];
-  const rows=queue.map(({day,meal,data,key})=>{
-    const bp=S.planBuyPortions[key]||1;
-    return`<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--br)">
-      <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:600">${esc(data.name)}</div>
-        <div style="font-size:11px;color:var(--mu)">${day} · ${meal}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:0;flex-shrink:0">
-        <button style="width:28px;height:30px;border:1.5px solid var(--br2);border-radius:7px 0 0 7px;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
-          onclick="S.planBuyPortions['${key}']=Math.max(0.25,Math.round((S.planBuyPortions['${key}']-.25)*4)/4);render()">−</button>
-        <div style="min-width:36px;height:30px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--sf)">${bp}</div>
-        <button style="width:28px;height:30px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
-          onclick="S.planBuyPortions['${key}']=Math.round((S.planBuyPortions['${key}']+.25)*4)/4;render()">+</button>
-        <span style="font-size:11px;color:var(--mu);margin-left:6px">Port.</span>
-      </div>
-    </div>`;
-  }).join("");
-  return`<div class="ov" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mtitle">Einkaufsmengen festlegen</div>
-    <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Wie viele Portionen möchtest du von jedem Gericht einkaufen? (Unabhängig von deinem persönlichen Plan)</div>
-    <div style="max-height:55vh;overflow-y:auto">${rows}</div>
-    <div class="mact">
-      <button class="btn bg" style="flex:1" onclick="confirmPlanToShop()">🛒 Zur Einkaufsliste hinzufügen</button>
-      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-    </div>
-  </div></div>`;
-}
-
-function renderPlanShopModal(){
-  const queue=S.planShopQueue||[];
-  const bp=S.planBuyPortions||{};
-  const rows=queue.map(m=>{
-    const p=bp[m.key]||1;
-    return`<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bg)">
+  if(!S.planBuyAll)S.planBuyAll=1;
+  const allP=S.planBuyAll;
+  const rows=queue.map((m,i)=>{
+    const p=S.planBuyPortions[m.key]||1;
+    return`<div style="display:flex;align-items:center;gap:6px;padding:9px 0;border-bottom:1px solid var(--bg)">
       <div style="flex:1;min-width:0">
         <div style="font-size:13px;font-weight:500">${esc(m.data.name)}</div>
         <div style="font-size:11px;color:var(--mu)">${m.day} · ${m.meal}</div>
@@ -1629,13 +1599,25 @@ function renderPlanShopModal(){
         <button style="width:26px;height:30px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
           onclick="S.planBuyPortions['${m.key}']=Math.round(((S.planBuyPortions['${m.key}']||1)+0.25)*4)/4;render()">+</button>
       </div>
+      <button onclick="S.planShopQueue=S.planShopQueue.filter((_,j)=>j!==${i});render()"
+        title="Gericht entfernen"
+        style="width:28px;height:28px;border:none;background:none;cursor:pointer;font-size:15px;color:#c0392b;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center">🗑</button>
     </div>`;
   }).join("");
   return`<div class="ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="mtitle">Einkauf planen</div>
-    <div style="font-size:12px;color:var(--mu);margin-bottom:12px">Wie viele Portionen einkaufen? Unabhängig von deinem persönlichen Plan.</div>
-    <div style="max-height:340px;overflow-y:auto">${rows||"<div class=empty>Keine Mahlzeiten ausgewählt</div>"}</div>
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--gl,#f0faf4);border:1px solid var(--gr);border-radius:var(--r);margin-bottom:14px">
+      <span style="font-size:12px;font-weight:600;color:var(--go);flex:1">Für alle setzen</span>
+      <button style="width:26px;height:30px;border:1.5px solid var(--br2);border-radius:7px 0 0 7px;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
+        onclick="S.planBuyAll=Math.max(0.25,Math.round(((S.planBuyAll||1)-0.25)*4)/4);render()">−</button>
+      <div style="min-width:38px;height:30px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--sf)">${allP}×</div>
+      <button style="width:26px;height:30px;border:1.5px solid var(--br2);border-radius:0 7px 7px 0;background:var(--sf);cursor:pointer;font-size:15px;font-weight:700;color:var(--gr)"
+        onclick="S.planBuyAll=Math.round(((S.planBuyAll||1)+0.25)*4)/4;render()">+</button>
+      <button class="btn bg bsm" style="margin-left:8px"
+        onclick="(S.planShopQueue||[]).forEach(m=>{S.planBuyPortions[m.key]=S.planBuyAll||1});render()">Anwenden</button>
+    </div>
+    <div style="max-height:320px;overflow-y:auto">${rows||"<div class='empty'>Keine Mahlzeiten ausgewählt</div>"}</div>
     <div class="mact">
       <button class="btn bg" style="flex:1" onclick="confirmPlanToShop()">🛒 Zur Einkaufsliste</button>
       <button class="btn bo" onclick="closeModal()">Abbrechen</button>
