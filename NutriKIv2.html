@@ -1396,8 +1396,17 @@ function renderDiaryModal(){
       </div>
       ${S.logSel?`
         <div class="r2" style="margin-bottom:10px">
-          <div class="field"><label>Portionen</label><input type="number" value="${S.logPortions}" step=".5" oninput="initLogIngredients(S.logSel,this.value);S.logPortions=this.value;S.logGram='';S.logMacrosOverride=null;render()"/></div>
-          <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" oninput="S.logGram=this.value;S.logMacrosOverride=null;render()"/></div>
+          <div class="field">
+            <label>Portionen</label>
+            <div style="display:flex;align-items:center">
+              <button style="width:36px;height:38px;border:1.5px solid var(--br2);border-radius:8px 0 0 8px;background:var(--bg);cursor:pointer;font-size:18px;font-weight:700;color:var(--gr);flex-shrink:0"
+                onclick="S.logPortions=String(Math.max(0.25,Math.round(((parseFloat(S.logPortions)||1)-0.25)*4)/4));S.logGram='';initLogIngredients(S.logSel,S.logPortions);S.logMacrosOverride=null;render()">−</button>
+              <div style="flex:1;height:38px;border-top:1.5px solid var(--br2);border-bottom:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;background:var(--bg)">${parseFloat(S.logPortions)||1}×</div>
+              <button style="width:36px;height:38px;border:1.5px solid var(--br2);border-radius:0 8px 8px 0;background:var(--bg);cursor:pointer;font-size:18px;font-weight:700;color:var(--gr);flex-shrink:0"
+                onclick="S.logPortions=String(Math.round(((parseFloat(S.logPortions)||1)+0.25)*4)/4);S.logGram='';initLogIngredients(S.logSel,S.logPortions);S.logMacrosOverride=null;render()">+</button>
+            </div>
+          </div>
+          <div class="field"><label>Oder Gramm</label><input type="number" value="${S.logGram}" placeholder="z.B. 250" onchange="S.logGram=this.value;S.logPortions='1';S.logMacrosOverride=null;render()"/></div>
         </div>
         ${preview}
         ${S.logIngredients.length?`
