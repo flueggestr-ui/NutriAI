@@ -253,7 +253,7 @@ const fmtD=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("de-DE",{we
 const fmtShort=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"})}catch{return d}};
 const DAYS=["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"];
 const MEALS=["Frühstück","Mittagessen","Abendessen","Snack"];
-const CATS=["Frühstück","Mittag & Abend","Snacks"];
+const CATS=["Alle","Frühstück","Mittag & Abend","Snacks"];
 const CAT_MAP={"Frühstück":"Frühstück","Mittagessen":"Mittag & Abend","Abendessen":"Mittag & Abend","Snack":"Snacks"};
 function dishCat(d){return CAT_MAP[d.category]||"Mittag & Abend"}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
@@ -342,8 +342,8 @@ function consolidateShop(items){
   const map={};
   items.forEach(item=>{
     const key=item.name.toLowerCase().trim();
-    if(!map[key])map[key]={...item,_qty:parseQty(item.qty),_unit:parseUnit(item.qty)};
-    else{map[key]._qty+=parseQty(item.qty);if(item.source&&!map[key].source.includes(item.source))map[key].source+=" · "+item.source;}
+    if(!map[key])map[key]={...item,_qty:parseQty(item.qty),_unit:parseUnit(item.qty),_ids:[item.id]};
+    else{map[key]._qty+=parseQty(item.qty);map[key]._ids.push(item.id);if(item.source&&!map[key].source.includes(item.source))map[key].source+=" · "+item.source;}
   });
   return Object.values(map).map(it=>({...it,qty:it._unit?`${Math.round(it._qty*10)/10} ${it._unit}`:it.qty}));
 }
@@ -393,12 +393,13 @@ let S={
   groupFavIds:new Set(), // ids of dishes favorited by this group
   dishView:"mine", // "mine" | "library"
   libSearch:"", migrating:false, migrateCount:0,
+  libOpenDish:null, libCommentText:"", libDishComments:{},
   toast:null,_tt:null,
   // AI
   msgs:[{r:"a",t:"Hallo! Beschreib mir, was du essen möchtest – z.B. <em>proteinreiches Abendessen</em> – und ich schlage dir Gerichte mit Nährwerten vor!"}],
   aiStep:"chat",sugs:[],selSug:null,editDish:null,aiLoading:false,refLoading:false,
   // Gerichte
-  dishCat:"Frühstück",dishPortions:{},openDish:null,
+  dishCat:"Alle",dishPortions:{},openDish:null,
   // Plan
   planSlot:null,planSlotMode:"select",planSlotLoading:false,
   planSlotMsgs:[],planLoading:false,
@@ -495,14 +496,42 @@ async function goalsSave(){await fbPatch(`users/${SESSION.username}`,{goals:S.go
 
 // Public library
 async function publishDish(dish){
-  const{id,...data}=dish;
-  await fbSet(`public_dishes/${id}`,{...data,publishedBy:SESSION.group,publishedByDisplay:SESSION.displayName});
+  const{id,ratings,comments,...data}=dish;
+  await fbPatch(`public_dishes/${id}`,{...data,publishedBy:SESSION.group,publishedByDisplay:SESSION.displayName});
 }
 async function loadPublicDishes(){
   const d=await fbGet("public_dishes");
-  S.publicDishes=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>({...it,id})):[];
+  S.publicDishes=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>{
+    const{ratings,comments,...dish}=it||{};
+    const rvals=ratings?Object.values(ratings):[];
+    const avgR=rvals.length?Math.round(rvals.reduce((s,v)=>s+v,0)/rvals.length*10)/10:0;
+    const myR=ratings&&SESSION?ratings[SESSION.username]||0:0;
+    return{...dish,id,_avgRating:avgR,_ratingCount:rvals.length,_myRating:myR,_commentCount:comments?Object.keys(comments).length:0};
+  }):[];
   const favData=await fbGet(grpPath("favorites"));
   S.groupFavIds=new Set(favData?Object.keys(favData):[]);
+}
+function starsHtml(avg,count,size=14){const full=Math.round(avg);return Array.from({length:5},(_,i)=>`<span style="color:${i<full?"#f5c518":"#ddd"};font-size:${size}px">★</span>`).join("")+(count?`<span style="font-size:11px;color:var(--mu);margin-left:3px">${avg.toFixed(1)} (${count})</span>`:"")}
+function clickableStars(dishId,myRating){return Array.from({length:5},(_,i)=>`<button onclick="ratePublicDish('${dishId}',${i+1})" style="background:none;border:none;cursor:pointer;font-size:24px;color:${i<myRating?"#f5c518":"#ddd"};padding:2px 3px">★</button>`).join("")}
+async function ratePublicDish(id,stars){
+  if(!SESSION)return;
+  await fbPatch(`public_dishes/${id}/ratings`,{[SESSION.username]:stars});
+  const d=S.publicDishes.find(x=>x.id===id);
+  if(d){d._myRating=stars;const newCount=d._myRating?d._ratingCount:d._ratingCount+1;d._ratingCount=d._ratingCount+(d._myRating===stars?0:1);d._avgRating=Math.round(((d._avgRating*(d._ratingCount-1))+stars)/d._ratingCount*10)/10;}
+  await loadPublicDishes();render();
+}
+async function loadDishComments(id){
+  const c=await fbGet(`public_dishes/${id}/comments`);
+  S.libDishComments[id]=c&&typeof c==="object"?Object.entries(c).map(([cid,it])=>({...it,cid})).sort((a,b)=>a.ts-b.ts):[];
+  render();
+}
+async function addPublicComment(id){
+  const text=S.libCommentText.trim();if(!text||!SESSION)return;
+  const cid=uid();
+  const comment={text,author:SESSION.username,authorDisplay:SESSION.displayName||SESSION.username,ts:Date.now()};
+  await fbSet(`public_dishes/${id}/comments/${cid}`,comment);
+  S.libCommentText="";
+  await loadDishComments(id);
 }
 async function toggleFavorite(publicDishId){
   if(S.groupFavIds.has(publicDishId)){
@@ -839,7 +868,7 @@ function deleteDish(id){if(!confirm("Gericht löschen?"))return;S.dishes=S.dishe
 
 // ─── GERICHTE PAGE ─────────────────────────────────────────────────
 function renderGerichte(){
-  const filtered=S.dishes.filter(d=>dishCat(d)===S.dishCat);
+  const filtered=S.dishCat==="Alle"?S.dishes:S.dishes.filter(d=>dishCat(d)===S.dishCat);
   const cards=filtered.map(d=>{
     const p=S.dishPortions[d.id]||1;
     const srv=d.servings||1;
@@ -922,21 +951,43 @@ function renderGerichte(){
     const libCards=libFiltered.map(d=>{
       const isFav=S.groupFavIds.has(d.id);
       const isOwn=S.dishes.some(x=>x.id===d.id);
+      const isOpen=S.libOpenDish===d.id;
+      const comments=S.libDishComments[d.id]||[];
       return`<div class="lib-card">
-        <div style="display:flex;align-items:flex-start;gap:8px">
+        <div style="display:flex;align-items:flex-start;gap:8px" onclick="if(S.libOpenDish==='${d.id}'){S.libOpenDish=null}else{S.libOpenDish='${d.id}';if(!S.libDishComments['${d.id}'])loadDishComments('${d.id}')};render()" style="cursor:pointer">
           <div style="flex:1">
             <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700">${esc(d.name)}</div>
             <div style="font-size:10px;color:var(--mu);margin-top:2px">von ${esc(d.publishedByDisplay||d.publishedBy||"")}</div>
             <div class="chips" style="margin-top:5px">${macroChips(d)}</div>
+            <div style="margin-top:6px;display:flex;align-items:center;gap:8px">
+              ${d._ratingCount?starsHtml(d._avgRating,d._ratingCount):`<span style="font-size:11px;color:var(--mu)">Noch keine Bewertung</span>`}
+              ${d._commentCount?`<span style="font-size:11px;color:var(--mu)">· 💬 ${d._commentCount}</span>`:""}
+            </div>
           </div>
-          <div style="display:flex;gap:4px;flex-shrink:0">
-            <button class="fav-btn" onclick="toggleFavorite('${d.id}')" title="${isFav?"Favorit entfernen":"Als Favorit markieren"}">${isFav?"❤️":"🤍"}</button>
+          <div style="display:flex;gap:4px;flex-shrink:0;align-items:center">
+            <button class="fav-btn" onclick="event.stopPropagation();toggleFavorite('${d.id}')" title="${isFav?"Favorit entfernen":"Als Favorit markieren"}">${isFav?"❤️":"🤍"}</button>
+            <span style="font-size:13px;color:var(--mu)">${isOpen?"▲":"▼"}</span>
           </div>
         </div>
-        ${isFav?`<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-          ${isOwn?`<span style="font-size:11px;color:var(--gr);font-weight:600">✓ Bereits in euren Gerichten</span>`:
-          `<button class="btn bg bsm" onclick="addFavToGroupDishes(${JSON.stringify(d).replace(/"/g,'&quot;')})">+ Zu unseren Gerichten</button>`}
-        </div>`:""}
+        ${isOpen?`
+          <div style="border-top:1px solid var(--br);margin-top:10px;padding-top:10px">
+            ${isFav?`<div style="margin-bottom:10px;display:flex;gap:6px;flex-wrap:wrap">
+              ${isOwn?`<span style="font-size:11px;color:var(--gr);font-weight:600">✓ Bereits in euren Gerichten</span>`:
+              `<button class="btn bg bsm" onclick="event.stopPropagation();addFavToGroupDishes(${JSON.stringify(d).replace(/"/g,'&quot;')})">+ Zu unseren Gerichten</button>`}
+            </div>`:`<div style="margin-bottom:10px"><button class="btn bo bsm" onclick="event.stopPropagation();toggleFavorite('${d.id}')">🤍 Als Favorit merken</button></div>`}
+            <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:6px">DEINE BEWERTUNG</div>
+            <div style="margin-bottom:12px">${clickableStars(d.id,d._myRating)}</div>
+            <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:6px">KOMMENTARE (${d._commentCount||0})</div>
+            ${comments.length?comments.map(c=>`<div style="padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:6px">
+              <div style="font-size:11px;font-weight:700;color:var(--gr)">${esc(c.authorDisplay)}</div>
+              <div style="font-size:12px;margin-top:2px">${esc(c.text)}</div>
+            </div>`).join(""):`<div style="font-size:12px;color:var(--mu);margin-bottom:8px">Noch keine Kommentare.</div>`}
+            <div style="display:flex;gap:7px;margin-top:8px">
+              <input value="${esc(S.libCommentText)}" oninput="S.libCommentText=this.value" onkeydown="if(event.key==='Enter')addPublicComment('${d.id}')"
+                placeholder="Kommentar schreiben…" style="flex:1;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:8px 10px;font-family:Syne,sans-serif;font-size:12px;outline:none"/>
+              <button class="btn bg bsm" onclick="event.stopPropagation();addPublicComment('${d.id}')">Senden</button>
+            </div>
+          </div>`:""}
       </div>`;
     }).join("");
     return`<div class="ptitle">Gerichte-<em>Bibliothek</em></div>
@@ -947,9 +998,6 @@ function renderGerichte(){
       <div class="field" style="margin-bottom:12px">
         <input value="${esc(S.libSearch)}" oninput="S.libSearch=this.value;render()" placeholder="🔍 Bibliothek durchsuchen…"/>
       </div>
-      ${S.groupFavIds.size>0?`<div style="background:var(--gol);border:1px solid #d4b840;border-radius:8px;padding:8px 12px;font-size:12px;color:var(--go);margin-bottom:12px">
-        ❤️ Eure Favoriten sind oben markiert. Tippe auf "+ Zu unseren Gerichten" um sie eurer Gruppe hinzuzufügen.
-      </div>`:""}
       ${libFiltered.length===0?`<div class="empty">Keine Gerichte gefunden.<br>Speichert Gerichte über den KI-Assistenten und sie erscheinen hier automatisch!</div>`:libCards}`;
   }
 
@@ -1250,8 +1298,12 @@ function renderShopping(){
   }
 }
 function renderShopItem(item){
+  const ids=item._ids&&item._ids.length>1?item._ids:[item.id];
+  const idsJson=JSON.stringify(ids);
+  const toggleFn=ids.length>1?`doToggleAll(${idsJson})`:`doToggle('${item.id}')`;
+  const delFn=ids.length>1?`doDelAll(${idsJson})`:`doDelShop('${item.id}')`;
   return`<div class="sitem${item.done?" dk":""}">
-    <button class="scb${item.done?" done":""}" onclick="doToggle('${item.id}')">
+    <button class="scb${item.done?" done":""}" onclick="${toggleFn}">
       ${item.done?`<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`:""}
     </button>
     <div style="flex:1;min-width:0">
@@ -1259,11 +1311,13 @@ function renderShopItem(item){
       ${item.source?`<div class="ssrc">${esc(item.source)}</div>`:""}
     </div>
     ${item.qty?`<div class="sqty">${esc(item.qty)}</div>`:""}
-    <button class="btn bic bd" onclick="doDelShop('${item.id}')">✕</button>
+    <button class="btn bic bd" onclick="${delFn}">✕</button>
   </div>`;
 }
 async function doToggle(id){const item=S.shopping.find(x=>x.id===id);if(!item)return;item.done=!item.done;render();await shopToggle(id,item.done);}
+async function doToggleAll(ids){for(const id of ids){const it=S.shopping.find(x=>x.id===id);if(it)it.done=true;}render();for(const id of ids)await shopToggle(id,true);}
 async function doDelShop(id){S.shopping=S.shopping.filter(x=>x.id!==id);render();await shopDel(id);}
+async function doDelAll(ids){S.shopping=S.shopping.filter(x=>!ids.includes(x.id));render();for(const id of ids)await shopDel(id);}
 async function doClearDone(){const ids=S.shopping.filter(i=>i.done).map(i=>i.id);S.shopping=S.shopping.filter(i=>!i.done);render();for(const id of ids)await shopDel(id);}
 async function doAddShop(name,qty){
   if(!name.trim())return;
