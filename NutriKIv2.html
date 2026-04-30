@@ -496,32 +496,37 @@ async function goalsSave(){await fbPatch(`users/${SESSION.username}`,{goals:S.go
 
 // Public library
 async function publishDish(dish){
-  const{id,ratings,comments,...data}=dish;
-  await fbPatch(`public_dishes/${id}`,{...data,publishedBy:SESSION.group,publishedByDisplay:SESSION.displayName});
+  const{id,...data}=dish;
+  // strip internal fields before publishing
+  const{_avgRating,_ratingCount,_myRating,_commentCount,_ids,...clean}=data;
+  await fbSet(`public_dishes/${id}`,{...clean,publishedBy:SESSION.group,publishedByDisplay:SESSION.displayName});
 }
 async function loadPublicDishes(){
-  const d=await fbGet("public_dishes");
+  const [d,allRatings,allCommentMeta,favData]=await Promise.all([
+    fbGet("public_dishes"),
+    fbGet("dish_ratings"),
+    fbGet("dish_comment_counts"),
+    fbGet(grpPath("favorites"))
+  ]);
   S.publicDishes=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>{
-    const{ratings,comments,...dish}=it||{};
-    const rvals=ratings?Object.values(ratings):[];
+    const ratings=allRatings?.[id]||{};
+    const rvals=Object.values(ratings);
     const avgR=rvals.length?Math.round(rvals.reduce((s,v)=>s+v,0)/rvals.length*10)/10:0;
-    const myR=ratings&&SESSION?ratings[SESSION.username]||0:0;
-    return{...dish,id,_avgRating:avgR,_ratingCount:rvals.length,_myRating:myR,_commentCount:comments?Object.keys(comments).length:0};
+    const myR=SESSION?ratings[SESSION.username]||0:0;
+    const commentCount=allCommentMeta?.[id]||0;
+    return{...it,id,_avgRating:avgR,_ratingCount:rvals.length,_myRating:myR,_commentCount:commentCount};
   }):[];
-  const favData=await fbGet(grpPath("favorites"));
   S.groupFavIds=new Set(favData?Object.keys(favData):[]);
 }
 function starsHtml(avg,count,size=14){const full=Math.round(avg);return Array.from({length:5},(_,i)=>`<span style="color:${i<full?"#f5c518":"#ddd"};font-size:${size}px">★</span>`).join("")+(count?`<span style="font-size:11px;color:var(--mu);margin-left:3px">${avg.toFixed(1)} (${count})</span>`:"")}
 function clickableStars(dishId,myRating){return Array.from({length:5},(_,i)=>`<button onclick="ratePublicDish('${dishId}',${i+1})" style="background:none;border:none;cursor:pointer;font-size:24px;color:${i<myRating?"#f5c518":"#ddd"};padding:2px 3px">★</button>`).join("")}
 async function ratePublicDish(id,stars){
   if(!SESSION)return;
-  await fbPatch(`public_dishes/${id}/ratings`,{[SESSION.username]:stars});
-  const d=S.publicDishes.find(x=>x.id===id);
-  if(d){d._myRating=stars;const newCount=d._myRating?d._ratingCount:d._ratingCount+1;d._ratingCount=d._ratingCount+(d._myRating===stars?0:1);d._avgRating=Math.round(((d._avgRating*(d._ratingCount-1))+stars)/d._ratingCount*10)/10;}
+  await fbSet(`dish_ratings/${id}/${SESSION.username}`,stars);
   await loadPublicDishes();render();
 }
 async function loadDishComments(id){
-  const c=await fbGet(`public_dishes/${id}/comments`);
+  const c=await fbGet(`dish_comments/${id}`);
   S.libDishComments[id]=c&&typeof c==="object"?Object.entries(c).map(([cid,it])=>({...it,cid})).sort((a,b)=>a.ts-b.ts):[];
   render();
 }
@@ -529,9 +534,13 @@ async function addPublicComment(id){
   const text=S.libCommentText.trim();if(!text||!SESSION)return;
   const cid=uid();
   const comment={text,author:SESSION.username,authorDisplay:SESSION.displayName||SESSION.username,ts:Date.now()};
-  await fbSet(`public_dishes/${id}/comments/${cid}`,comment);
+  await fbSet(`dish_comments/${id}/${cid}`,comment);
+  // update comment count
+  const cur=await fbGet(`dish_comment_counts/${id}`)||0;
+  await fbSet(`dish_comment_counts/${id}`,cur+1);
   S.libCommentText="";
   await loadDishComments(id);
+  await loadPublicDishes();render();
 }
 async function toggleFavorite(publicDishId){
   if(S.groupFavIds.has(publicDishId)){
