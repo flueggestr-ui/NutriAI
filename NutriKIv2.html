@@ -554,6 +554,14 @@ async function addFavToGroupDishes(pubDish){
   render();
 }
 
+async function resyncLibrary(){
+  if(!S.dishes.length){toast("Keine Gerichte zum Synchronisieren");return;}
+  toast("⏳ Synchronisiere…");
+  for(const d of S.dishes)await publishDish(d);
+  await loadPublicDishes();
+  toast(`✓ ${S.dishes.length} Gerichte synchronisiert`);render();
+}
+
 // Migration from old localStorage
 async function migrateOldDishes(){
   const oldKeys=["nk4_dishes","nk3_dishes","nk_dishes"];
@@ -954,7 +962,7 @@ function renderGerichte(){
       const isOpen=S.libOpenDish===d.id;
       const comments=S.libDishComments[d.id]||[];
       return`<div class="lib-card">
-        <div style="display:flex;align-items:flex-start;gap:8px" onclick="if(S.libOpenDish==='${d.id}'){S.libOpenDish=null}else{S.libOpenDish='${d.id}';if(!S.libDishComments['${d.id}'])loadDishComments('${d.id}')};render()" style="cursor:pointer">
+        <div style="display:flex;align-items:flex-start;gap:8px;cursor:pointer" onclick="if(S.libOpenDish==='${d.id}'){S.libOpenDish=null}else{S.libOpenDish='${d.id}';if(!S.libDishComments['${d.id}'])loadDishComments('${d.id}')};render()">
           <div style="flex:1">
             <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700">${esc(d.name)}</div>
             <div style="font-size:10px;color:var(--mu);margin-top:2px">von ${esc(d.publishedByDisplay||d.publishedBy||"")}</div>
@@ -1017,7 +1025,8 @@ function renderGerichte(){
       <div class="cat-tabs" style="flex:1;margin-bottom:0">
         ${CATS.map(c=>`<button class="cat-tab${S.dishCat===c?" on":""}" onclick="S.dishCat='${c}';S.dishView='mine';render()">${c}</button>`).join("")}
       </div>
-      <button class="btn bo bsm" onclick="S.dishView='library';S.libSearch='';render()" style="flex-shrink:0">📚 Bibliothek (${S.publicDishes.length})</button>
+      <button class="btn bo bsm" onclick="S.dishView='library';S.libSearch='';loadPublicDishes().then(render)" style="flex-shrink:0">📚 Bibliothek (${S.publicDishes.length})</button>
+      ${S.dishes.length?`<button class="btn bo bsm" onclick="resyncLibrary()" title="Eigene Gerichte neu in Bibliothek hochladen" style="flex-shrink:0">🔄</button>`:""}
     </div>
     ${migrateBanner}
     ${filtered.length===0?`<div class="empty">Keine Gerichte in dieser Kategorie.<br>Nutze den ✨ KI-Assistenten!</div>`:cards}`;
