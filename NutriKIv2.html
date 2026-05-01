@@ -502,21 +502,23 @@ async function publishDish(dish){
   await fbSet(`public_dishes/${id}`,{...clean,publishedBy:SESSION.group,publishedByDisplay:SESSION.displayName});
 }
 async function loadPublicDishes(){
-  const [d,allRatings,allCommentMeta,favData]=await Promise.all([
-    fbGet("public_dishes"),
-    fbGet("dish_ratings"),
-    fbGet("dish_comment_counts"),
-    fbGet(grpPath("favorites"))
-  ]);
-  S.publicDishes=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>{
-    const ratings=allRatings?.[id]||{};
-    const rvals=Object.values(ratings);
-    const avgR=rvals.length?Math.round(rvals.reduce((s,v)=>s+v,0)/rvals.length*10)/10:0;
-    const myR=SESSION?ratings[SESSION.username]||0:0;
-    const commentCount=allCommentMeta?.[id]||0;
-    return{...it,id,_avgRating:avgR,_ratingCount:rvals.length,_myRating:myR,_commentCount:commentCount};
-  }):[];
-  S.groupFavIds=new Set(favData?Object.keys(favData):[]);
+  try{
+    const [d,allRatings,allCommentMeta,favData]=await Promise.all([
+      fbGet("public_dishes"),
+      fbGet("dish_ratings"),
+      fbGet("dish_comment_counts"),
+      SESSION?fbGet(grpPath("favorites")):Promise.resolve(null)
+    ]);
+    S.publicDishes=d&&typeof d==="object"?Object.entries(d).map(([id,it])=>{
+      const ratings=allRatings?.[id]||{};
+      const rvals=Object.values(ratings);
+      const avgR=rvals.length?Math.round(rvals.reduce((s,v)=>s+v,0)/rvals.length*10)/10:0;
+      const myR=SESSION?ratings[SESSION.username]||0:0;
+      const commentCount=allCommentMeta?.[id]||0;
+      return{...it,id,_avgRating:avgR,_ratingCount:rvals.length,_myRating:myR,_commentCount:commentCount};
+    }):[];
+    S.groupFavIds=new Set(favData?Object.keys(favData):[]);
+  }catch(e){console.error("loadPublicDishes error:",e);}
 }
 function starsHtml(avg,count,size=14){const full=Math.round(avg);return Array.from({length:5},(_,i)=>`<span style="color:${i<full?"#f5c518":"#ddd"};font-size:${size}px">★</span>`).join("")+(count?`<span style="font-size:11px;color:var(--mu);margin-left:3px">${avg.toFixed(1)} (${count})</span>`:"")}
 function clickableStars(dishId,myRating){return Array.from({length:5},(_,i)=>`<button onclick="ratePublicDish('${dishId}',${i+1})" style="background:none;border:none;cursor:pointer;font-size:24px;color:${i<myRating?"#f5c518":"#ddd"};padding:2px 3px">★</button>`).join("")}
@@ -689,7 +691,8 @@ async function doLoginUI(){
   const err=await doLogin(user,pw);
   S.authLoading=false;
   if(err){S.authError=err;render();return;}
-  await loadAllData();startSSE();render();
+  try{await loadAllData();startSSE();}catch(e){console.error(e);}
+  render();
 }
 async function doRegisterUI(){
   // Read values BEFORE render() replaces the DOM
