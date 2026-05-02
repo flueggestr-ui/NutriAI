@@ -378,7 +378,7 @@ const DEF_GOALS_PERSONAL={kcal:2000,protein:120,carbs:220,fat:65,fiber:30};
 // APP STATE
 // ═══════════════════════════════════════════════
 const _cfg=LS.get("nk_cfg")||{};
-if(_cfg.firebaseUrl)FB=_cfg.firebaseUrl;
+if(_cfg.firebaseUrl)FB=_cfg.firebaseUrl.replace(/\/+$/,"");
 
 let S={
   // Auth UI
@@ -425,7 +425,9 @@ let S={
 // ═══════════════════════════════════════════════
 let sseShop=null,sseDishes=null;
 
+let _sseRetryTimer=null;
 function startSSE(){
+  if(_sseRetryTimer){clearTimeout(_sseRetryTimer);_sseRetryTimer=null;}
   // Shopping SSE
   if(sseShop){sseShop.close();sseShop=null}
   if(!FB||!SESSION)return;
@@ -441,8 +443,13 @@ function startSSE(){
         S.live=true;if(S.tab==="shopping")render();
       }catch{}
     });
-    sseShop.onerror=()=>{S.live=false};
-    sseShop.onopen=()=>{S.live=true};
+    sseShop.onerror=()=>{
+      S.live=false;
+      if(S.tab==="shopping")render();
+      // Auto-retry after 10s
+      if(!_sseRetryTimer)_sseRetryTimer=setTimeout(()=>{_sseRetryTimer=null;startSSE();},10000);
+    };
+    sseShop.onopen=()=>{S.live=true;if(S.tab==="shopping")render();};
   }catch{S.live=false}
   // Dishes SSE
   if(sseDishes){sseDishes.close();sseDishes=null}
@@ -781,12 +788,15 @@ function renderAI(){
     body=`<div class="slbl">Vorschläge</div>${sugs}${refine}${S.selSug!==null?`<div class="slbl">Bearbeiten</div>${editor}${acts}`:""}
       ${S.selSug===null?`<button class="btn bgh bsm" onclick="resetAI()">← Neue Suche</button>`:""}`;
   }
-  const userBanner=SESSION?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-    <div style="background:var(--gr);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${(SESSION.displayName||"?")[0].toUpperCase()}</div>
-    <div style="flex:1;font-size:12px"><strong>${esc(SESSION.displayName)}</strong> · Gruppe: <em>${esc(SESSION.group)}</em>
-      ${S.groupMembers.length?`<span style="color:var(--mu)"> · Mitglieder: ${S.groupMembers.map(esc).join(", ")}</span>`:""}
+  const userBanner=SESSION?`<div style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+      <div style="background:var(--gr);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${(SESSION.displayName||"?")[0].toUpperCase()}</div>
+      <div style="flex:1;font-size:12px"><strong>${esc(SESSION.displayName)}</strong> · Gruppe: <em>${esc(SESSION.group)}</em>
+        ${S.groupMembers.length?`<span style="color:var(--mu)"> · Mitglieder: ${S.groupMembers.map(esc).join(", ")}</span>`:""}
+      </div>
+      <button class="btn bgh bsm" onclick="doLogout()">Abmelden</button>
     </div>
-    <button class="btn bgh bsm" onclick="doLogout()">Abmelden</button>
+    <div style="font-size:10px;color:var(--mu);padding-left:36px">🔗 DB: <code style="font-size:10px">${esc(FB.replace("https://","").split(".")[0]||"nicht konfiguriert")}</code> · ${S.live?'<span style="color:var(--gr)">●</span> Verbunden':'<span style="color:var(--or)">●</span> Getrennt'}</div>
   </div>`:"";
   return`<div class="ptitle">KI-<em>Assistent</em></div>
     <div class="psub">Gerichte entdecken, anpassen & speichern</div>
@@ -1015,13 +1025,14 @@ function renderGerichte(){
     }).join("");
     return`<div class="ptitle">Gerichte-<em>Bibliothek</em></div>
       <div class="psub">${S.publicDishes.length} Gerichte von allen Gruppen · ❤️ ${S.groupFavIds.size} Favoriten</div>
-      <div style="display:flex;gap:7px;margin-bottom:12px">
+      <div style="display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap">
         <button class="btn bg bsm" onclick="S.dishView='mine';render()">← Meine Gerichte</button>
+        <button class="btn bo bsm" onclick="loadPublicDishes().then(render)">🔄 Neu laden</button>
       </div>
       <div class="field" style="margin-bottom:12px">
         <input value="${esc(S.libSearch)}" oninput="S.libSearch=this.value;render()" placeholder="🔍 Bibliothek durchsuchen…"/>
       </div>
-      ${libFiltered.length===0?`<div class="empty">Keine Gerichte gefunden.<br>Speichert Gerichte über den KI-Assistenten und sie erscheinen hier automatisch!</div>`:libCards}`;
+      ${libFiltered.length===0?`<div class="empty">Keine Gerichte gefunden.<br>Speichert Gerichte über den KI-Assistenten und sie erscheinen hier automatisch!<br><br><button class="btn bo bsm" onclick="loadPublicDishes().then(render)">🔄 Bibliothek neu laden</button></div>`:libCards}`;
   }
 
   // ── Own dishes view ────────────────────────────────────────
@@ -1295,8 +1306,10 @@ function renderShopping(){
     ${catGroups[c.key].map(renderShopItem).join("")}`).join("");
   return`<div class="ptitle">Einkaufs-<em>liste</em></div>
     <div class="psub">${undone.length} offen · ${done.length} erledigt · Gruppe: ${esc(SESSION?.group||"")}</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
       <div class="live-badge${S.live?"":" off"}"><div class="live-dot"></div>${S.live?"Live synchronisiert":"Verbindung…"}</div>
+      ${!S.live?`<button class="btn bo bsm" onclick="startSSE();loadAllData().then(render)">🔄 Neu verbinden</button>`:""}
+      ${!S.live?`<div style="font-size:10px;color:var(--mu)">Gruppe: <strong>${esc(SESSION?.group||"–")}</strong> · DB: <strong>${esc(FB.replace(/^https:\/\//,"").split(".")[0]||"–")}</strong></div>`:""}
     </div>
     <!-- FAMILY COOKING MULTIPLIER -->
     <div class="cook-multi">
