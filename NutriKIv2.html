@@ -1740,34 +1740,19 @@ function renderModal(){
   if(S.modal==="changedb")return renderChangeDbModal();
   return"";
 }
-function openChangeDbModal(){S.modal="changedb";render();}
-function renderChangeDbModal(){
+function openChangeDbModal(){
   const cur=FB||"";
-  const shortName=cur.replace("https://","").split(".")[0]||"nicht konfiguriert";
-  return`<div class="ov" onclick="if(event.target===this)closeModal()"><div class="modal">
-    <div class="mtitle">Datenbank aendern</div>
-    <p style="font-size:12px;color:var(--mu);margin-bottom:14px">Aktuelle DB: <strong>${esc(shortName)}</strong><br>Gib die korrekte Firebase-URL ein (gleiche wie am anderen Geraet).</p>
-    <div class="field"><label>Firebase URL</label>
-      <input id="db_url" placeholder="https://xxx-default-rtdb.firebaseio.com" value="${esc(cur)}"/>
-    </div>
-    <div class="mact">
-      <button class="btn bg" style="flex:1;justify-content:center" onclick="doChangeDb()">Speichern</button>
-      <button class="btn bo" onclick="closeModal()">Abbrechen</button>
-    </div>
-  </div></div>`;
-}
-async function doChangeDb(){
-  const newUrl=(document.getElementById("db_url")?.value||"").trim().replace(/\/+$/,"");
-  if(!newUrl||!newUrl.startsWith("https://"))return alert("Ungültige URL");
+  const newUrl=prompt("Firebase URL eingeben:\n(Aktuelle: "+(cur||"keine")+")", cur);
+  if(!newUrl)return;
+  const clean=newUrl.trim().replace(/\/+$/,"");
+  if(!clean.startsWith("https://"))return alert("Ungültige URL – muss mit https:// beginnen");
   const cfg=LS.get("nk_cfg")||{};
-  LS.set("nk_cfg",{...cfg,firebaseUrl:newUrl});
-  FB=newUrl;
-  closeModal();
-  toast("⏳ Verbinde mit neuer Datenbank…");
-  try{await loadAllData();startSSE();}catch(e){console.error(e);}
-  toast("✓ Datenbank gewechselt!");
-  render();
+  LS.set("nk_cfg",{...cfg,firebaseUrl:clean});
+  FB=clean;
+  toast("⏳ Verbinde…");
+  loadAllData().then(()=>{startSSE();toast("✓ Datenbank gewechselt!");render();});
 }
+function renderChangeDbModal(){return"";}
 function renderPlanShopModal(){
   const queue=S.planShopQueue||[];
   if(!S.planBuyAll)S.planBuyAll=1;
