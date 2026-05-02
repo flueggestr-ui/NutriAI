@@ -188,6 +188,7 @@ function hashPw(pw){
 }
 
 let SESSION=LS.get("nk_session")||null; // {username, group, displayName}
+if(SESSION&&SESSION.group)SESSION.group=SESSION.group.trim().toLowerCase().replace(/[^a-z0-9_-]/g,"");
 
 async function doLogin(username,password){
   const uname=username.trim().toLowerCase().replace(/[^a-z0-9_]/g,"");
@@ -195,7 +196,8 @@ async function doLogin(username,password){
   const stored=await fbGet("users/"+uname);
   if(!stored)return"Benutzer nicht gefunden";
   if(stored.passwordHash!==hashPw(password))return"Falsches Passwort";
-  SESSION={username:uname,group:stored.group,displayName:stored.displayName||uname};
+  const cleanGroup=(stored.group||"").trim().toLowerCase().replace(/[^a-z0-9_-]/g,"");
+  SESSION={username:uname,group:cleanGroup,displayName:stored.displayName||uname};
   LS.set("nk_session",SESSION);
   return null;
 }
@@ -705,7 +707,8 @@ async function doRegisterUI(){
   const err=await doRegister(user,display,pw,pw2,group);
   S.authLoading=false;
   if(err){S.authError=err;render();return;}
-  await loadAllData();startSSE();render();
+  try{await loadAllData();startSSE();}catch(e){console.error(e);}
+  render();
 }
 
 // ─── APP SHELL ──────────────────────────────────────────────────────
