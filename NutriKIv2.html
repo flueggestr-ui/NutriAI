@@ -1742,14 +1742,14 @@ function renderModal(){
 }
 function renderChangeDbModal(){
   const cur=FB||"";
-  return`<div class="modal-bg" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
-    <div class="modal-title">🔧 Firebase-Datenbank ändern</div>
+  return`<div class="ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mtitle">🔧 Datenbank ändern</div>
     <p style="font-size:12px;color:var(--mu);margin-bottom:14px">Aktuelle DB: <strong>${esc(cur.replace("https://","").split(".")[0]||"–")}</strong><br>Gib die korrekte Firebase-URL ein (dieselbe wie beim anderen Gerät).</p>
     <div class="field"><label>Firebase Realtime Database URL</label>
       <input id="db_url" placeholder="https://xxx-default-rtdb.firebaseio.com" value="${esc(cur)}" style="font-size:12px"/>
     </div>
-    <div style="display:flex;gap:8px;margin-top:6px">
+    <div class="mact">
       <button class="btn bg" style="flex:1;justify-content:center" onclick="doChangeDb()">Speichern & neu verbinden</button>
       <button class="btn bo" onclick="closeModal()">Abbrechen</button>
     </div>
