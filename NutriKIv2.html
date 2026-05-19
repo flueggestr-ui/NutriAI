@@ -399,7 +399,7 @@ let S={
   toast:null,_tt:null,
   // AI
   msgs:[{r:"a",t:"Hallo! Beschreib mir, was du essen möchtest – z.B. <em>proteinreiches Abendessen</em> – und ich schlage dir Gerichte mit Nährwerten vor!"}],
-  aiStep:"chat",sugs:[],selSug:null,editDish:null,aiLoading:false,refLoading:false,
+  aiStep:"chat",sugs:[],selSug:null,editDish:null,aiLoading:false,refLoading:false,recalcLoading:false,recalcError:"",
   // Gerichte
   dishCat:"Alle",dishPortions:{},openDish:null,
   // Plan
@@ -841,6 +841,10 @@ function renderEditor(){
       <button class="btn bo bsm" onclick="addIng()">+ Zutat</button>
     </div>
     ${ings}
+    <button class="btn bo bsm" style="width:100%;justify-content:center;margin:10px 0 4px" onclick="recalcNutrition()" ${S.recalcLoading?"disabled":""}>
+      ${S.recalcLoading?'⏳ Berechne…':'✨ Nährwerte neu berechnen'}
+    </button>
+    ${S.recalcError?`<div style="font-size:11px;color:var(--or);margin-bottom:6px">${esc(S.recalcError)}</div>`:""}
     <div class="field" style="margin-top:7px"><label>Zubereitung (je Zeile ein Schritt)</label>
       <textarea oninput="S.editDish.steps=this.value" style="min-height:80px" placeholder="Zutaten schneiden&#10;Würzen&#10;30 Min im Ofen garen">${esc(d.steps||"")}</textarea>
     </div>
@@ -849,6 +853,26 @@ function renderEditor(){
 
 function addIng(){if(!S.editDish.ingredients)S.editDish.ingredients=[];S.editDish.ingredients.push({name:"",qty:""});render()}
 function rmIng(i){S.editDish.ingredients.splice(i,1);render()}
+async function recalcNutrition(){
+  const d=S.editDish;
+  const ings=(d.ingredients||[]).filter(ig=>ig.name).map(ig=>`${ig.qty||""} ${ig.name}`.trim()).join(", ");
+  if(!ings)return;
+  S.recalcLoading=true;S.recalcError="";render();
+  try{
+    const srv=d.servings||1;
+    const res=await claude(
+      "Du bist Ernährungsexperte. Antworte NUR als JSON-Objekt, kein Text davor/danach.",
+      `Berechne die Nährwerte pro Portion für dieses Rezept (${srv} Portion${srv!==1?"en":""}):\nZutaten: ${ings}\nGib zurück: {"kcal":..., "protein":..., "fat":..., "carbs":..., "fiber":..., "portionWeight":...}\nAlle Werte gerundet, pro 1 Portion. portionWeight in Gramm.`
+    );
+    const m=res.match(/\{[\s\S]*\}/);
+    if(!m)throw new Error("Kein JSON erhalten");
+    const parsed=JSON.parse(m[0]);
+    ["kcal","protein","fat","carbs","fiber","portionWeight"].forEach(k=>{if(parsed[k]!=null)S.editDish[k]=Math.round(parsed[k]);});
+    S.recalcError="";
+    toast("✓ Nährwerte aktualisiert!");
+  }catch(e){S.recalcError="Fehler: "+e.message;}
+  S.recalcLoading=false;render();
+}
 function scrollChat(id){setTimeout(()=>{const c=document.getElementById(id);if(c)c.scrollTop=c.scrollHeight},60)}
 
 async function sendAI(){
