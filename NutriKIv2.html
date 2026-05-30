@@ -150,6 +150,20 @@ select option{background:#fff}
 .fav-btn:hover{transform:scale(1.2)}
 .pub-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gol);color:var(--go);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700}
 .migrate-banner{background:var(--bll);border:1.5px solid #a8cfe8;border-radius:var(--r);padding:14px;margin-bottom:14px}
+/* WORKOUT */
+.wkt-mode-btn{background:var(--sf);border:1.5px solid var(--br);border-radius:var(--r);padding:18px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:var(--sh);margin-bottom:10px;-webkit-tap-highlight-color:transparent}
+.wkt-mode-btn:hover,.wkt-mode-btn:active{border-color:var(--gr);background:var(--gl)}
+.wkt-mode-icon{font-size:28px;flex-shrink:0}
+.wkt-step-card{border-radius:var(--r);padding:13px;margin-bottom:8px;transition:background .3s,border .3s}
+.wkt-step-active{background:var(--gr);border:2px solid var(--gr)}
+.wkt-step-done{background:var(--card);border:1px solid var(--br);opacity:.75}
+.wkt-step-next{background:var(--bg);border:1px dashed var(--br2)}
+.wkt-input-light{background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.45);border-radius:8px;padding:8px 10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;text-align:center;outline:none;width:100%}
+.wkt-set-row{display:grid;grid-template-columns:28px 1fr 1fr 32px;gap:6px;align-items:center;margin-bottom:6px}
+.wkt-set-input{background:var(--bg);border:1.5px solid var(--br);border-radius:7px;padding:7px 6px;font-family:'Syne',sans-serif;font-size:13px;text-align:center;outline:none;width:100%;color:var(--ink)}
+.wkt-done-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--br2);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s}
+.wkt-done-btn.on{background:var(--gr);border-color:var(--gr);color:#fff}
+.rest-timer{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px;margin-bottom:14px;text-align:center}
 </style>
 </head>
 <body>
@@ -418,6 +432,15 @@ let S={
   logIngredients:[], // editable ingredients for current log entry
   logMacrosOverride:null, // recalculated macros after ingredient edit
   logRecalcLoading:false,
+  // Workout
+  wkt:{
+    mode:null, exercises:[],
+    altA:"",altB:"",altSets:3,altHasWarmup:true,
+    altRestAtoB:45,altRestBtoA:60,altRestAfterB:90,
+    altSteps:[],altCurrentStep:-1,
+    restSecs:0,restTotal:0,
+    wktDate:today(),wktHistory:[],
+  },
 };
 
 // ═══════════════════════════════════════════════
@@ -487,6 +510,9 @@ async function loadAllData(){
   S.groupMembers=allUsers?Object.entries(allUsers).filter(([u,d])=>d.group===SESSION.group&&u!==SESSION.username).map(([u,d])=>d.displayName||u):[];
   // Public library + favorites
   await loadPublicDishes();
+  // Workout history
+  const wkts=await fbGet(`users/${SESSION.username}/workouts`);
+  S.wkt.wktHistory=wkts&&typeof wkts==="object"?Object.entries(wkts).map(([id,v])=>({...v,id})).sort((a,b)=>(a.date||"").localeCompare(b.date||"")):[];
 }
 
 async function dishSave(dish){const{id,...data}=dish;await fbSet(grpPath("dishes/"+id),data);}
@@ -728,6 +754,7 @@ function renderApp(){
     {id:"shopping",icon:"🛒",label:"Einkauf",badge:undone},
     {id:"diary",icon:"📓",label:"Log"},
     {id:"weight",icon:"⚖️",label:"Gewicht"},
+    {id:"workout",icon:"💪",label:"Workout"},
   ];
   let page="";
   if(S.tab==="ai")page=renderAI();
@@ -736,6 +763,7 @@ function renderApp(){
   else if(S.tab==="shopping")page=renderShopping();
   else if(S.tab==="diary")page=renderDiary();
   else if(S.tab==="weight")page=renderWeight();
+  else if(S.tab==="workout")page=renderWorkout();
   return`<div class="app">
     <div class="page">${page}</div>
     <nav class="nav">${tabs.map(t=>`<button class="nb${S.tab===t.id?" on":""}" onclick="setTab('${t.id}')">
@@ -1364,9 +1392,9 @@ function renderShopping(){
 }
 function renderShopItem(item){
   const ids=item._ids&&item._ids.length>1?item._ids:[item.id];
-  const idsJson=JSON.stringify(ids);
-  const toggleFn=ids.length>1?`doToggleAll(${idsJson})`:`doToggle('${item.id}')`;
-  const delFn=ids.length>1?`doDelAll(${idsJson})`:`doDelShop('${item.id}')`;
+  const idsJs="['"+ids.join("','")+"']";
+  const toggleFn=ids.length>1?`doToggleAll(${idsJs})`:`doToggle('${item.id}')`;
+  const delFn=ids.length>1?`doDelAll(${idsJs})`:`doDelShop('${item.id}')`;
   return`<div class="sitem${item.done?" dk":""}">
     <button class="scb${item.done?" done":""}" onclick="${toggleFn}">
       ${item.done?`<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`:""}
@@ -2006,6 +2034,209 @@ function bindAll(){
   document.querySelectorAll("input[type=text],input:not([type])").forEach(el=>{
     el.addEventListener("keydown",e=>{if(e.key==="Enter")e.preventDefault()});
   });
+}
+
+// ═══════════════════════════════════════════════
+// WORKOUT
+// ═══════════════════════════════════════════════
+let _restTimer=null;
+function wktStartRest(secs){
+  if(!secs)return;
+  S.wkt.restSecs=secs;S.wkt.restTotal=secs;
+  if(_restTimer)clearInterval(_restTimer);
+  _restTimer=setInterval(()=>{
+    S.wkt.restSecs=Math.max(0,S.wkt.restSecs-1);
+    if(S.wkt.restSecs===0){clearInterval(_restTimer);_restTimer=null;}
+    if(S.tab==="workout")render();
+  },1000);
+}
+function skipRest(){if(_restTimer){clearInterval(_restTimer);_restTimer=null;}S.wkt.restSecs=0;S.wkt.restTotal=0;render();}
+function addWktEx(){S.wkt.exercises.push({name:"",sets:[{kg:"",reps:"",done:false}]});render();}
+function rmWktEx(i){S.wkt.exercises.splice(i,1);render();}
+function addWktSet(ei){S.wkt.exercises[ei].sets.push({kg:"",reps:"",done:false});render();}
+function doneWktSet(ei,si){
+  const s=S.wkt.exercises[ei].sets[si];
+  s.done=!s.done;
+  if(s.done){const ex=S.wkt.exercises[ei];const nx=ex.sets.findIndex((x,i)=>i>si&&!x.done);if(nx>=0)wktStartRest(90);}
+  render();
+}
+function startAltWorkout(){
+  const w=S.wkt;
+  if(!w.altA.trim()||!w.altB.trim())return toast("Bitte beide Übungsnamen eingeben");
+  const steps=[];
+  if(w.altHasWarmup){
+    steps.push({isA:true,isWarmup:true,num:0,restAfter:w.altRestAtoB,kg:"",reps:""});
+    steps.push({isA:false,isWarmup:true,num:0,restAfter:w.altRestBtoA,kg:"",reps:""});
+  }
+  for(let i=1;i<=w.altSets;i++){
+    const last=i===w.altSets;
+    steps.push({isA:true,isWarmup:false,num:i,restAfter:w.altRestAtoB,kg:"",reps:""});
+    steps.push({isA:false,isWarmup:false,num:i,restAfter:last?0:w.altRestAfterB,kg:"",reps:""});
+  }
+  S.wkt.altSteps=steps;S.wkt.altCurrentStep=0;render();
+}
+function nextAltStep(){
+  const w=S.wkt;const step=w.altSteps[w.altCurrentStep];
+  if(step&&step.restAfter>0)wktStartRest(step.restAfter);
+  w.altCurrentStep++;render();
+}
+function resetAltWorkout(){S.wkt.altSteps=[];S.wkt.altCurrentStep=-1;skipRest();}
+async function saveWorkout(){
+  if(!SESSION)return;
+  const w=S.wkt;
+  const summary=w.mode==="simple"
+    ?w.exercises.filter(e=>e.name).map(e=>`${e.name}: ${e.sets.filter(s=>s.done).length}×`).join(" · ")
+    :`${w.altA}/${w.altB}: ${w.altSteps.filter(s=>s.kg||s.reps).length} Sätze`;
+  const entry={date:w.wktDate,mode:w.mode,exercises:w.exercises,altSteps:w.altSteps,altA:w.altA,altB:w.altB,summary,savedAt:Date.now()};
+  await fbSet(`users/${SESSION.username}/workouts/${uid()}`,entry);
+  S.wkt.wktHistory.push(entry);
+  toast("✓ Training gespeichert!");
+  S.wkt={...S.wkt,mode:null,exercises:[],altSteps:[],altCurrentStep:-1,restSecs:0,restTotal:0,wktDate:today()};
+  render();
+}
+
+function renderWorkout(){
+  const w=S.wkt;
+  const timerHtml=w.restSecs>0?`<div class="rest-timer">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.12em;opacity:.6;margin-bottom:4px">PAUSE</div>
+    <div style="font-family:'Playfair Display',serif;font-size:60px;font-weight:900;line-height:1">${w.restSecs}</div>
+    <div style="background:rgba(255,255,255,.15);border-radius:10px;height:5px;margin:10px 0;overflow:hidden">
+      <div style="height:100%;background:#fff;border-radius:10px;width:${Math.round(w.restSecs/w.restTotal*100)}%;transition:width 1s linear"></div>
+    </div>
+    <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;font-size:12px;margin-top:4px" onclick="skipRest()">Überspringen →</button>
+  </div>`:"";
+
+  if(!w.mode){
+    const hist=w.wktHistory.slice(-5).reverse();
+    return`<div class="ptitle">Work<em>out</em></div>
+      <div class="psub">Training tracken & Pausen messen</div>
+      <div onclick="S.wkt.mode='simple';render()" class="wkt-mode-btn">
+        <span class="wkt-mode-icon">🏋️</span>
+        <div><div style="font-size:14px;font-weight:700">Freies Training</div><div style="font-size:11px;color:var(--mu)">Beliebige Übungen, Sätze & Gewichte tracken</div></div>
+      </div>
+      <div onclick="S.wkt.mode='alt';render()" class="wkt-mode-btn">
+        <span class="wkt-mode-icon">🔄</span>
+        <div><div style="font-size:14px;font-weight:700">Wechselübungen A/B</div><div style="font-size:11px;color:var(--mu)">Geführte Abfolge mit automatischen Pausen</div></div>
+      </div>
+      ${hist.length?`<div class="slbl" style="margin-top:14px">Zuletzt</div>
+        ${hist.map(h=>`<div class="card" style="padding:11px 13px">
+          <div style="display:flex;justify-content:space-between">
+            <span style="font-size:12px;font-weight:700">${h.date||""}</span>
+            <span style="font-size:10px;color:var(--mu)">${h.mode==="alt"?"Wechsel":"Frei"}</span>
+          </div>
+          <div style="font-size:11px;color:var(--mu);margin-top:2px">${esc(h.summary||"")}</div>
+        </div>`).join("")}`:""}`;
+  }
+
+  if(w.mode==="simple"){
+    const exHtml=w.exercises.map((ex,ei)=>`<div class="card">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+        <input value="${esc(ex.name)}" placeholder="Übungsname"
+          oninput="S.wkt.exercises[${ei}].name=this.value"
+          style="flex:1;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:8px 10px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;outline:none;color:var(--ink)"/>
+        <button class="btn bic bd" onclick="rmWktEx(${ei})">✕</button>
+      </div>
+      <div style="display:grid;grid-template-columns:26px 1fr 1fr 32px;gap:5px;margin-bottom:6px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu)">#</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu)">kg</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu)">Wdh.</div>
+        <div></div>
+      </div>
+      ${ex.sets.map((s,si)=>`<div class="wkt-set-row" style="opacity:${s.done?.65:1}">
+        <div style="font-size:12px;font-weight:700;color:var(--mu);text-align:center">${si+1}</div>
+        <input type="number" class="wkt-set-input" value="${s.kg||""}" placeholder="—" onchange="S.wkt.exercises[${ei}].sets[${si}].kg=this.value"/>
+        <input type="number" class="wkt-set-input" value="${s.reps||""}" placeholder="—" onchange="S.wkt.exercises[${ei}].sets[${si}].reps=this.value"/>
+        <button class="wkt-done-btn${s.done?" on":""}" onclick="doneWktSet(${ei},${si})">${s.done?"✓":""}</button>
+      </div>`).join("")}
+      <button class="btn bo bsm" style="margin-top:7px;width:100%;justify-content:center" onclick="addWktSet(${ei})">+ Satz</button>
+    </div>`).join("");
+    return`<div class="ptitle">Work<em>out</em></div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center">
+        <button class="btn bgh bsm" onclick="S.wkt.mode=null;render()">← Zurück</button>
+        <span style="flex:1;font-size:12px;color:var(--mu)">${w.wktDate}</span>
+        <button class="btn bg bsm" onclick="saveWorkout()">💾 Speichern</button>
+      </div>
+      ${timerHtml}${exHtml}
+      <button class="btn bo" style="width:100%;justify-content:center;padding:12px;margin-top:4px" onclick="addWktEx()">+ Übung hinzufügen</button>`;
+  }
+
+  if(w.mode==="alt"){
+    if(w.altSteps.length===0){
+      return`<div class="ptitle">Work<em>out</em></div>
+        <div class="psub">Wechselübungen A / B</div>
+        <button class="btn bgh bsm" style="margin-bottom:14px" onclick="S.wkt.mode=null;render()">← Zurück</button>
+        <div class="card">
+          <div class="r2">
+            <div class="field"><label>Übung A</label><input value="${esc(w.altA)}" oninput="S.wkt.altA=this.value" placeholder="z.B. Bankdrücken"/></div>
+            <div class="field"><label>Übung B</label><input value="${esc(w.altB)}" oninput="S.wkt.altB=this.value" placeholder="z.B. Rudern"/></div>
+          </div>
+          <div class="r2" style="align-items:end;margin-bottom:10px">
+            <div class="field"><label>Arbeitssätze</label>
+              <div class="portion-stepper">
+                <button class="portion-btn" onclick="S.wkt.altSets=Math.max(1,S.wkt.altSets-1);render()">−</button>
+                <span style="flex:1;text-align:center;font-size:16px;font-weight:700">${w.altSets}</span>
+                <button class="portion-btn" onclick="S.wkt.altSets=Math.min(10,S.wkt.altSets+1);render()">+</button>
+              </div>
+            </div>
+            <div class="field" style="display:flex;align-items:center;gap:8px;padding-bottom:8px">
+              <input type="checkbox" id="wkt_wu" ${w.altHasWarmup?"checked":""} onchange="S.wkt.altHasWarmup=this.checked" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gr)"/>
+              <label for="wkt_wu" style="font-size:12px;font-weight:700;cursor:pointer">Aufwärmsatz</label>
+            </div>
+          </div>
+          <div class="slbl">Pausen (Sekunden)</div>
+          <div class="r3">
+            <div class="field"><label>Nach A</label><input type="number" value="${w.altRestAtoB}" onchange="S.wkt.altRestAtoB=parseInt(this.value)||45" style="text-align:center"/></div>
+            <div class="field"><label>Nach Aufwärm-B</label><input type="number" value="${w.altRestBtoA}" onchange="S.wkt.altRestBtoA=parseInt(this.value)||60" style="text-align:center"/></div>
+            <div class="field"><label>Nach Satz-B</label><input type="number" value="${w.altRestAfterB}" onchange="S.wkt.altRestAfterB=parseInt(this.value)||90" style="text-align:center"/></div>
+          </div>
+          <div style="background:var(--bg);border-radius:9px;padding:9px 12px;font-size:11px;color:var(--mu);line-height:1.8">
+            📋 Ablauf: ${w.altHasWarmup?`Aufwärmen ${w.altA||"A"} → ${w.altRestAtoB}s → Aufwärmen ${w.altB||"B"} → ${w.altRestBtoA}s → `:""}${Array.from({length:Math.min(w.altSets,2)},(_,i)=>`Satz ${i+1} ${w.altA||"A"} → ${w.altRestAtoB}s → Satz ${i+1} ${w.altB||"B"}${i<w.altSets-1?" → "+w.altRestAfterB+"s → ":""}`).join("")}${w.altSets>2?" → …":""}
+          </div>
+        </div>
+        <button class="btn bg" style="width:100%;justify-content:center;padding:14px;font-size:14px;margin-top:10px" onclick="startAltWorkout()">▶ Training starten</button>`;
+    }
+
+    const steps=w.altSteps;const cur=w.altCurrentStep;const done=cur>=steps.length;
+    const stepsHtml=steps.map((s,i)=>{
+      const label=s.isWarmup?`Aufwärmen ${s.isA?w.altA:w.altB}`:`Satz ${s.num} · ${s.isA?w.altA:w.altB}`;
+      const past=i<cur;const active=i===cur&&!done;const future=i>cur;
+      if(future&&i>cur+1)return"";
+      return`<div class="wkt-step-card ${active?"wkt-step-active":past?"wkt-step-done":"wkt-step-next"}">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:18px">${past?"✅":active?"▶️":"⬜"}</span>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700;color:${active?"#fff":"var(--ink)"}">${label}</div>
+            ${s.kg||s.reps?`<div style="font-size:11px;color:${active?"rgba(255,255,255,.75)":"var(--mu)"}">
+              ${s.kg?s.kg+" kg ":""}${s.reps?s.reps+" Wdh.":""}
+            </div>`:""}
+          </div>
+          ${active&&s.restAfter?`<span style="font-size:10px;color:rgba(255,255,255,.65)">dann ${s.restAfter}s ⏱</span>`:""}
+        </div>
+        ${active&&w.restSecs===0?`<div style="display:flex;gap:8px;margin-top:12px">
+          <input type="number" class="wkt-input-light" placeholder="kg" value="${s.kg||""}"
+            onchange="S.wkt.altSteps[${i}].kg=this.value"/>
+          <input type="number" class="wkt-input-light" placeholder="Wdh." value="${s.reps||""}"
+            onchange="S.wkt.altSteps[${i}].reps=this.value"/>
+          <button style="padding:8px 16px;background:#fff;color:var(--gr);border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0"
+            onclick="nextAltStep()">✓ Fertig</button>
+        </div>`:""}
+      </div>`;
+    }).join("");
+    return`<div class="ptitle">Work<em>out</em></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+        <button class="btn bgh bsm" onclick="if(confirm('Training abbrechen?')){resetAltWorkout();render()}">✕</button>
+        <span style="flex:1;font-size:12px;font-weight:700">${esc(w.altA)} / ${esc(w.altB)}</span>
+        <span style="font-size:11px;color:var(--mu)">${Math.min(cur,steps.length)}/${steps.length}</span>
+      </div>
+      ${timerHtml}
+      ${done?`<div style="text-align:center;padding:28px 16px">
+        <div style="font-size:48px;margin-bottom:10px">🎉</div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;margin-bottom:6px">Training abgeschlossen!</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:16px">${steps.filter(s=>s.kg||s.reps).length} Sätze absolviert</div>
+        <button class="btn bg" style="width:100%;justify-content:center;padding:13px" onclick="saveWorkout()">💾 Speichern & beenden</button>
+      </div>`:stepsHtml}`;
+  }
+  return"";
 }
 
 // ─── INIT ───────────────────────────────────────────────────────────
