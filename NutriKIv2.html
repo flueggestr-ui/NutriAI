@@ -150,6 +150,22 @@ select option{background:#fff}
 .fav-btn:hover{transform:scale(1.2)}
 .pub-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gol);color:var(--go);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700}
 .migrate-banner{background:var(--bll);border:1.5px solid #a8cfe8;border-radius:var(--r);padding:14px;margin-bottom:14px}
+/* HEALTH */
+.h-subtabs{display:flex;gap:0;background:var(--bg);border:1.5px solid var(--br);border-radius:10px;padding:3px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.h-subtab{flex:1;min-width:0;padding:7px 4px;border:none;border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;transition:all .2s;background:transparent;color:var(--mu);text-align:center;white-space:nowrap}
+.h-subtab.on{background:var(--gr);color:#fff;box-shadow:0 2px 8px #27674933}
+.h-cat-btn{display:flex;align-items:center;gap:10px;background:var(--sf);border:1.5px solid var(--br);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:all .2s;box-shadow:var(--sh);-webkit-tap-highlight-color:transparent}
+.h-cat-btn:active{transform:scale(.98);border-color:var(--gr)}
+.h-status-green{color:#27ae60}.h-status-yellow{color:#e67e22}.h-status-red{color:#e74c3c}.h-status-grey{color:var(--mu)}
+.h-pbar-track{height:10px;background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid var(--br);margin:4px 0}
+.h-pbar-fill{height:100%;border-radius:10px;transition:width .5s ease}
+.h-pbar-green{background:#27ae60}.h-pbar-yellow{background:#e67e22}.h-pbar-red{background:#e74c3c}
+.h-act-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px;box-shadow:var(--sh)}
+.h-prev-card{background:var(--sf);border:1.5px solid var(--br);border-radius:var(--r);padding:13px;margin-bottom:8px;box-shadow:var(--sh)}
+.h-prev-overdue{border-color:#e74c3c;background:#fff8f8}
+.h-prev-soon{border-color:#e67e22;background:#fffaf5}
+.h-prev-sched{border-color:#3498db;background:#f5faff}
+.h-streak{display:inline-flex;align-items:center;gap:5px;background:var(--gol);color:var(--go);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700}
 /* WORKOUT */
 .wkt-mode-btn{background:var(--sf);border:1.5px solid var(--br);border-radius:var(--r);padding:18px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:var(--sh);margin-bottom:10px;-webkit-tap-highlight-color:transparent}
 .wkt-mode-btn:hover,.wkt-mode-btn:active{border-color:var(--gr);background:var(--gl)}
@@ -388,6 +404,35 @@ function getShopCat(name){
 
 const DEF_GOALS_PERSONAL={kcal:2000,protein:120,carbs:220,fat:65,fiber:30};
 
+// ── Health Module Constants ──────────────────────────────────────────
+const H_CATS={
+  EXERCISE_STRENGTH:{label:"Krafttraining",  icon:"🏋️", col:"var(--pu)"},
+  EXERCISE_CARDIO:  {label:"Ausdauer/HIIT",  icon:"🏃", col:"var(--bl)"},
+  EXERCISE_DAILY:   {label:"Alltagsbewegung",icon:"🚴", col:"var(--go)"},
+  SLEEP:            {label:"Schlaf",          icon:"😴", col:"var(--or)"},
+  NUTRITION:        {label:"Ernährung",       icon:"🥗", col:"var(--gr)"},
+  SELF_CHECK:       {label:"Selbst-Check",    icon:"🩺", col:"#9b59b6"},
+};
+const H_DEF_TARGETS=[
+  {id:"ht_str", cat:"EXERCISE_STRENGTH", freq:2, minMin:45},
+  {id:"ht_car", cat:"EXERCISE_CARDIO",   freq:1, minMin:30},
+  {id:"ht_day", cat:"EXERCISE_DAILY",    freq:4},
+  {id:"ht_slp", cat:"SLEEP",            freq:7, minHours:7},
+  {id:"ht_nut", cat:"NUTRITION",         freq:7},
+];
+const H_LEVERAGE={SLEEP:2.0,PREVENTIVE_CARE:1.8,EXERCISE_STRENGTH:1.5,EXERCISE_CARDIO:1.5,NUTRITION:1.3,EXERCISE_DAILY:1.0,SELF_CHECK:1.2};
+const H_PREV_DEF=[
+  {type:"hausarzt_checkup",  label:"Hausarzt Check-up",      icon:"🏥", freqM:36},
+  {type:"hautarzt",          label:"Hautarzt",               icon:"🔬", freqM:24},
+  {type:"augenarzt",         label:"Augenarzt",              icon:"👁️", freqM:24, note:"Glaukom-Risiko"},
+  {type:"zahnarzt",          label:"Zahnarzt",               icon:"🦷", freqM:6},
+  {type:"zahnreinigung",     label:"Zahnreinigung",          icon:"✨", freqM:12},
+  {type:"blutbild",          label:"Blutbild",               icon:"🩸", freqM:12},
+  {type:"prostata",          label:"Prostata-Vorsorge",      icon:"🏥", freqM:12, notBefore:"2033-10-24"},
+  {type:"darmspiegelung",    label:"Darmspiegelung",         icon:"🔭", freqM:120, notBefore:"2038-10-24"},
+  {type:"bauchaorta",        label:"Bauchaorta-Screening",   icon:"❤️", freqM:0,   notBefore:"2053-10-24"},
+];
+
 // ═══════════════════════════════════════════════
 // APP STATE
 // ═══════════════════════════════════════════════
@@ -432,6 +477,18 @@ let S={
   logIngredients:[], // editable ingredients for current log entry
   logMacrosOverride:null, // recalculated macros after ingredient edit
   logRecalcLoading:false,
+  // Health module
+  hlth:{
+    sub:"heute", // heute|woche|vorsorge|werte|empfehlung
+    activities:[], preventive:[], vitals:[], labResults:[],
+    // quick-entry
+    addCat:null, addDate:"", addDuration:"", addSleepH:"", addSleepQ:"4",
+    addSystolic:"", addDiastolic:"", addWeight:"", addNotes:"",
+    // vorsorge
+    prevOpen:null, prevSchedDate:"", prevDoneDate:"",
+    // werte
+    addVitalType:null, newLabOpen:false, newLabDate:"", newLabSource:"", newLabVals:{},
+  },
   // Workout
   wkt:{
     mode:null, exercises:[],
@@ -513,6 +570,8 @@ async function loadAllData(){
   // Workout history
   const wkts=await fbGet(`users/${SESSION.username}/workouts`);
   S.wkt.wktHistory=wkts&&typeof wkts==="object"?Object.entries(wkts).map(([id,v])=>({...v,id})).sort((a,b)=>(a.date||"").localeCompare(b.date||"")):[];
+  // Health data
+  await loadHealthData();
 }
 
 async function dishSave(dish){const{id,...data}=dish;await fbSet(grpPath("dishes/"+id),data);}
@@ -755,6 +814,7 @@ function renderApp(){
     {id:"diary",icon:"📓",label:"Log"},
     {id:"weight",icon:"⚖️",label:"Gewicht"},
     {id:"workout",icon:"💪",label:"Workout"},
+    {id:"health",icon:"🩺",label:"Gesundheit"},
   ];
   let page="";
   if(S.tab==="ai")page=renderAI();
@@ -764,6 +824,7 @@ function renderApp(){
   else if(S.tab==="diary")page=renderDiary();
   else if(S.tab==="weight")page=renderWeight();
   else if(S.tab==="workout")page=renderWorkout();
+  else if(S.tab==="health")page=renderHealth();
   return`<div class="app">
     <div class="page">${page}</div>
     <nav class="nav">${tabs.map(t=>`<button class="nb${S.tab===t.id?" on":""}" onclick="setTab('${t.id}')">
@@ -2036,6 +2097,416 @@ function bindAll(){
   });
 }
 
+// ═══════════════════════════════════════════════
+// HEALTH MODULE
+// ═══════════════════════════════════════════════
+async function loadHealthData(){
+  if(!SESSION)return;
+  const base=`users/${SESSION.username}/health`;
+  const [acts,prev,vit,labs]=await Promise.all([
+    fbGet(base+"/activities"),fbGet(base+"/preventive"),fbGet(base+"/vitals"),fbGet(base+"/lab_results")
+  ]);
+  S.hlth.activities=acts&&typeof acts==="object"?Object.entries(acts).map(([id,v])=>({...v,id})):[];
+  S.hlth.vitals=vit&&typeof vit==="object"?Object.entries(vit).map(([id,v])=>({...v,id})):[];
+  S.hlth.labResults=labs&&typeof labs==="object"?Object.entries(labs).map(([id,v])=>({...v,id})):[];
+  // Preventive: seed defaults if empty
+  if(prev&&typeof prev==="object"&&Object.keys(prev).length>0){
+    S.hlth.preventive=Object.entries(prev).map(([id,v])=>({...v,id}));
+  } else {
+    // Seed defaults
+    const items=H_PREV_DEF.map(d=>({...d,id:"prev_"+d.type,lastDone:null,scheduledDate:null,status:d.notBefore&&d.notBefore>today()?"future":"overdue"}));
+    S.hlth.preventive=items;
+    for(const it of items)await fbSet(`${base}/preventive/${it.id}`,it);
+  }
+  S.hlth.addDate=S.hlth.addDate||today();
+  S.hlth.newLabDate=S.hlth.newLabDate||today();
+}
+function hBase(){return`users/${SESSION.username}/health`;}
+async function saveHActivity(a){await fbSet(`${hBase()}/activities/${a.id}`,a);S.hlth.activities=S.hlth.activities.filter(x=>x.id!==a.id);S.hlth.activities.push(a);}
+async function saveHPrev(p){await fbSet(`${hBase()}/preventive/${p.id}`,p);const idx=S.hlth.preventive.findIndex(x=>x.id===p.id);if(idx>=0)S.hlth.preventive[idx]=p;else S.hlth.preventive.push(p);}
+async function saveHVital(v){await fbSet(`${hBase()}/vitals/${v.id}`,v);S.hlth.vitals.push(v);}
+async function saveHLab(l){await fbSet(`${hBase()}/lab_results/${l.id}`,l);S.hlth.labResults.push(l);}
+
+// ── Week helpers ────────────────────────────────────────────────────
+function hWeekRange(){
+  const now=new Date();const day=now.getDay();const diff=day===0?-6:1-day;
+  const mon=new Date(now);mon.setDate(now.getDate()+diff);mon.setHours(0,0,0,0);
+  const sun=new Date(mon);sun.setDate(mon.getDate()+6);sun.setHours(23,59,59,999);
+  return{start:mon,end:sun};
+}
+function hWeekActs(cat){
+  const{start,end}=hWeekRange();
+  return S.hlth.activities.filter(a=>a.cat===cat&&new Date(a.date)>=start&&new Date(a.date)<=end);
+}
+function hWeekStatus(cat){
+  const t=H_DEF_TARGETS.find(x=>x.cat===cat);if(!t)return{count:0,freq:1,rate:0,status:"grey"};
+  const acts=hWeekActs(cat);
+  let count=acts.length;
+  if(cat==="SLEEP"&&t.minHours)count=acts.filter(a=>parseFloat(a.meta?.sleepH||0)>=t.minHours).length;
+  if(cat==="NUTRITION"){
+    const{start,end}=hWeekRange();
+    count=0;
+    for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
+      const ds=d.toISOString().slice(0,10);if(hNutritionGood(ds))count++;
+    }
+  }
+  const rate=Math.min(1,t.freq>0?count/t.freq:1);
+  return{count,freq:t.freq,rate,status:rate>=1?"green":rate>=0.7?"yellow":"red"};
+}
+function hNutritionGood(dateStr){
+  const entries=Object.values(S.diary[dateStr]||{});if(!entries.length)return false;
+  const kcal=entries.reduce((s,e)=>s+(e.kcal||0),0);
+  const prot=entries.reduce((s,e)=>s+(e.protein||0),0);
+  const goals=S.goals||DEF_GOALS_PERSONAL;
+  return kcal>=goals.kcal*0.8&&prot>=goals.protein*0.8;
+}
+function hStreak(cat){
+  let streak=0;const today_=today();
+  for(let i=0;i<60;i++){
+    const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().slice(0,10);
+    const found=cat==="NUTRITION"?hNutritionGood(ds):S.hlth.activities.some(a=>a.cat===cat&&a.date===ds);
+    if(found)streak++;else break;
+  }
+  return streak;
+}
+function hPrevStatus(item){
+  const nb=item.notBefore;if(nb&&nb>today())return"future";
+  if(!item.lastDone)return"overdue";
+  if(item.scheduledDate)return"scheduled";
+  if(item.freqM===0)return"done";
+  const next=new Date(item.lastDone);next.setMonth(next.getMonth()+item.freqM);
+  const nextStr=next.toISOString().slice(0,10);
+  const soon=new Date();soon.setDate(soon.getDate()+90);
+  if(nextStr<today())return"overdue";
+  if(next<=soon)return"due_soon";
+  return"ok";
+}
+function hPrevNextDue(item){
+  if(!item.lastDone||item.freqM===0)return item.notBefore||today();
+  const d=new Date(item.lastDone);d.setMonth(d.getMonth()+item.freqM);return d.toISOString().slice(0,10);
+}
+
+// ── Quick-entry submit ───────────────────────────────────────────────
+async function submitHActivity(){
+  const h=S.hlth;const cat=h.addCat;if(!cat)return;
+  const meta={};
+  if(cat==="SLEEP"){meta.sleepH=parseFloat(h.addSleepH)||0;meta.sleepQ=parseInt(h.addSleepQ)||4;}
+  if(cat==="VITALS_BP"){meta.sys=parseInt(h.addSystolic)||0;meta.dia=parseInt(h.addDiastolic)||0;}
+  if(cat==="VITALS_WEIGHT"){meta.kg=parseFloat(h.addWeight)||0;}
+  const act={id:uid(),cat:cat==="VITALS_BP"||cat==="VITALS_WEIGHT"?"VITALS":cat,
+    date:h.addDate||today(),duration:parseInt(h.addDuration)||0,meta,notes:h.addNotes,createdAt:Date.now()};
+  if(cat==="VITALS_BP"||cat==="VITALS_WEIGHT"){
+    const vital={id:uid(),type:cat==="VITALS_BP"?"blood_pressure":"weight",
+      date:h.addDate||today(),
+      v1:cat==="VITALS_BP"?parseInt(h.addSystolic):parseFloat(h.addWeight),
+      v2:cat==="VITALS_BP"?parseInt(h.addDiastolic):null,
+      createdAt:Date.now()};
+    await saveHVital(vital);
+  } else {
+    await saveHActivity(act);
+  }
+  S.hlth.addCat=null;S.hlth.addDuration="";S.hlth.addSleepH="";S.hlth.addSystolic="";S.hlth.addDiastolic="";S.hlth.addWeight="";S.hlth.addNotes="";
+  toast("✓ Eingetragen!");render();
+}
+async function submitHPrevAction(id,action){
+  const item=S.hlth.preventive.find(x=>x.id===id);if(!item)return;
+  if(action==="done"){item.lastDone=S.hlth.prevDoneDate||today();item.scheduledDate=null;}
+  else if(action==="scheduled"){item.scheduledDate=S.hlth.prevSchedDate||today();}
+  else if(action==="undone"){item.lastDone=null;item.scheduledDate=null;}
+  item.status=hPrevStatus(item);
+  await saveHPrev(item);S.hlth.prevOpen=null;toast("✓ Gespeichert!");render();
+}
+async function submitHLab(){
+  const h=S.hlth;if(!h.newLabDate)return;
+  const lab={id:uid(),date:h.newLabDate,source:h.newLabSource,values:{...h.newLabVals},createdAt:Date.now()};
+  await saveHLab(lab);
+  S.hlth.newLabOpen=false;S.hlth.newLabVals={};S.hlth.newLabSource="";
+  toast("✓ Blutbild gespeichert!");render();
+}
+
+// ── Empfehlungs-Engine ───────────────────────────────────────────────
+function calcHRecommendations(){
+  const results=[];
+  Object.keys(H_CATS).forEach(cat=>{
+    const{rate}=hWeekStatus(cat);
+    const gap=Math.max(0,1-rate);
+    const leverage=H_LEVERAGE[cat]||1.0;
+    // Risk weight: simplified — cardiovascular family history boosts sleep/cardio
+    const riskW=["SLEEP","EXERCISE_CARDIO","EXERCISE_STRENGTH"].includes(cat)?1.5:1.0;
+    const score=gap*riskW*leverage;
+    if(score>0.05)results.push({cat,score,gap,label:H_CATS[cat].label,icon:H_CATS[cat].icon});
+  });
+  // Overdue preventive care
+  const overdueCount=S.hlth.preventive.filter(p=>hPrevStatus(p)==="overdue").length;
+  if(overdueCount>0)results.push({cat:"PREVENTIVE_CARE",score:overdueCount*1.8,gap:1,label:"Vorsorge",icon:"🏥",overdueCount});
+  return results.sort((a,b)=>b.score-a.score).slice(0,3);
+}
+
+// ── Render ───────────────────────────────────────────────────────────
+function renderHealth(){
+  const h=S.hlth;
+  const subs=[
+    {id:"heute",label:"Heute"},
+    {id:"woche",label:"Woche"},
+    {id:"vorsorge",label:"Vorsorge"},
+    {id:"werte",label:"Werte"},
+    {id:"empfehlung",label:"Empfehlung"},
+  ];
+  const nav=`<div class="h-subtabs">${subs.map(s=>`<button class="h-subtab${h.sub===s.id?" on":""}" onclick="S.hlth.sub='${s.id}';render()">${s.label}</button>`).join("")}</div>`;
+  const content=
+    h.sub==="heute"?renderHHeute():
+    h.sub==="woche"?renderHWoche():
+    h.sub==="vorsorge"?renderHVorsorge():
+    h.sub==="werte"?renderHWerte():
+    renderHEmpfehlung();
+  return`<div class="ptitle">Gesund<em>heit</em></div>${nav}${content}`;
+}
+
+function renderHHeute(){
+  const h=S.hlth;const d=today();
+  const todayActs=S.hlth.activities.filter(a=>a.date===d);
+  const nutOk=hNutritionGood(d);
+  const sleepStreak=hStreak("SLEEP");const strengthStreak=hStreak("EXERCISE_STRENGTH");
+
+  // Quick-entry form (inline)
+  let entryForm="";
+  if(h.addCat){
+    const cat=h.addCat;
+    const isSleep=cat==="SLEEP";const isBP=cat==="VITALS_BP";const isW=cat==="VITALS_WEIGHT";
+    const needsDur=["EXERCISE_STRENGTH","EXERCISE_CARDIO","EXERCISE_DAILY"].includes(cat);
+    entryForm=`<div class="card" style="border:2px solid var(--gr);margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">${H_CATS[isBP||isW?"VITALS":cat]?.icon||"📝"} ${isBP?"Blutdruck":isW?"Gewicht":(H_CATS[cat]?.label||"Eintrag")} eintragen</div>
+      <div class="r2">
+        <div class="field"><label>Datum</label><input type="date" value="${h.addDate||d}" onchange="S.hlth.addDate=this.value"/></div>
+        ${needsDur?`<div class="field"><label>Dauer (Min)</label><input type="number" value="${h.addDuration}" onchange="S.hlth.addDuration=this.value" placeholder="45"/></div>`:""}
+        ${isSleep?`<div class="field"><label>Stunden</label><input type="number" step="0.5" value="${h.addSleepH}" onchange="S.hlth.addSleepH=this.value" placeholder="7.5"/></div>`:""}
+        ${isSleep?`<div class="field"><label>Qualität (1-5)</label><input type="number" min="1" max="5" value="${h.addSleepQ}" onchange="S.hlth.addSleepQ=this.value"/></div>`:""}
+        ${isBP?`<div class="field"><label>Systolisch</label><input type="number" value="${h.addSystolic}" onchange="S.hlth.addSystolic=this.value" placeholder="120"/></div>`:""}
+        ${isBP?`<div class="field"><label>Diastolisch</label><input type="number" value="${h.addDiastolic}" onchange="S.hlth.addDiastolic=this.value" placeholder="80"/></div>`:""}
+        ${isW?`<div class="field"><label>Gewicht (kg)</label><input type="number" step="0.1" value="${h.addWeight}" onchange="S.hlth.addWeight=this.value" placeholder="80.5"/></div>`:""}
+      </div>
+      <div class="field"><label>Notiz (optional)</label><input value="${esc(h.addNotes)}" oninput="S.hlth.addNotes=this.value" placeholder="z.B. Laufen im Park"/></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn bg" style="flex:1;justify-content:center" onclick="submitHActivity()">✓ Speichern</button>
+        <button class="btn bo" onclick="S.hlth.addCat=null;render()">Abbrechen</button>
+      </div>
+    </div>`;
+  }
+
+  const quickBtns=[
+    {cat:"EXERCISE_STRENGTH",label:"Krafttraining"},{cat:"EXERCISE_CARDIO",label:"Ausdauer"},
+    {cat:"EXERCISE_DAILY",label:"Alltagsbew."},{cat:"SLEEP",label:"Schlaf"},
+    {cat:"VITALS_BP",label:"Blutdruck"},{cat:"VITALS_WEIGHT",label:"Gewicht"},
+  ].map(b=>`<button class="h-cat-btn" style="flex:1;min-width:140px;flex-direction:column;align-items:flex-start;gap:4px" onclick="S.hlth.addCat='${b.cat}';S.hlth.addDate='${d}';render()">
+    <span style="font-size:18px">${H_CATS[b.cat==="VITALS_BP"||b.cat==="VITALS_WEIGHT"?"VITALS":b.cat]?.icon||"📝"}</span>
+    <span style="font-size:11px;font-weight:700">+ ${b.label}</span>
+  </button>`).join("");
+
+  const actList=todayActs.length?todayActs.map(a=>`<div class="h-act-card">
+    <span style="font-size:18px">${H_CATS[a.cat]?.icon||"📝"}</span>
+    <div style="flex:1">
+      <div style="font-size:12px;font-weight:700">${H_CATS[a.cat]?.label||a.cat}</div>
+      ${a.duration?`<div style="font-size:11px;color:var(--mu)">${a.duration} Min</div>`:""}
+      ${a.meta?.sleepH?`<div style="font-size:11px;color:var(--mu)">${a.meta.sleepH}h · Qualität: ${a.meta.sleepQ}/5</div>`:""}
+      ${a.notes?`<div style="font-size:11px;color:var(--mu)">${esc(a.notes)}</div>`:""}
+    </div>
+  </div>`).join(""):`<div style="font-size:12px;color:var(--mu);text-align:center;padding:14px 0">Noch nichts heute eingetragen.</div>`;
+
+  const streaks=[sleepStreak>1?`<span class="h-streak">😴 ${sleepStreak} Tage Schlaf ≥7h</span>`:"",
+    strengthStreak>1?`<span class="h-streak">🏋️ ${strengthStreak} Tage Krafttraining</span>`:"",
+    nutOk?`<span class="h-streak">🥗 Heute gut ernährt</span>`:""].filter(Boolean).join(" ");
+
+  const overdueCount=S.hlth.preventive.filter(p=>["overdue","due_soon"].includes(hPrevStatus(p))).length;
+
+  return`${streaks?`<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">${streaks}</div>`:""}
+  ${overdueCount?`<div style="background:#fff3f3;border:1.5px solid #e74c3c;border-radius:var(--r);padding:10px 13px;margin-bottom:12px;font-size:12px;color:#c0392b;cursor:pointer" onclick="S.hlth.sub='vorsorge';render()">
+    🔴 <strong>${overdueCount} Vorsorge-Termin${overdueCount>1?"e":""}</strong> fällig oder überfällig → Vorsorge öffnen
+  </div>`:""}
+  ${entryForm}
+  <div class="slbl">Schnell eintragen</div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">${quickBtns}</div>
+  ${todayActs.length?`<div class="slbl">Heute (${todayActs.length})</div>`:""}
+  ${actList}`;
+}
+
+function renderHWoche(){
+  const{start,end}=hWeekRange();
+  const fmtDate=d=>d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"});
+  const bars=Object.keys(H_CATS).map(cat=>{
+    const{count,freq,rate,status}=hWeekStatus(cat);
+    const c=H_CATS[cat];
+    const pct=Math.round(rate*100);
+    const statusIcon=status==="green"?"✅":status==="yellow"?"⚠️":"🔴";
+    const acts=hWeekActs(cat);
+    return`<div style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <span style="font-size:15px">${c.icon}</span>
+        <span style="flex:1;font-size:12px;font-weight:700">${c.label}</span>
+        <span style="font-size:11px;color:var(--mu)">${count}/${freq}</span>
+        <span>${statusIcon}</span>
+      </div>
+      <div class="h-pbar-track"><div class="h-pbar-fill h-pbar-${status}" style="width:${pct}%"></div></div>
+      ${acts.length?`<div style="font-size:10px;color:var(--mu);margin-top:2px">${acts.map(a=>`${a.date.slice(5)}${a.duration?" ("+a.duration+"min)":""}${a.meta?.sleepH?" ("+a.meta.sleepH+"h)":""}`).join(" · ")}</div>`:""}
+    </div>`;
+  }).join("");
+  const totalScore=Object.keys(H_CATS).reduce((s,cat)=>{const{rate}=hWeekStatus(cat);return s+rate;},0);
+  const maxScore=Object.keys(H_CATS).length;
+  const pct=Math.round(totalScore/maxScore*100);
+  return`<div style="background:var(--card);border:1px solid var(--br);border-radius:var(--r);padding:13px;margin-bottom:16px;text-align:center">
+    <div style="font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.08em;margin-bottom:4px">WOCHE ${fmtDate(start)} – ${fmtDate(end)}</div>
+    <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:${pct>=80?"var(--gr)":pct>=55?"var(--go)":"var(--or)"}">${pct}%</div>
+    <div style="font-size:11px;color:var(--mu)">Wochenziel erreicht</div>
+  </div>
+  ${bars}`;
+}
+
+function renderHVorsorge(){
+  const h=S.hlth;
+  const groups={overdue:[],due_soon:[],scheduled:[],ok:[],future:[]};
+  S.hlth.preventive.forEach(p=>{const st=hPrevStatus(p);groups[st]?.push(p);});
+  const statusCfg={
+    overdue:{label:"Überfällig",col:"#e74c3c",bg:"#fff3f3",border:"#e74c3c"},
+    due_soon:{label:"Bald fällig",col:"#e67e22",bg:"#fffaf5",border:"#e67e22"},
+    scheduled:{label:"Termin gebucht",col:"#3498db",bg:"#f5faff",border:"#3498db"},
+    ok:{label:"Erledigt / OK",col:"var(--gr)",bg:"var(--gl)",border:"var(--gr)"},
+    future:{label:"Zukunft",col:"var(--mu)",bg:"var(--card)",border:"var(--br)"},
+  };
+  const renderGroup=(key,items)=>!items.length?"":
+    `<div class="slbl" style="color:${statusCfg[key].col};margin-top:10px">${statusCfg[key].label} (${items.length})</div>
+    ${items.map(p=>{
+      const isOpen=h.prevOpen===p.id;
+      const next=hPrevNextDue(p);const st=hPrevStatus(p);
+      return`<div class="h-prev-card${st==="overdue"?" h-prev-overdue":st==="due_soon"?" h-prev-soon":st==="scheduled"?" h-prev-sched":""}">
+        <div style="display:flex;align-items:center;gap:10px;cursor:pointer" onclick="S.hlth.prevOpen=S.hlth.prevOpen==='${p.id}'?null:'${p.id}';render()">
+          <span style="font-size:20px">${p.icon}</span>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700">${p.label}</div>
+            <div style="font-size:11px;color:var(--mu)">
+              ${p.freqM===0?"Einmalig":p.freqM===6?"2× jährlich":p.freqM===12?"Jährlich":p.freqM===24?"Alle 2 Jahre":p.freqM===36?"Alle 3 Jahre":p.freqM===120?"Alle 10 Jahre":""}
+              ${p.lastDone?` · Zuletzt: ${p.lastDone}`:""}
+              ${st==="future"?` · Ab: ${p.notBefore||next}`:" · Nächste: "+next}
+            </div>
+            ${p.note?`<div style="font-size:10px;color:var(--or)">${p.note}</div>`:""}
+          </div>
+          <span style="font-size:13px;color:var(--mu)">${isOpen?"▲":"▼"}</span>
+        </div>
+        ${isOpen&&st!=="future"?`<div style="border-top:1px solid var(--br);margin-top:10px;padding-top:10px">
+          <div class="r2">
+            <div class="field"><label>Als erledigt markieren</label>
+              <input type="date" value="${h.prevDoneDate||today()}" onchange="S.hlth.prevDoneDate=this.value"/>
+            </div>
+            <div class="field"><label>Termin gebucht am</label>
+              <input type="date" value="${h.prevSchedDate||""}" onchange="S.hlth.prevSchedDate=this.value"/>
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="btn bg bsm" onclick="submitHPrevAction('${p.id}','done')">✓ Erledigt</button>
+            <button class="btn bo bsm" onclick="submitHPrevAction('${p.id}','scheduled')">📅 Termin gebucht</button>
+            ${p.lastDone?`<button class="btn bd bsm" onclick="submitHPrevAction('${p.id}','undone')">Zurücksetzen</button>`:""}
+          </div>
+        </div>`:""}
+      </div>`;
+    }).join("")}`;
+  return`${renderGroup("overdue",groups.overdue)}${renderGroup("due_soon",groups.due_soon)}${renderGroup("scheduled",groups.scheduled)}${renderGroup("ok",groups.ok)}${renderGroup("future",groups.future)}`;
+}
+
+function renderHWerte(){
+  const h=S.hlth;
+  // Blood pressure entries
+  const bpEntries=h.vitals.filter(v=>v.type==="blood_pressure").sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
+  const weightEntries=h.vitals.filter(v=>v.type==="weight").sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  // Latest lab
+  const latestLab=h.labResults.sort((a,b)=>b.date.localeCompare(a.date))[0];
+  const LAB_FIELDS=[
+    {k:"ldl",label:"LDL",unit:"mg/dl",refMax:100},
+    {k:"hdl",label:"HDL",unit:"mg/dl",refMin:40},
+    {k:"lp_a",label:"Lp(a)",unit:"mg/dl",refMax:30},
+    {k:"apo_b",label:"ApoB",unit:"mg/dl",refMax:90},
+    {k:"hs_crp",label:"hs-CRP",unit:"mg/l",refMax:1.0},
+    {k:"hba1c",label:"HbA1c",unit:"%",refMax:5.7},
+    {k:"vitamin_d",label:"Vitamin D",unit:"ng/ml",refMin:30},
+    {k:"ferritin",label:"Ferritin",unit:"µg/l"},
+    {k:"tsh",label:"TSH",unit:"mU/l",refMin:0.4,refMax:4.0},
+  ];
+  const labForm=h.newLabOpen?`<div class="card" style="border:2px solid var(--gr)">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">🩸 Neuen Bluttest eintragen</div>
+    <div class="r2">
+      <div class="field"><label>Datum</label><input type="date" value="${h.newLabDate}" onchange="S.hlth.newLabDate=this.value"/></div>
+      <div class="field"><label>Quelle</label><input value="${esc(h.newLabSource)}" oninput="S.hlth.newLabSource=this.value" placeholder="Hausarzt Dr. X"/></div>
+    </div>
+    <div class="r3">${LAB_FIELDS.map(f=>`<div class="field"><label>${f.label} ${f.unit?`(${f.unit})`:""}</label>
+      <input type="number" step="0.1" value="${h.newLabVals[f.k]||""}" onchange="S.hlth.newLabVals['${f.k}']=parseFloat(this.value)||null" placeholder="—"/></div>`).join("")}</div>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <button class="btn bg" style="flex:1;justify-content:center" onclick="submitHLab()">✓ Speichern</button>
+      <button class="btn bo" onclick="S.hlth.newLabOpen=false;render()">Abbrechen</button>
+    </div>
+  </div>`:
+  `<button class="btn bo" style="width:100%;justify-content:center;margin-bottom:14px" onclick="S.hlth.newLabOpen=true;render()">+ Neuen Bluttest eintragen</button>`;
+
+  const labDisplay=latestLab?`<div class="card" style="margin-bottom:14px">
+    <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px">🩸 LETZTES BLUTBILD · ${latestLab.date}${latestLab.source?" · "+latestLab.source:""}</div>
+    ${LAB_FIELDS.filter(f=>latestLab.values[f.k]!=null).map(f=>{
+      const v=latestLab.values[f.k];const ok=(f.refMax==null||v<=f.refMax)&&(f.refMin==null||v>=f.refMin);
+      return`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bg)">
+        <span style="flex:1;font-size:12px;font-weight:600">${f.label}</span>
+        <span style="font-size:13px;font-weight:700;color:${ok?"var(--gr)":"var(--or)"}">${v} ${f.unit||""}</span>
+        <span style="font-size:11px">${ok?"✅":"⚠️"}</span>
+        <span style="font-size:10px;color:var(--mu)">${f.refMax!=null?"≤"+f.refMax:""}${f.refMin!=null&&f.refMax!=null?" / ":""}${f.refMin!=null?"≥"+f.refMin:""}</span>
+      </div>`;
+    }).join("")}
+  </div>`:labForm;
+
+  const bpDisplay=bpEntries.length?`<div class="slbl">Blutdruck (${bpEntries.length} Einträge)</div>
+    ${bpEntries.slice(0,5).map(v=>`<div class="h-act-card">
+      <span style="font-size:18px">💗</span>
+      <div style="flex:1"><span style="font-size:14px;font-weight:700">${v.v1}/${v.v2}</span> <span style="font-size:11px;color:var(--mu)">mmHg</span></div>
+      <span style="font-size:11px;color:var(--mu)">${v.date}</span>
+    </div>`).join("")}`:
+    `<div style="font-size:12px;color:var(--mu);margin-bottom:14px">Noch keine Blutdruck-Einträge. Über Heute → + Blutdruck hinzufügen.</div>`;
+
+  return`${labForm}${latestLab?labDisplay:""}${bpDisplay}
+    ${weightEntries.length?`<div class="slbl" style="margin-top:8px">Gewicht</div>
+    ${weightEntries.map(v=>`<div class="h-act-card">
+      <span style="font-size:18px">⚖️</span>
+      <div style="flex:1"><span style="font-size:14px;font-weight:700">${v.v1} kg</span></div>
+      <span style="font-size:11px;color:var(--mu)">${v.date}</span>
+    </div>`).join("")}`:""}`;
+}
+
+function renderHEmpfehlung(){
+  const recs=calcHRecommendations();
+  if(!recs.length)return`<div class="empty">🎉 Alles im grünen Bereich diese Woche!</div>`;
+  const tips={
+    EXERCISE_STRENGTH:"Krafttraining reduziert das Herzinfarkt-Risiko um bis zu 40%. Bei familiärer Vorbelastung besonders wichtig.",
+    EXERCISE_CARDIO:"Ausdauertraining verbessert Herzgesundheit und Blutdruck signifikant.",
+    EXERCISE_DAILY:"Alltagsbewegung (z.B. Rad zur Arbeit) senkt das Risiko für Herz-Kreislauf-Erkrankungen.",
+    SLEEP:"Schlaf unter 7h erhöht das Risiko für Herzerkrankungen und Übergewicht erheblich. Priorität #1.",
+    NUTRITION:"Gute Ernährung senkt LDL-Cholesterin und Entzündungsmarker.",
+    SELF_CHECK:"Regelmäßige Selbst-Checks ermöglichen frühzeitige Erkennung.",
+    PREVENTIVE_CARE:"Vorsorge-Untersuchungen retten Leben — besonders bei familiärer Vorbelastung.",
+  };
+  const miniActions={
+    EXERCISE_STRENGTH:"Heute 45 Min Krafttraining einplanen",
+    EXERCISE_CARDIO:"30 Min Laufen oder Radfahren heute Abend",
+    EXERCISE_DAILY:"Morgen früh mit dem Rad zur Arbeit",
+    SLEEP:"Heute 1h früher ins Bett gehen",
+    NUTRITION:"Heute Abend proteinreich und gemüsereich essen",
+    PREVENTIVE_CARE:"Termin im Kalender eintragen und anrufen",
+  };
+  return`<div class="psub">Basierend auf deiner Familiengeschichte (Herz-Kreislauf) und aktuellem Wochenstatus</div>
+  ${recs.map((r,i)=>`<div class="card" style="border-left:4px solid ${i===0?"var(--or)":i===1?"var(--go)":"var(--mu)"};margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="font-size:22px">${r.icon}</span>
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.08em">${i===0?"TOP-EMPFEHLUNG":"EMPFEHLUNG"}</div>
+        <div style="font-size:14px;font-weight:700">${r.label}</div>
+      </div>
+      <span style="margin-left:auto;font-size:11px;background:${i===0?"var(--ol)":"var(--bg)"};color:${i===0?"var(--or)":"var(--mu)"};padding:3px 8px;border-radius:10px;font-weight:700">Score ${r.score.toFixed(1)}</span>
+    </div>
+    <p style="font-size:12px;color:var(--mu);margin-bottom:8px;line-height:1.5">${tips[r.cat]||""}</p>
+    ${miniActions[r.cat]?`<div style="background:var(--gl);border-radius:8px;padding:8px 10px;font-size:12px;font-weight:600;color:var(--gr)">💡 ${miniActions[r.cat]}</div>`:""}
+  </div>`).join("")}`;
+}
 // ═══════════════════════════════════════════════
 // WORKOUT
 // ═══════════════════════════════════════════════
