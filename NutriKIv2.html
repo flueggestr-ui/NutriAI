@@ -702,6 +702,7 @@ function render(){
   const root=document.getElementById("root");
   if(S.needSetup){root.innerHTML=renderFirstSetup();bindAll();return;}
   if(!SESSION){root.innerHTML=renderAuth();bindAll();return;}
+  if(S.wkt.mode)saveWktLocal(); // auto-persist active workout on every render
   root.innerHTML=renderApp();bindAll();
   if(S.tab==="ai")scrollChat("aichat");
 }
@@ -2521,15 +2522,16 @@ function wktStartRest(secs){
     if(S.tab==="workout")render();
   },1000);
 }
+function saveWktLocal(){LS.set("nk_wkt_active",S.wkt.mode?{mode:S.wkt.mode,exercises:S.wkt.exercises,altA:S.wkt.altA,altB:S.wkt.altB,altSets:S.wkt.altSets,altHasWarmup:S.wkt.altHasWarmup,altRestAtoB:S.wkt.altRestAtoB,altRestBtoA:S.wkt.altRestBtoA,altRestAfterB:S.wkt.altRestAfterB,altSteps:S.wkt.altSteps,altCurrentStep:S.wkt.altCurrentStep,wktDate:S.wkt.wktDate}:null);}
 function skipRest(){if(_restTimer){clearInterval(_restTimer);_restTimer=null;}S.wkt.restSecs=0;S.wkt.restTotal=0;render();}
-function addWktEx(){S.wkt.exercises.push({name:"",sets:[{kg:"",reps:"",done:false}]});render();}
-function rmWktEx(i){S.wkt.exercises.splice(i,1);render();}
-function addWktSet(ei){S.wkt.exercises[ei].sets.push({kg:"",reps:"",done:false});render();}
+function addWktEx(){S.wkt.exercises.push({name:"",sets:[{kg:"",reps:"",done:false}]});saveWktLocal();render();}
+function rmWktEx(i){S.wkt.exercises.splice(i,1);saveWktLocal();render();}
+function addWktSet(ei){S.wkt.exercises[ei].sets.push({kg:"",reps:"",done:false});saveWktLocal();render();}
 function doneWktSet(ei,si){
   const s=S.wkt.exercises[ei].sets[si];
   s.done=!s.done;
   if(s.done){const ex=S.wkt.exercises[ei];const nx=ex.sets.findIndex((x,i)=>i>si&&!x.done);if(nx>=0)wktStartRest(90);}
-  render();
+  saveWktLocal();render();
 }
 function startAltWorkout(){
   const w=S.wkt;
@@ -2544,14 +2546,14 @@ function startAltWorkout(){
     steps.push({isA:true,isWarmup:false,num:i,restAfter:w.altRestAtoB,kg:"",reps:""});
     steps.push({isA:false,isWarmup:false,num:i,restAfter:last?0:w.altRestAfterB,kg:"",reps:""});
   }
-  S.wkt.altSteps=steps;S.wkt.altCurrentStep=0;render();
+  S.wkt.altSteps=steps;S.wkt.altCurrentStep=0;saveWktLocal();render();
 }
 function nextAltStep(){
   const w=S.wkt;const step=w.altSteps[w.altCurrentStep];
   if(step&&step.restAfter>0)wktStartRest(step.restAfter);
-  w.altCurrentStep++;render();
+  w.altCurrentStep++;saveWktLocal();render();
 }
-function resetAltWorkout(){S.wkt.altSteps=[];S.wkt.altCurrentStep=-1;skipRest();}
+function resetAltWorkout(){S.wkt.altSteps=[];S.wkt.altCurrentStep=-1;saveWktLocal();skipRest();}
 async function saveWorkout(){
   if(!SESSION)return;
   const w=S.wkt;
@@ -2563,6 +2565,7 @@ async function saveWorkout(){
   S.wkt.wktHistory.push(entry);
   toast("✓ Training gespeichert!");
   S.wkt={...S.wkt,mode:null,exercises:[],altSteps:[],altCurrentStep:-1,restSecs:0,restTotal:0,wktDate:today()};
+  LS.set("nk_wkt_active",null); // clear saved session
   render();
 }
 
@@ -2711,6 +2714,12 @@ function renderWorkout(){
 }
 
 // ─── INIT ───────────────────────────────────────────────────────────
+// Restore active workout from localStorage (survives page reload / app minimize)
+const _savedWkt=LS.get("nk_wkt_active");
+if(_savedWkt&&_savedWkt.mode){
+  S.wkt={...S.wkt,..._savedWkt,restSecs:0,restTotal:0};
+  S.tab="workout"; // jump straight to workout tab
+}
 if(S.needSetup){render();}
 else if(SESSION){loadAllData().then(()=>{startSSE();render();});}
 else{render();}
