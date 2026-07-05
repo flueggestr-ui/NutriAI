@@ -496,7 +496,7 @@ let S={
     altRestAtoB:45,altRestBtoA:60,altRestAfterB:90,
     altSteps:[],altCurrentStep:-1,
     restSecs:0,restTotal:0,
-    wktDate:today(),wktHistory:[],
+    wktDate:today(),wktHistory:[],templates:[],
   },
 };
 
@@ -567,9 +567,10 @@ async function loadAllData(){
   S.groupMembers=allUsers?Object.entries(allUsers).filter(([u,d])=>d.group===SESSION.group&&u!==SESSION.username).map(([u,d])=>d.displayName||u):[];
   // Public library + favorites
   await loadPublicDishes();
-  // Workout history
-  const wkts=await fbGet(`users/${SESSION.username}/workouts`);
+  // Workout history + templates
+  const [wkts,tmpls]=await Promise.all([fbGet(`users/${SESSION.username}/workouts`),fbGet(`users/${SESSION.username}/wkt_templates`)]);
   S.wkt.wktHistory=wkts&&typeof wkts==="object"?Object.entries(wkts).map(([id,v])=>({...v,id})).sort((a,b)=>(a.date||"").localeCompare(b.date||"")):[];
+  S.wkt.templates=tmpls&&typeof tmpls==="object"?Object.entries(tmpls).map(([id,v])=>({...v,id})):[];
   // Health data
   await loadHealthData();
 }
@@ -2565,8 +2566,41 @@ async function saveWorkout(){
   S.wkt.wktHistory.push(entry);
   toast("✓ Training gespeichert!");
   S.wkt={...S.wkt,mode:null,exercises:[],altSteps:[],altCurrentStep:-1,restSecs:0,restTotal:0,wktDate:today()};
-  LS.set("nk_wkt_active",null); // clear saved session
+  LS.set("nk_wkt_active",null);
   render();
+}
+async function saveWktTemplate(){
+  if(!SESSION)return;
+  const w=S.wkt;
+  const name=prompt("Vorlagenname:",(w.mode==="alt"?`${w.altA} / ${w.altB}`:"Mein Workout"));
+  if(!name)return;
+  const tmpl={id:uid(),name:name.trim(),mode:w.mode,
+    exercises:w.mode==="simple"?w.exercises.map(e=>({name:e.name,defaultSets:e.sets.length})):[],
+    altA:w.altA,altB:w.altB,altSets:w.altSets,altHasWarmup:w.altHasWarmup,
+    altRestAtoB:w.altRestAtoB,altRestBtoA:w.altRestBtoA,altRestAfterB:w.altRestAfterB,
+    createdAt:Date.now()};
+  await fbSet(`users/${SESSION.username}/wkt_templates/${tmpl.id}`,tmpl);
+  S.wkt.templates=[...(S.wkt.templates||[]),tmpl];
+  toast(`✓ Vorlage "${tmpl.name}" gespeichert!`);render();
+}
+async function delWktTemplate(id){
+  if(!confirm("Vorlage löschen?"))return;
+  await fbDel(`users/${SESSION.username}/wkt_templates/${id}`);
+  S.wkt.templates=(S.wkt.templates||[]).filter(t=>t.id!==id);
+  toast("Vorlage gelöscht");render();
+}
+function loadWktTemplate(tmpl){
+  if(tmpl.mode==="simple"){
+    S.wkt.mode="simple";
+    S.wkt.exercises=tmpl.exercises.map(e=>({name:e.name,sets:Array.from({length:e.defaultSets||3},()=>({kg:"",reps:"",done:false}))}));
+  } else {
+    S.wkt.mode="alt";
+    S.wkt.altA=tmpl.altA||"";S.wkt.altB=tmpl.altB||"";
+    S.wkt.altSets=tmpl.altSets||3;S.wkt.altHasWarmup=tmpl.altHasWarmup!==false;
+    S.wkt.altRestAtoB=tmpl.altRestAtoB||45;S.wkt.altRestBtoA=tmpl.altRestBtoA||60;S.wkt.altRestAfterB=tmpl.altRestAfterB||90;
+    S.wkt.altSteps=[];S.wkt.altCurrentStep=-1;
+  }
+  S.wkt.wktDate=today();saveWktLocal();render();
 }
 
 function renderWorkout(){
@@ -2581,9 +2615,24 @@ function renderWorkout(){
   </div>`:"";
 
   if(!w.mode){
-    const hist=w.wktHistory.slice(-5).reverse();
+    const hist=w.wktHistory.slice(-3).reverse();
+    const tmpls=w.templates||[];
+    const tmplHtml=tmpls.length?`<div class="slbl">Vorlagen</div>
+      ${tmpls.map(t=>`<div class="wkt-mode-btn" style="padding:12px 13px">
+        <span class="wkt-mode-icon" style="font-size:22px">${t.mode==="alt"?"🔄":"🏋️"}</span>
+        <div style="flex:1;min-width:0" onclick="loadWktTemplate(${JSON.stringify(t).replace(/"/g,'&quot;')})">
+          <div style="font-size:13px;font-weight:700">${esc(t.name)}</div>
+          <div style="font-size:11px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            ${t.mode==="simple"?t.exercises.map(e=>e.name).join(" · "):`${esc(t.altA)} / ${esc(t.altB)} · ${t.altSets} Sätze`}
+          </div>
+        </div>
+        <button class="btn bd bsm bic" style="flex-shrink:0" onclick="event.stopPropagation();delWktTemplate('${t.id}')">✕</button>
+      </div>`).join("")}`
+      :`<div style="font-size:12px;color:var(--mu);margin-bottom:14px">Noch keine Vorlagen. Starte ein Training und tippe oben auf <strong>💾 Vorlage</strong>.</div>`;
     return`<div class="ptitle">Work<em>out</em></div>
       <div class="psub">Training tracken & Pausen messen</div>
+      ${tmplHtml}
+      <div class="slbl" style="margin-top:4px">Neues Training</div>
       <div onclick="S.wkt.mode='simple';render()" class="wkt-mode-btn">
         <span class="wkt-mode-icon">🏋️</span>
         <div><div style="font-size:14px;font-weight:700">Freies Training</div><div style="font-size:11px;color:var(--mu)">Beliebige Übungen, Sätze & Gewichte tracken</div></div>
@@ -2628,6 +2677,7 @@ function renderWorkout(){
       <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center">
         <button class="btn bgh bsm" onclick="S.wkt.mode=null;render()">← Zurück</button>
         <span style="flex:1;font-size:12px;color:var(--mu)">${w.wktDate}</span>
+        <button class="btn bgh bsm" onclick="saveWktTemplate()">📋 Vorlage</button>
         <button class="btn bg bsm" onclick="saveWorkout()">💾 Speichern</button>
       </div>
       ${timerHtml}${exHtml}
@@ -2686,13 +2736,21 @@ function renderWorkout(){
           </div>
           ${active&&s.restAfter?`<span style="font-size:10px;color:rgba(255,255,255,.65)">dann ${s.restAfter}s ⏱</span>`:""}
         </div>
-        ${active&&w.restSecs===0?`<div style="display:flex;gap:8px;margin-top:12px">
-          <input type="number" class="wkt-input-light" placeholder="kg" value="${s.kg||""}"
-            onchange="S.wkt.altSteps[${i}].kg=this.value"/>
-          <input type="number" class="wkt-input-light" placeholder="Wdh." value="${s.reps||""}"
-            onchange="S.wkt.altSteps[${i}].reps=this.value"/>
-          <button style="padding:8px 16px;background:#fff;color:var(--gr);border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0"
-            onclick="nextAltStep()">✓ Fertig</button>
+        ${active&&w.restSecs===0?`<div style="margin-top:12px">
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            <div style="flex:1">
+              <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em;margin-bottom:4px">GEWICHT (kg)</div>
+              <input type="number" class="wkt-input-light" placeholder="—" value="${s.kg||""}"
+                oninput="S.wkt.altSteps[${i}].kg=this.value"/>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em;margin-bottom:4px">WIEDERHOLUNGEN</div>
+              <input type="number" class="wkt-input-light" placeholder="—" value="${s.reps||""}"
+                oninput="S.wkt.altSteps[${i}].reps=this.value"/>
+            </div>
+          </div>
+          <button style="width:100%;padding:13px;background:#fff;color:var(--gr);border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.02em"
+            onclick="nextAltStep()">✓ Satz abgeschlossen</button>
         </div>`:""}
       </div>`;
     }).join("");
@@ -2700,6 +2758,7 @@ function renderWorkout(){
       <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
         <button class="btn bgh bsm" onclick="if(confirm('Training abbrechen?')){resetAltWorkout();render()}">✕</button>
         <span style="flex:1;font-size:12px;font-weight:700">${esc(w.altA)} / ${esc(w.altB)}</span>
+        <button class="btn bgh bsm" onclick="saveWktTemplate()">📋 Vorlage</button>
         <span style="font-size:11px;color:var(--mu)">${Math.min(cur,steps.length)}/${steps.length}</span>
       </div>
       ${timerHtml}
