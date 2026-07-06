@@ -492,10 +492,10 @@ let S={
   // Workout
   wkt:{
     mode:null, exercises:[],
-    altA:"",altB:"",altSets:3,altHasWarmup:true,
+    altPairs:[{a:"",b:""}],altSets:3,altHasWarmup:true,
     altRestAtoB:45,altRestBtoA:60,altRestAfterB:90,
     altSteps:[],altCurrentStep:-1,
-    restSecs:0,restTotal:0,
+    restSecs:0,restTotal:0,restEnd:0,
     wktDate:today(),wktHistory:[],templates:[],
   },
 };
@@ -2512,19 +2512,47 @@ function renderHEmpfehlung(){
 // ═══════════════════════════════════════════════
 // WORKOUT
 // ═══════════════════════════════════════════════
-let _restTimer=null;
+let _restTimer=null,_wakeLock=null;
+async function wktWakeLock(){
+  try{
+    if(navigator.wakeLock&&!_wakeLock&&document.visibilityState==="visible"){
+      _wakeLock=await navigator.wakeLock.request("screen");
+      _wakeLock.addEventListener("release",()=>{_wakeLock=null;});
+    }
+  }catch(e){}
+}
+function wktReleaseWakeLock(){if(_wakeLock){_wakeLock.release().catch(()=>{});_wakeLock=null;}}
+function wktVibrate(){if(navigator.vibrate)navigator.vibrate([300,150,300,150,400]);}
+function wktTick(){
+  const left=Math.max(0,Math.ceil((S.wkt.restEnd-Date.now())/1000));
+  S.wkt.restSecs=left;
+  if(left===0){
+    if(_restTimer){clearInterval(_restTimer);_restTimer=null;}
+    S.wkt.restEnd=0;wktVibrate();
+  }
+  if(S.tab==="workout")render();
+}
 function wktStartRest(secs){
   if(!secs)return;
-  S.wkt.restSecs=secs;S.wkt.restTotal=secs;
+  S.wkt.restSecs=secs;S.wkt.restTotal=secs;S.wkt.restEnd=Date.now()+secs*1000;
   if(_restTimer)clearInterval(_restTimer);
-  _restTimer=setInterval(()=>{
-    S.wkt.restSecs=Math.max(0,S.wkt.restSecs-1);
-    if(S.wkt.restSecs===0){clearInterval(_restTimer);_restTimer=null;}
-    if(S.tab==="workout")render();
-  },1000);
+  _restTimer=setInterval(wktTick,250);
 }
-function saveWktLocal(){LS.set("nk_wkt_active",S.wkt.mode?{mode:S.wkt.mode,exercises:S.wkt.exercises,altA:S.wkt.altA,altB:S.wkt.altB,altSets:S.wkt.altSets,altHasWarmup:S.wkt.altHasWarmup,altRestAtoB:S.wkt.altRestAtoB,altRestBtoA:S.wkt.altRestBtoA,altRestAfterB:S.wkt.altRestAfterB,altSteps:S.wkt.altSteps,altCurrentStep:S.wkt.altCurrentStep,wktDate:S.wkt.wktDate}:null);}
-function skipRest(){if(_restTimer){clearInterval(_restTimer);_restTimer=null;}S.wkt.restSecs=0;S.wkt.restTotal=0;render();}
+function wktResumeRest(){
+  // after reload / return from background: recompute from wall clock
+  if(!S.wkt.restEnd)return;
+  const left=Math.max(0,Math.ceil((S.wkt.restEnd-Date.now())/1000));
+  if(left>0){S.wkt.restSecs=left;if(!_restTimer)_restTimer=setInterval(wktTick,250);}
+  else{const wasRunning=S.wkt.restSecs>0;S.wkt.restSecs=0;S.wkt.restEnd=0;if(wasRunning)wktVibrate();}
+}
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState!=="visible")return;
+  if(S.wkt.mode)wktWakeLock();
+  wktResumeRest();
+  if(S.tab==="workout")render();
+});
+function saveWktLocal(){LS.set("nk_wkt_active",S.wkt.mode?{mode:S.wkt.mode,exercises:S.wkt.exercises,altPairs:S.wkt.altPairs,altSets:S.wkt.altSets,altHasWarmup:S.wkt.altHasWarmup,altRestAtoB:S.wkt.altRestAtoB,altRestBtoA:S.wkt.altRestBtoA,altRestAfterB:S.wkt.altRestAfterB,altSteps:S.wkt.altSteps,altCurrentStep:S.wkt.altCurrentStep,wktDate:S.wkt.wktDate,restEnd:S.wkt.restEnd,restTotal:S.wkt.restTotal}:null);}
+function skipRest(){if(_restTimer){clearInterval(_restTimer);_restTimer=null;}S.wkt.restSecs=0;S.wkt.restTotal=0;S.wkt.restEnd=0;render();}
 function addWktEx(){S.wkt.exercises.push({name:"",sets:[{kg:"",reps:"",done:false}]});saveWktLocal();render();}
 function rmWktEx(i){S.wkt.exercises.splice(i,1);saveWktLocal();render();}
 function addWktSet(ei){S.wkt.exercises[ei].sets.push({kg:"",reps:"",done:false});saveWktLocal();render();}
@@ -2534,20 +2562,27 @@ function doneWktSet(ei,si){
   if(s.done){const ex=S.wkt.exercises[ei];const nx=ex.sets.findIndex((x,i)=>i>si&&!x.done);if(nx>=0)wktStartRest(90);}
   saveWktLocal();render();
 }
+function addAltPair(){S.wkt.altPairs.push({a:"",b:""});render();}
+function rmAltPair(i){S.wkt.altPairs.splice(i,1);if(!S.wkt.altPairs.length)S.wkt.altPairs.push({a:"",b:""});render();}
 function startAltWorkout(){
   const w=S.wkt;
-  if(!w.altA.trim()||!w.altB.trim())return toast("Bitte beide Übungsnamen eingeben");
+  const pairs=w.altPairs.filter(p=>(p.a||"").trim()&&(p.b||"").trim());
+  if(!pairs.length)return toast("Bitte Übungsnamen eingeben (A und B)");
+  w.altPairs=pairs;
   const steps=[];
-  if(w.altHasWarmup){
-    steps.push({isA:true,isWarmup:true,num:0,restAfter:w.altRestAtoB,kg:"",reps:""});
-    steps.push({isA:false,isWarmup:true,num:0,restAfter:w.altRestBtoA,kg:"",reps:""});
-  }
-  for(let i=1;i<=w.altSets;i++){
-    const last=i===w.altSets;
-    steps.push({isA:true,isWarmup:false,num:i,restAfter:w.altRestAtoB,kg:"",reps:""});
-    steps.push({isA:false,isWarmup:false,num:i,restAfter:last?0:w.altRestAfterB,kg:"",reps:""});
-  }
-  S.wkt.altSteps=steps;S.wkt.altCurrentStep=0;saveWktLocal();render();
+  pairs.forEach((p,pi)=>{
+    const lastPair=pi===pairs.length-1;
+    if(w.altHasWarmup){
+      steps.push({pi,isA:true,isWarmup:true,num:0,restAfter:w.altRestAtoB,kg:"",reps:""});
+      steps.push({pi,isA:false,isWarmup:true,num:0,restAfter:w.altRestBtoA,kg:"",reps:""});
+    }
+    for(let i=1;i<=w.altSets;i++){
+      const last=i===w.altSets;
+      steps.push({pi,isA:true,isWarmup:false,num:i,restAfter:w.altRestAtoB,kg:"",reps:""});
+      steps.push({pi,isA:false,isWarmup:false,num:i,restAfter:last&&lastPair?0:w.altRestAfterB,kg:"",reps:""});
+    }
+  });
+  S.wkt.altSteps=steps;S.wkt.altCurrentStep=0;wktWakeLock();saveWktLocal();render();
 }
 function nextAltStep(){
   const w=S.wkt;const step=w.altSteps[w.altCurrentStep];
@@ -2560,23 +2595,24 @@ async function saveWorkout(){
   const w=S.wkt;
   const summary=w.mode==="simple"
     ?w.exercises.filter(e=>e.name).map(e=>`${e.name}: ${e.sets.filter(s=>s.done).length}×`).join(" · ")
-    :`${w.altA}/${w.altB}: ${w.altSteps.filter(s=>s.kg||s.reps).length} Sätze`;
-  const entry={date:w.wktDate,mode:w.mode,exercises:w.exercises,altSteps:w.altSteps,altA:w.altA,altB:w.altB,summary,savedAt:Date.now()};
+    :`${w.altPairs.map(p=>`${p.a}/${p.b}`).join(" · ")}: ${w.altSteps.filter(s=>s.kg||s.reps).length} Sätze`;
+  const entry={date:w.wktDate,mode:w.mode,exercises:w.exercises,altSteps:w.altSteps,altPairs:w.altPairs,summary,savedAt:Date.now()};
   await fbSet(`users/${SESSION.username}/workouts/${uid()}`,entry);
   S.wkt.wktHistory.push(entry);
   toast("✓ Training gespeichert!");
-  S.wkt={...S.wkt,mode:null,exercises:[],altSteps:[],altCurrentStep:-1,restSecs:0,restTotal:0,wktDate:today()};
+  S.wkt={...S.wkt,mode:null,exercises:[],altSteps:[],altCurrentStep:-1,restSecs:0,restTotal:0,restEnd:0,wktDate:today()};
   LS.set("nk_wkt_active",null);
+  wktReleaseWakeLock();
   render();
 }
 async function saveWktTemplate(){
   if(!SESSION)return;
   const w=S.wkt;
-  const name=prompt("Vorlagenname:",(w.mode==="alt"?`${w.altA} / ${w.altB}`:"Mein Workout"));
+  const name=prompt("Vorlagenname:",(w.mode==="alt"?w.altPairs.map(p=>`${p.a}/${p.b}`).join(" · "):"Mein Workout"));
   if(!name)return;
   const tmpl={id:uid(),name:name.trim(),mode:w.mode,
     exercises:w.mode==="simple"?w.exercises.map(e=>({name:e.name,defaultSets:e.sets.length})):[],
-    altA:w.altA,altB:w.altB,altSets:w.altSets,altHasWarmup:w.altHasWarmup,
+    altPairs:w.altPairs,altSets:w.altSets,altHasWarmup:w.altHasWarmup,
     altRestAtoB:w.altRestAtoB,altRestBtoA:w.altRestBtoA,altRestAfterB:w.altRestAfterB,
     createdAt:Date.now()};
   await fbSet(`users/${SESSION.username}/wkt_templates/${tmpl.id}`,tmpl);
@@ -2595,7 +2631,8 @@ function loadWktTemplate(tmpl){
     S.wkt.exercises=tmpl.exercises.map(e=>({name:e.name,sets:Array.from({length:e.defaultSets||3},()=>({kg:"",reps:"",done:false}))}));
   } else {
     S.wkt.mode="alt";
-    S.wkt.altA=tmpl.altA||"";S.wkt.altB=tmpl.altB||"";
+    // old templates stored a single altA/altB pair
+    S.wkt.altPairs=tmpl.altPairs&&tmpl.altPairs.length?tmpl.altPairs.map(p=>({a:p.a||"",b:p.b||""})):[{a:tmpl.altA||"",b:tmpl.altB||""}];
     S.wkt.altSets=tmpl.altSets||3;S.wkt.altHasWarmup=tmpl.altHasWarmup!==false;
     S.wkt.altRestAtoB=tmpl.altRestAtoB||45;S.wkt.altRestBtoA=tmpl.altRestBtoA||60;S.wkt.altRestAfterB=tmpl.altRestAfterB||90;
     S.wkt.altSteps=[];S.wkt.altCurrentStep=-1;
@@ -2609,7 +2646,7 @@ function renderWorkout(){
     <div style="font-size:10px;font-weight:700;letter-spacing:.12em;opacity:.6;margin-bottom:4px">PAUSE</div>
     <div style="font-family:'Playfair Display',serif;font-size:60px;font-weight:900;line-height:1">${w.restSecs}</div>
     <div style="background:rgba(255,255,255,.15);border-radius:10px;height:5px;margin:10px 0;overflow:hidden">
-      <div style="height:100%;background:#fff;border-radius:10px;width:${Math.round(w.restSecs/w.restTotal*100)}%;transition:width 1s linear"></div>
+      <div style="height:100%;background:#fff;border-radius:10px;width:${w.restTotal?Math.round(w.restSecs/w.restTotal*100):0}%;transition:width 1s linear"></div>
     </div>
     <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;font-size:12px;margin-top:4px" onclick="skipRest()">Überspringen →</button>
   </div>`:"";
@@ -2623,7 +2660,7 @@ function renderWorkout(){
         <div style="flex:1;min-width:0" onclick="loadWktTemplate(${JSON.stringify(t).replace(/"/g,'&quot;')})">
           <div style="font-size:13px;font-weight:700">${esc(t.name)}</div>
           <div style="font-size:11px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
-            ${t.mode==="simple"?t.exercises.map(e=>e.name).join(" · "):`${esc(t.altA)} / ${esc(t.altB)} · ${t.altSets} Sätze`}
+            ${t.mode==="simple"?t.exercises.map(e=>e.name).join(" · "):`${esc((t.altPairs&&t.altPairs.length?t.altPairs.map(p=>`${p.a}/${p.b}`):[`${t.altA||""}/${t.altB||""}`]).join(" · "))} · ${t.altSets} Sätze`}
           </div>
         </div>
         <button class="btn bd bsm bic" style="flex-shrink:0" onclick="event.stopPropagation();delWktTemplate('${t.id}')">✕</button>
@@ -2690,21 +2727,28 @@ function renderWorkout(){
         <div class="psub">Wechselübungen A / B</div>
         <button class="btn bgh bsm" style="margin-bottom:14px" onclick="S.wkt.mode=null;render()">← Zurück</button>
         <div class="card">
-          <div class="r2">
-            <div class="field"><label>Übung A</label><input value="${esc(w.altA)}" oninput="S.wkt.altA=this.value" placeholder="z.B. Bankdrücken"/></div>
-            <div class="field"><label>Übung B</label><input value="${esc(w.altB)}" oninput="S.wkt.altB=this.value" placeholder="z.B. Rudern"/></div>
-          </div>
+          <div class="slbl">Übungspaare (A ↔ B im Wechsel)</div>
+          ${w.altPairs.map((p,pi)=>`<div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;font-weight:700;color:var(--mu);width:16px;text-align:center;flex-shrink:0">${pi+1}</span>
+            <input value="${esc(p.a)}" oninput="S.wkt.altPairs[${pi}].a=this.value" placeholder="Übung A"
+              style="flex:1;min-width:0;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:9px 10px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;outline:none;color:var(--ink)"/>
+            <input value="${esc(p.b)}" oninput="S.wkt.altPairs[${pi}].b=this.value" placeholder="Übung B"
+              style="flex:1;min-width:0;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:9px 10px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;outline:none;color:var(--ink)"/>
+            ${w.altPairs.length>1?`<button class="btn bd bsm bic" style="flex-shrink:0" onclick="rmAltPair(${pi})">✕</button>`:""}
+          </div>`).join("")}
+          <button class="btn bo bsm" style="width:100%;justify-content:center;margin-bottom:12px" onclick="addAltPair()">+ Übungspaar</button>
           <div class="r2" style="align-items:end;margin-bottom:10px">
-            <div class="field"><label>Arbeitssätze</label>
+            <div class="field"><label>Arbeitssätze pro Paar</label>
               <div class="portion-stepper">
                 <button class="portion-btn" onclick="S.wkt.altSets=Math.max(1,S.wkt.altSets-1);render()">−</button>
                 <span style="flex:1;text-align:center;font-size:16px;font-weight:700">${w.altSets}</span>
                 <button class="portion-btn" onclick="S.wkt.altSets=Math.min(10,S.wkt.altSets+1);render()">+</button>
               </div>
             </div>
-            <div class="field" style="display:flex;align-items:center;gap:8px;padding-bottom:8px">
-              <input type="checkbox" id="wkt_wu" ${w.altHasWarmup?"checked":""} onchange="S.wkt.altHasWarmup=this.checked" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gr)"/>
-              <label for="wkt_wu" style="font-size:12px;font-weight:700;cursor:pointer">Aufwärmsatz</label>
+            <div onclick="S.wkt.altHasWarmup=!S.wkt.altHasWarmup;render()"
+              style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${w.altHasWarmup?"var(--gl)":"var(--bg)"};border:1.5px solid ${w.altHasWarmup?"var(--gr)":"var(--br)"};border-radius:10px;cursor:pointer;user-select:none">
+              <span style="width:22px;height:22px;flex-shrink:0;border-radius:6px;border:2px solid ${w.altHasWarmup?"var(--gr)":"var(--br)"};background:${w.altHasWarmup?"var(--gr)":"transparent"};color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900">${w.altHasWarmup?"✓":""}</span>
+              <span style="font-size:12px;font-weight:700">Aufwärmsatz</span>
             </div>
           </div>
           <div class="slbl">Pausen (Sekunden)</div>
@@ -2714,7 +2758,7 @@ function renderWorkout(){
             <div class="field"><label>Nach Satz-B</label><input type="number" value="${w.altRestAfterB}" onchange="S.wkt.altRestAfterB=parseInt(this.value)||90" style="text-align:center"/></div>
           </div>
           <div style="background:var(--bg);border-radius:9px;padding:9px 12px;font-size:11px;color:var(--mu);line-height:1.8">
-            📋 Ablauf: ${w.altHasWarmup?`Aufwärmen ${w.altA||"A"} → ${w.altRestAtoB}s → Aufwärmen ${w.altB||"B"} → ${w.altRestBtoA}s → `:""}${Array.from({length:Math.min(w.altSets,2)},(_,i)=>`Satz ${i+1} ${w.altA||"A"} → ${w.altRestAtoB}s → Satz ${i+1} ${w.altB||"B"}${i<w.altSets-1?" → "+w.altRestAfterB+"s → ":""}`).join("")}${w.altSets>2?" → …":""}
+            📋 Ablauf pro Paar: ${w.altHasWarmup?`Aufwärmen A → ${w.altRestAtoB}s → Aufwärmen B → ${w.altRestBtoA}s → `:""}Satz 1 A → ${w.altRestAtoB}s → Satz 1 B → ${w.altRestAfterB}s → …${w.altPairs.length>1?` — danach das nächste Paar (${w.altPairs.length} Paare insgesamt)`:""}
           </div>
         </div>
         <button class="btn bg" style="width:100%;justify-content:center;padding:14px;font-size:14px;margin-top:10px" onclick="startAltWorkout()">▶ Training starten</button>`;
@@ -2722,7 +2766,8 @@ function renderWorkout(){
 
     const steps=w.altSteps;const cur=w.altCurrentStep;const done=cur>=steps.length;
     const stepsHtml=steps.map((s,i)=>{
-      const label=s.isWarmup?`Aufwärmen ${s.isA?w.altA:w.altB}`:`Satz ${s.num} · ${s.isA?w.altA:w.altB}`;
+      const pr=w.altPairs[s.pi||0]||{a:"A",b:"B"};
+      const label=s.isWarmup?`Aufwärmen ${s.isA?pr.a:pr.b}`:`Satz ${s.num} · ${s.isA?pr.a:pr.b}`;
       const past=i<cur;const active=i===cur&&!done;const future=i>cur;
       if(future&&i>cur+1)return"";
       return`<div class="wkt-step-card ${active?"wkt-step-active":past?"wkt-step-done":"wkt-step-next"}">
@@ -2757,7 +2802,7 @@ function renderWorkout(){
     return`<div class="ptitle">Work<em>out</em></div>
       <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
         <button class="btn bgh bsm" onclick="if(confirm('Training abbrechen?')){resetAltWorkout();render()}">✕</button>
-        <span style="flex:1;font-size:12px;font-weight:700">${esc(w.altA)} / ${esc(w.altB)}</span>
+        <span style="flex:1;font-size:12px;font-weight:700">${w.altPairs.length>1?`Paar ${Math.min((steps[Math.min(cur,steps.length-1)]||{}).pi+1||1,w.altPairs.length)}/${w.altPairs.length}`:esc((w.altPairs[0]||{}).a+" / "+(w.altPairs[0]||{}).b)}</span>
         <button class="btn bgh bsm" onclick="saveWktTemplate()">📋 Vorlage</button>
         <span style="font-size:11px;color:var(--mu)">${Math.min(cur,steps.length)}/${steps.length}</span>
       </div>
@@ -2776,8 +2821,12 @@ function renderWorkout(){
 // Restore active workout from localStorage (survives page reload / app minimize)
 const _savedWkt=LS.get("nk_wkt_active");
 if(_savedWkt&&_savedWkt.mode){
-  S.wkt={...S.wkt,..._savedWkt,restSecs:0,restTotal:0};
+  // convert old single-pair format (altA/altB) to altPairs
+  if(!_savedWkt.altPairs&&(_savedWkt.altA||_savedWkt.altB))_savedWkt.altPairs=[{a:_savedWkt.altA||"",b:_savedWkt.altB||""}];
+  S.wkt={...S.wkt,..._savedWkt,restSecs:0};
   S.tab="workout"; // jump straight to workout tab
+  wktResumeRest(); // rest timer keeps running across reloads (wall-clock based)
+  wktWakeLock();
 }
 if(S.needSetup){render();}
 else if(SESSION){loadAllData().then(()=>{startSSE();render();});}
