@@ -2551,7 +2551,7 @@ document.addEventListener("visibilitychange",()=>{
   wktResumeRest();
   if(S.tab==="workout")render();
 });
-function saveWktLocal(){LS.set("nk_wkt_active",S.wkt.mode?{mode:S.wkt.mode,exercises:S.wkt.exercises,altPairs:S.wkt.altPairs,altSets:S.wkt.altSets,altHasWarmup:S.wkt.altHasWarmup,altRestAtoB:S.wkt.altRestAtoB,altRestBtoA:S.wkt.altRestBtoA,altRestAfterB:S.wkt.altRestAfterB,altSteps:S.wkt.altSteps,altCurrentStep:S.wkt.altCurrentStep,wktDate:S.wkt.wktDate,restEnd:S.wkt.restEnd,restTotal:S.wkt.restTotal}:null);}
+function saveWktLocal(){LS.set("nk_wkt_active",(S.wkt.mode==="simple"||S.wkt.mode==="alt")?{mode:S.wkt.mode,exercises:S.wkt.exercises,altPairs:S.wkt.altPairs,altSets:S.wkt.altSets,altHasWarmup:S.wkt.altHasWarmup,altRestAtoB:S.wkt.altRestAtoB,altRestBtoA:S.wkt.altRestBtoA,altRestAfterB:S.wkt.altRestAfterB,altSteps:S.wkt.altSteps,altCurrentStep:S.wkt.altCurrentStep,wktDate:S.wkt.wktDate,restEnd:S.wkt.restEnd,restTotal:S.wkt.restTotal}:null);}
 function skipRest(){if(_restTimer){clearInterval(_restTimer);_restTimer=null;}S.wkt.restSecs=0;S.wkt.restTotal=0;S.wkt.restEnd=0;render();}
 function addWktEx(){S.wkt.exercises.push({name:"",sets:[{kg:"",reps:"",done:false}]});saveWktLocal();render();}
 function rmWktEx(i){S.wkt.exercises.splice(i,1);saveWktLocal();render();}
@@ -2562,6 +2562,34 @@ function doneWktSet(ei,si){
   if(s.done){const ex=S.wkt.exercises[ei];const nx=ex.sets.findIndex((x,i)=>i>si&&!x.done);if(nx>=0)wktStartRest(90);}
   saveWktLocal();render();
 }
+function wktExHistoryMap(){
+  // exercise name → [{date, sets:[{kg,reps,isWarmup}]}], oldest first
+  const map={};
+  (S.wkt.wktHistory||[]).forEach(h=>{
+    const add=(name,set)=>{
+      const key=(name||"").trim();
+      if(!key||!(set.kg||set.reps))return;
+      map[key]=map[key]||[];
+      let day=map[key].find(d=>d.date===h.date);
+      if(!day){day={date:h.date||"?",sets:[]};map[key].push(day);}
+      day.sets.push({kg:set.kg,reps:set.reps,isWarmup:!!set.isWarmup});
+    };
+    if(h.mode==="simple"){(h.exercises||[]).forEach(ex=>(ex.sets||[]).forEach(s=>add(ex.name,s)));}
+    else{
+      const pairs=h.altPairs&&h.altPairs.length?h.altPairs:[{a:h.altA||"",b:h.altB||""}];
+      (h.altSteps||[]).forEach(s=>{const pr=pairs[s.pi||0]||{};add(s.isA?pr.a:pr.b,s);});
+    }
+  });
+  Object.values(map).forEach(days=>days.sort((a,b)=>(a.date||"").localeCompare(b.date||"")));
+  return map;
+}
+function wktLastSets(name,excludeDate){
+  const days=wktExHistoryMap()[(name||"").trim()]||[];
+  const prev=days.filter(d=>d.date!==excludeDate);
+  const pick=prev.length?prev:days;
+  return pick.length?pick[pick.length-1]:null;
+}
+function wktFmtSets(sets){return sets.map(s=>`${s.kg||"–"}kg×${s.reps||"–"}${s.isWarmup?"ᵂ":""}`).join(" · ");}
 function addAltPair(){S.wkt.altPairs.push({a:"",b:""});render();}
 function rmAltPair(i){S.wkt.altPairs.splice(i,1);if(!S.wkt.altPairs.length)S.wkt.altPairs.push({a:"",b:""});render();}
 function startAltWorkout(){
@@ -2678,6 +2706,10 @@ function renderWorkout(){
         <span class="wkt-mode-icon">🔄</span>
         <div><div style="font-size:14px;font-weight:700">Wechselübungen A/B</div><div style="font-size:11px;color:var(--mu)">Geführte Abfolge mit automatischen Pausen</div></div>
       </div>
+      <div onclick="S.wkt.mode='hist';S.wkt.histOpen=null;render()" class="wkt-mode-btn">
+        <span class="wkt-mode-icon">📊</span>
+        <div><div style="font-size:14px;font-weight:700">Übungshistorie</div><div style="font-size:11px;color:var(--mu)">Verlauf von Gewicht & Wiederholungen je Übung</div></div>
+      </div>
       ${hist.length?`<div class="slbl" style="margin-top:14px">Zuletzt</div>
         ${hist.map(h=>`<div class="card" style="padding:11px 13px">
           <div style="display:flex;justify-content:space-between">
@@ -2688,6 +2720,33 @@ function renderWorkout(){
         </div>`).join("")}`:""}`;
   }
 
+  if(w.mode==="hist"){
+    const map=wktExHistoryMap();
+    const names=Object.keys(map).sort((a,b)=>a.localeCompare(b));
+    return`<div class="ptitle">Work<em>out</em></div>
+      <div class="psub">Historie je Übung</div>
+      <button class="btn bgh bsm" style="margin-bottom:14px" onclick="S.wkt.mode=null;render()">← Zurück</button>
+      ${names.length?names.map(n=>{
+        const days=map[n];const last=days[days.length-1];const open=w.histOpen===n;
+        return`<div class="card" style="padding:12px 13px;cursor:pointer" onclick="S.wkt.histOpen=S.wkt.histOpen==='${esc(n).replace(/'/g,"\\'")}'?null:'${esc(n).replace(/'/g,"\\'")}';render()">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700">${esc(n)}</div>
+              <div style="font-size:11px;color:var(--mu);margin-top:2px">${last.date} · ${wktFmtSets(last.sets)}</div>
+            </div>
+            <span style="font-size:11px;color:var(--mu)">${days.length}×</span>
+            <span style="font-size:10px;color:var(--mu)">${open?"▲":"▼"}</span>
+          </div>
+          ${open?`<div style="margin-top:10px;border-top:1px solid var(--br);padding-top:8px">
+            ${days.slice().reverse().map(d=>`<div style="display:flex;gap:10px;padding:4px 0;font-size:11px">
+              <span style="font-weight:700;flex-shrink:0;width:78px">${d.date}</span>
+              <span style="color:var(--mu)">${wktFmtSets(d.sets)}</span>
+            </div>`).join("")}
+          </div>`:""}
+        </div>`;}).join("")
+      :`<div style="font-size:12px;color:var(--mu)">Noch keine gespeicherten Trainings mit Gewicht/Wiederholungen.</div>`}`;
+  }
+
   if(w.mode==="simple"){
     const exHtml=w.exercises.map((ex,ei)=>`<div class="card">
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
@@ -2696,6 +2755,7 @@ function renderWorkout(){
           style="flex:1;background:var(--bg);border:1.5px solid var(--br);border-radius:8px;padding:8px 10px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;outline:none;color:var(--ink)"/>
         <button class="btn bic bd" onclick="rmWktEx(${ei})">✕</button>
       </div>
+      ${(()=>{const l=wktLastSets(ex.name,w.wktDate);return l?`<div style="font-size:11px;color:var(--mu);margin:-4px 0 8px">🕐 Letztes Mal (${l.date}): ${wktFmtSets(l.sets)}</div>`:""})()}
       <div style="display:grid;grid-template-columns:26px 1fr 1fr 32px;gap:5px;margin-bottom:6px">
         <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu)">#</div>
         <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu)">kg</div>
@@ -2767,9 +2827,11 @@ function renderWorkout(){
     const steps=w.altSteps;const cur=w.altCurrentStep;const done=cur>=steps.length;
     const stepsHtml=steps.map((s,i)=>{
       const pr=w.altPairs[s.pi||0]||{a:"A",b:"B"};
-      const label=s.isWarmup?`Aufwärmen ${s.isA?pr.a:pr.b}`:`Satz ${s.num} · ${s.isA?pr.a:pr.b}`;
+      const exName=s.isA?pr.a:pr.b;
+      const label=s.isWarmup?`Aufwärmen ${exName}`:`Satz ${s.num} · ${exName}`;
       const past=i<cur;const active=i===cur&&!done;const future=i>cur;
       if(future&&i>cur+1)return"";
+      const lastDay=active?wktLastSets(exName,w.wktDate):null;
       return`<div class="wkt-step-card ${active?"wkt-step-active":past?"wkt-step-done":"wkt-step-next"}">
         <div style="display:flex;align-items:center;gap:10px">
           <span style="font-size:18px">${past?"✅":active?"▶️":"⬜"}</span>
@@ -2782,6 +2844,9 @@ function renderWorkout(){
           ${active&&s.restAfter?`<span style="font-size:10px;color:rgba(255,255,255,.65)">dann ${s.restAfter}s ⏱</span>`:""}
         </div>
         ${active&&w.restSecs===0?`<div style="margin-top:12px">
+          ${lastDay?`<div style="background:rgba(255,255,255,.12);border-radius:8px;padding:7px 10px;margin-bottom:10px;font-size:11px;color:rgba(255,255,255,.85)">
+            🕐 Letztes Mal (${lastDay.date}): <strong>${wktFmtSets(lastDay.sets)}</strong>
+          </div>`:""}
           <div style="display:flex;gap:8px;margin-bottom:10px">
             <div style="flex:1">
               <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em;margin-bottom:4px">GEWICHT (kg)</div>
